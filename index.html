@@ -6,7 +6,7 @@
   <title>CognoCraft Studio | Pedagogy-Driven eLearning Component Library</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- JSZip for SCORM 1.2 Micro-Package (.zip) Generation -->
+  <!-- JSZip for SCORM 1.2 Micro-Package (.zip) Generation & SCORM Package Previewer -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
   <!-- Google Fonts: Inter & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -51,7 +51,7 @@
 
   <!-- Decluttered Three-Zone Top Navigation -->
   <header class="sticky top-0 z-40 glass-nav border-b border-slate-200/80">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-6">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
       
       <!-- Zone 1: Clean Brand Mark -->
       <a href="#top" onclick="switchWorkspace('library')" class="flex items-center gap-3 group shrink-0">
@@ -68,27 +68,32 @@
         </div>
       </a>
 
-      <!-- Zone 2: Spaced 4-Tab Workspace Switcher -->
+      <!-- Zone 2: Spaced 5-Tab Workspace Switcher -->
       <nav aria-label="Primary Workspaces" class="flex items-center gap-1.5 bg-slate-100/90 p-1.5 rounded-xl border border-slate-200/80 overflow-x-auto no-scrollbar">
-        <button id="nav-library" onclick="switchWorkspace('library')" class="ws-tab px-4 py-1.5 rounded-lg text-xs sm:text-sm font-semibold bg-white text-indigo-700 shadow-sm transition whitespace-nowrap flex items-center gap-2">
+        <button id="nav-library" onclick="switchWorkspace('library')" class="ws-tab px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold bg-white text-indigo-700 shadow-sm transition whitespace-nowrap flex items-center gap-2">
           <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
           <span>Library</span>
         </button>
 
-        <button id="nav-recommender" onclick="switchWorkspace('recommender')" class="ws-tab px-4 py-1.5 rounded-lg text-xs sm:text-sm font-medium text-slate-600 hover:text-slate-900 transition whitespace-nowrap flex items-center gap-2">
+        <button id="nav-recommender" onclick="switchWorkspace('recommender')" class="ws-tab px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium text-slate-600 hover:text-slate-900 transition whitespace-nowrap flex items-center gap-2">
           <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
           <span>Objective Matcher</span>
         </button>
 
-        <button id="nav-blueprint" onclick="switchWorkspace('blueprint')" class="ws-tab px-4 py-1.5 rounded-lg text-xs sm:text-sm font-medium text-slate-600 hover:text-slate-900 transition whitespace-nowrap flex items-center gap-2">
+        <button id="nav-blueprint" onclick="switchWorkspace('blueprint')" class="ws-tab px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium text-slate-600 hover:text-slate-900 transition whitespace-nowrap flex items-center gap-2">
           <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
           <span>9-Event Blueprint</span>
           <span id="blueprint-count-badge" class="text-[11px] font-bold text-indigo-600 bg-indigo-50 px-1.5 py-0.2 rounded">0/9</span>
         </button>
 
-        <button id="nav-viewer" onclick="switchWorkspace('viewer')" class="ws-tab px-4 py-1.5 rounded-lg text-xs sm:text-sm font-medium text-slate-600 hover:text-slate-900 transition whitespace-nowrap flex items-center gap-2">
+        <button id="nav-viewer" onclick="switchWorkspace('viewer')" class="ws-tab px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium text-slate-600 hover:text-slate-900 transition whitespace-nowrap flex items-center gap-2">
           <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
           <span>HTML Editor</span>
+        </button>
+
+        <button id="nav-scorm" onclick="switchWorkspace('scorm')" class="ws-tab px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium text-slate-600 hover:text-slate-900 transition whitespace-nowrap flex items-center gap-2">
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+          <span>SCORM Player</span>
         </button>
       </nav>
 
@@ -114,13 +119,13 @@
           <div class="max-w-2xl">
             <div class="inline-flex flex-wrap items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-semibold mb-4">
               <span class="w-2 h-2 rounded-full bg-indigo-600 animate-pulse"></span>
-              White-Labeled HTML5 • AI SME Prompting • Rise 360 & SCORM 1.2 Ready
+              White-Labeled HTML5 • AI SME Prompting • Rise 360 & SCORM 1.2/2004 Ready
             </div>
             <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 leading-[1.15]">
               Pedagogy-First Interactive Blocks for <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-violet-600">Instructional Designers</span>
             </h1>
             <p class="mt-3 text-base text-slate-600 leading-relaxed">
-              Select interactions mapped to <strong>Bloom’s Taxonomy</strong> and <strong>Gagné’s Nine Events</strong>, generate AI-ready SME prompts, and export clean, unbranded HTML or SCORM 1.2 packages with automatic Rise 360 Continue unlocking.
+              Select interactions mapped to <strong>Bloom’s Taxonomy</strong> and <strong>Gagné’s Nine Events</strong>, generate AI-ready SME prompts, export clean HTML or SCORM 1.2 packages, and test any SCORM zip right in your browser.
             </p>
           </div>
 
@@ -139,8 +144,8 @@
               <div class="text-xs text-slate-600 mt-1">1-click prompt generator to convert raw SME notes into JSON blocks.</div>
             </div>
             <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80">
-              <div class="text-xs font-bold text-purple-700 uppercase tracking-wider">SME Script (.doc)</div>
-              <div class="text-xs text-slate-600 mt-1">Export linear Word tables for rapid SME review and redlining.</div>
+              <div class="text-xs font-bold text-purple-700 uppercase tracking-wider">SCORM 1.2/2004 Player</div>
+              <div class="text-xs text-slate-600 mt-1">Drop any SCORM .zip to validate manifest & inspect live LMS API calls.</div>
             </div>
           </div>
         </div>
@@ -519,6 +524,156 @@
   </main>
 
   <!-- ===================================================================== -->
+  <!-- WORKSPACE 5: SCORM 1.2 & 2004 PACKAGE PREVIEWER & LMS TESTER          -->
+  <!-- ===================================================================== -->
+  <main id="workspace-scorm" class="workspace-pane hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Top Header -->
+    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
+      <div>
+        <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-800 text-xs font-bold mb-1.5">
+          Client-Side SCORM 1.2 & 2004 Sandbox • Zero Server Upload
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">SCORM Package Previewer & LMS Tester</h1>
+        <p class="text-xs sm:text-sm text-slate-600 mt-1">
+          Drop any SCORM <code class="bg-slate-200/70 px-1 rounded">.zip</code> file (from CognoCraft, Articulate Rise 360, or Storyline) to validate <code class="bg-slate-200/70 px-1 rounded">imsmanifest.xml</code>, launch SCOs, and monitor live LMS runtime tracking.
+        </p>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2 shrink-0">
+        <button onclick="loadSampleScormPackage()" class="px-3.5 py-2 rounded-xl bg-white hover:bg-slate-50 text-slate-800 border border-slate-200 text-xs font-semibold transition">
+          Load Sample SCORM 1.2 Zip
+        </button>
+        <label class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold shadow-sm cursor-pointer transition">
+          ⬆ Upload SCORM (.zip)
+          <input type="file" accept=".zip" onchange="handleScormZipInput(event)" class="hidden" />
+        </label>
+      </div>
+    </div>
+
+    <!-- Drag & Drop Zone -->
+    <div id="scorm-dropzone"
+         ondragover="handleScormDragOver(event)"
+         ondragleave="handleScormDragLeave(event)"
+         ondrop="handleScormDrop(event)"
+         class="mb-6 rounded-2xl border-2 border-dashed border-slate-300 hover:border-indigo-400 bg-white p-6 text-center transition cursor-pointer"
+         onclick="document.getElementById('scorm-drop-file-input').click()">
+      <input id="scorm-drop-file-input" type="file" accept=".zip" onchange="handleScormZipInput(event)" class="hidden" />
+      <div class="w-11 h-11 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center mx-auto mb-2.5 text-xl">
+        📦
+      </div>
+      <div class="text-sm font-bold text-slate-900">Drag & drop your SCORM <code class="text-indigo-600">.zip</code> package here, or click to browse</div>
+      <p class="text-xs text-slate-500 mt-1">Unzips locally in your browser • Parses <code class="bg-slate-100 px-1 rounded">imsmanifest.xml</code> • Simulates <code class="bg-slate-100 px-1 rounded">window.API</code> (1.2) & <code class="bg-slate-100 px-1 rounded">window.API_1484_11</code> (2004)</p>
+    </div>
+
+    <!-- Main Split Player & Telemetry Layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      
+      <!-- Left Column: Manifest Inspector & Live LMS Telemetry -->
+      <div class="lg:col-span-4 space-y-4">
+        
+        <!-- Manifest Summary Card -->
+        <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700">Manifest & Package Info</h3>
+            <span id="scorm-schema-badge" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600 border border-slate-200">No Package</span>
+          </div>
+
+          <div id="scorm-manifest-warning" class="hidden p-2.5 rounded-xl bg-amber-50 border border-amber-200 text-[11px] text-amber-900 leading-relaxed"></div>
+
+          <div class="space-y-1.5 text-xs">
+            <div class="flex justify-between gap-2">
+              <span class="text-slate-500">Course Title:</span>
+              <strong id="scorm-pkg-title" class="text-slate-900 text-right truncate max-w-[200px]">—</strong>
+            </div>
+            <div class="flex justify-between gap-2">
+              <span class="text-slate-500">Archive Files:</span>
+              <span id="scorm-pkg-files" class="font-mono text-slate-700">0 files</span>
+            </div>
+            <div class="flex justify-between gap-2">
+              <span class="text-slate-500">Launch Entry:</span>
+              <span id="scorm-pkg-entry" class="font-mono text-indigo-700 truncate max-w-[200px]">—</span>
+            </div>
+          </div>
+
+          <!-- SCO Selector (for multi-SCO packages) -->
+          <div id="scorm-sco-list-wrap" class="hidden pt-2 border-t border-slate-100 space-y-1.5">
+            <div class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Launchable SCO Items</div>
+            <div id="scorm-sco-list" class="space-y-1 max-h-36 overflow-y-auto custom-scrollbar"></div>
+          </div>
+        </div>
+
+        <!-- Live LMS Runtime Telemetry Card -->
+        <div class="bg-slate-900 text-white rounded-2xl border border-slate-800 p-4 shadow-sm space-y-3.5">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <h3 class="text-xs font-bold uppercase tracking-wider text-slate-200">Live LMS Runtime Telemetry</h3>
+            </div>
+            <button onclick="resetScormSession()" class="px-2 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-[11px] font-semibold text-slate-300 border border-slate-700 transition">
+              Reset Session
+            </button>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2.5">
+            <div class="p-2.5 rounded-xl bg-slate-800/90 border border-slate-700/80">
+              <div class="text-[10px] font-bold uppercase text-slate-400">Lesson Status</div>
+              <div id="tel-status" class="text-xs font-extrabold text-amber-300 mt-0.5">not attempted</div>
+            </div>
+            <div class="p-2.5 rounded-xl bg-slate-800/90 border border-slate-700/80">
+              <div class="text-[10px] font-bold uppercase text-slate-400">Raw / Scaled Score</div>
+              <div id="tel-score" class="text-xs font-extrabold text-emerald-300 mt-0.5">—</div>
+            </div>
+            <div class="p-2.5 rounded-xl bg-slate-800/90 border border-slate-700/80">
+              <div class="text-[10px] font-bold uppercase text-slate-400">Bookmark (Location)</div>
+              <div id="tel-location" class="text-xs font-mono text-slate-200 mt-0.5 truncate">—</div>
+            </div>
+            <div class="p-2.5 rounded-xl bg-slate-800/90 border border-slate-700/80">
+              <div class="text-[10px] font-bold uppercase text-slate-400">Session Time</div>
+              <div id="tel-time" class="text-xs font-mono text-slate-200 mt-0.5">00:00:00</div>
+            </div>
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between text-[10px] font-bold uppercase text-slate-400 mb-1">
+              <span>SCORM API Call Log</span>
+              <button onclick="clearScormLog()" class="text-slate-400 hover:text-white underline">Clear</button>
+            </div>
+            <div id="scorm-api-log" class="h-44 overflow-y-auto custom-scrollbar bg-slate-950 rounded-xl p-2.5 font-mono text-[11px] text-emerald-300 space-y-1 border border-slate-800">
+              <div class="text-slate-500">Waiting for SCORM package launch...</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Live SCORM Player Stage -->
+      <div class="lg:col-span-8 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
+        <div class="px-4 py-2.5 bg-slate-50 border-b border-slate-200 flex flex-wrap items-center justify-between gap-2">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold text-slate-800">SCO Player Stage</span>
+            <span id="scorm-active-sco-label" class="text-[11px] text-slate-500 truncate max-w-[240px]">Ready</span>
+          </div>
+
+          <div class="flex items-center gap-1.5">
+            <button onclick="relaunchedCurrentSco()" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-white hover:bg-slate-100 text-slate-700 border border-slate-200">
+              ↻ Relaunch
+            </button>
+            <button onclick="setScormViewport('100%')" id="svp-desktop" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200">Desktop</button>
+            <button onclick="setScormViewport('390px')" id="svp-mobile" class="px-2.5 py-1 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100">Mobile</button>
+          </div>
+        </div>
+
+        <div class="p-4 sm:p-6 bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] [background-size:16px_16px] flex justify-center min-h-[560px] overflow-auto">
+          <div id="scorm-preview-wrapper" class="w-full transition-all duration-300 bg-white rounded-xl shadow-md border border-slate-200 overflow-hidden">
+            <iframe id="scorm-player-iframe" class="w-full min-h-[540px] border-0" title="SCORM Package Player Sandbox"></iframe>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ===================================================================== -->
   <!-- INTERACTIVE STUDIO MODAL (WHITE-LABELED PREVIEW + AI + LMS + SCORM)   -->
   <!-- ===================================================================== -->
   <div id="studio-modal" class="fixed inset-0 z-50 hidden bg-slate-900/75 backdrop-blur-sm overflow-y-auto">
@@ -824,7 +979,7 @@
     <div class="min-h-screen px-4 py-8 flex items-center justify-center">
       <div class="bg-white w-full max-w-2xl rounded-2xl shadow-2xl border border-slate-200 overflow-hidden">
         <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between">
-          <h3 class="text-lg font-bold">Rise 360, AI Prompting & SCORM 1.2 Workflow</h3>
+          <h3 class="text-lg font-bold">Rise 360, AI Prompting & SCORM 1.2/2004 Workflow</h3>
           <button onclick="closeGuideModal()" class="text-slate-400 hover:text-white">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
           </button>
@@ -837,7 +992,7 @@
             <li><strong class="text-slate-900">Draft Rapidly with AI SME Prompts:</strong> Open any block in the Studio, click <strong>Copy SME Prompt</strong>, paste it alongside your SME notes into any LLM, and paste the resulting JSON back into <strong>Import AI JSON</strong>.</li>
             <li><strong class="text-slate-900">SME Sign-Off Tables:</strong> Click <strong>SME Script (.doc)</strong> to download a Word-compatible review table with a dedicated redline column.</li>
             <li><strong class="text-slate-900">Unlock Rise 360 Continue Blocks:</strong> Keep <strong>Rise 360 Continue Block Unlock</strong> checked so finishing the block fires <code class="text-xs bg-slate-100 px-1 py-0.5 rounded">postMessage({ type: 'complete' }, '*')</code> automatically.</li>
-            <li><strong class="text-slate-900">No-Code HTML Editor:</strong> Use the <strong>HTML Editor</strong> tab to paste or upload any HTML file and click directly on headings, buttons, or colors to edit visually without coding.</li>
+            <li><strong class="text-slate-900">No-Code HTML Editor & SCORM Player:</strong> Edit any HTML file visually in <strong>HTML Editor</strong>, or drop any SCORM 1.2/2004 <code class="text-xs bg-slate-100 px-1 py-0.5 rounded">.zip</code> package into <strong>SCORM Player</strong> to verify manifest structure and live LMS API calls.</li>
           </ol>
         </div>
         <div class="px-6 py-3.5 bg-slate-50 border-t border-slate-200 flex justify-end">
@@ -860,13 +1015,13 @@
         <span>•</span>
         <span>Bloom’s Taxonomy & Gagné’s 9 Events eLearning Workbench</span>
       </div>
-      <div>White-Labeled HTML5 • Rise 360 & SCORM 1.2 Compatible</div>
+      <div>White-Labeled HTML5 • Rise 360 & SCORM 1.2 / 2004 Compatible</div>
     </div>
   </footer>
 
 <script>
 // ============================================================================
-// 1. PEDAGOGICAL & COMPONENT METADATA CATALOG (15 LEARNING BLOCKS)
+// 1. PEDAGOGICAL & COMPONENT METADATA CATALOG (16 LEARNING BLOCKS)
 // ============================================================================
 const BLOOM_LEVELS = {
   Remember: { color: "bg-sky-50 text-sky-700 border-sky-200", order: 1 },
@@ -1454,6 +1609,9 @@ function switchWorkspace(ws) {
 
   if (ws === "viewer" && !document.getElementById("viewer-code-input").value.trim()) {
     loadSampleIntoViewer();
+  }
+  if (ws === "scorm" && !scormPlayerState.zip) {
+    renderEmptyScormStage();
   }
 }
 
@@ -4154,7 +4312,546 @@ function importProjectJsonFile(event) {
 }
 
 // ============================================================================
-// 11. MODALS & TOAST HELPERS
+// 11. CLIENT-SIDE SCORM 1.2 & 2004 PACKAGE PREVIEWER & LMS RUNTIME SIMULATOR
+// ============================================================================
+const scormPlayerState = {
+  zip: null,
+  manifestDir: "",
+  scos: [],
+  activeScoHref: "",
+  blobUrls: [],
+  cmi12: {},
+  cmi2004: {},
+  initialized: false,
+  terminated: false
+};
+
+function renderEmptyScormStage() {
+  const iframe = document.getElementById("scorm-player-iframe");
+  if (!iframe) return;
+  iframe.srcdoc = `<!DOCTYPE html><html><body style="font-family:sans-serif;color:#94a3b8;display:flex;align-items:center;justify-content:center;height:480px;margin:0;text-align:center;padding:20px;">
+    <div>
+      <div style="font-size:32px;margin-bottom:8px;">📦</div>
+      <p style="font-size:15px;font-weight:700;color:#475569;margin:0 0 6px;">No SCORM Package Loaded</p>
+      <p style="font-size:13px;max-width:380px;margin:0 auto;line-height:1.5;">Drop a SCORM 1.2 or 2004 <strong>.zip</strong> package into the upload area above, or click <strong>Load Sample SCORM 1.2 Zip</strong> to test live LMS tracking.</p>
+    </div>
+  </body></html>`;
+}
+
+function handleScormDragOver(e) {
+  e.preventDefault();
+  e.stopPropagation();
+  const dz = document.getElementById("scorm-dropzone");
+  dz.classList.add("border-indigo-500", "bg-indigo-50/50");
+}
+
+function handleScormDragLeave(e) {
+  e.preventDefault();
+  e.stopPropagation();
+  const dz = document.getElementById("scorm-dropzone");
+  dz.classList.remove("border-indigo-500", "bg-indigo-50/50");
+}
+
+function handleScormDrop(e) {
+  e.preventDefault();
+  e.stopPropagation();
+  handleScormDragLeave(e);
+  const file = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+  if (file) {
+    loadScormZipFile(file);
+  }
+}
+
+function handleScormZipInput(e) {
+  const file = e.target.files && e.target.files[0];
+  if (file) {
+    loadScormZipFile(file);
+  }
+  e.target.value = "";
+}
+
+async function loadSampleScormPackage() {
+  if (typeof JSZip === "undefined") {
+    showToast("ZIP library still loading—please try again in a moment.");
+    return;
+  }
+  const sampleZip = new JSZip();
+  const manifestXml = `<?xml version="1.0" standalone="no" ?>
+<manifest identifier="SAMPLE_SCORM12_MANIFEST" version="1.0"
+          xmlns="http://www.imsproject.org/xsd/imscp_rootv1p1p2"
+          xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_rootv1p2">
+  <metadata><schema>ADL SCORM</schema><schemaversion>1.2</schemaversion></metadata>
+  <organizations default="ORG_1">
+    <organization identifier="ORG_1">
+      <title>Phishing Awareness Micro-Module (Sample SCO)</title>
+      <item identifier="ITEM_1" identifierref="RES_1" isvisible="true">
+        <title>1. Phishing Red-Flag Check</title>
+      </item>
+    </organization>
+  </organizations>
+  <resources>
+    <resource identifier="RES_1" type="webcontent" adlcp:scormtype="sco" href="index.html">
+      <file href="index.html"/>
+    </resource>
+  </resources>
+</manifest>`;
+
+  const sampleIndexHtml = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Phishing Awareness Micro-Module</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 24px; color: #0f172a; background: #fff; }
+    .card { max-width: 640px; margin: 0 auto; border: 1px solid #e2e8f0; border-radius: 16px; padding: 24px; }
+    .tag { display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase; color: #4f46e5; background: #eef2ff; padding: 4px 10px; border-radius: 999px; }
+    h2 { margin: 10px 0 8px; font-size: 20px; }
+    p { font-size: 14px; color: #475569; line-height: 1.55; }
+    .opt { display: block; width: 100%; text-align: left; padding: 12px 14px; margin-top: 8px; border: 1px solid #cbd5e1; border-radius: 10px; background: #fff; font-size: 13.5px; cursor: pointer; }
+    .opt:hover { border-color: #4f46e5; background: #f8fafc; }
+    .res { margin-top: 14px; padding: 12px; border-radius: 10px; font-size: 13.5px; display: none; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <span class="tag">SCORM 1.2 Live Demo SCO</span>
+    <h2>Verify Before You Click</h2>
+    <p>You receive an email from <strong>it-support@micros0ft-verify.com</strong> claiming your password expires in 30 minutes. Which SCORM-tracked action do you take?</p>
+    <button class="opt" onclick="submitChoice(false, 40)">Click the link in the email and enter your current password to extend it.</button>
+    <button class="opt" onclick="submitChoice(true, 100)">Report the message using the Phishing Alert button without clicking any links.</button>
+    <div id="result" class="res"></div>
+  </div>
+  <script>
+    var api = window.parent.API || window.API;
+    if (api) {
+      api.LMSInitialize("");
+      api.LMSSetValue("cmi.core.lesson_location", "page_1");
+      api.LMSSetValue("cmi.core.lesson_status", "incomplete");
+      api.LMSCommit("");
+    }
+    function submitChoice(passed, score) {
+      var box = document.getElementById("result");
+      box.style.display = "block";
+      box.style.background = passed ? "#ecfdf5" : "#fef2f2";
+      box.style.border = passed ? "1px solid #a7f3d0" : "1px solid #fecaca";
+      box.style.color = passed ? "#065f46" : "#991b1b";
+      box.innerHTML = passed
+        ? "<strong>Passed (100%)!</strong> Notice how the LMS Telemetry panel on the left recorded <code>completed</code> and <code>score.raw = 100</code>."
+        : "<strong>Needs Review (40%).</strong> The LMS Telemetry panel recorded your score and status—try selecting the second option.";
+      if (api) {
+        api.LMSSetValue("cmi.core.score.min", "0");
+        api.LMSSetValue("cmi.core.score.max", "100");
+        api.LMSSetValue("cmi.core.score.raw", String(score));
+        api.LMSSetValue("cmi.core.lesson_status", passed ? "completed" : "incomplete");
+        api.LMSSetValue("cmi.suspend_data", "answered=" + passed);
+        api.LMSCommit("");
+      }
+    }
+  <\/script>
+</body>
+</html>`;
+
+  sampleZip.file("imsmanifest.xml", manifestXml);
+  sampleZip.file("index.html", sampleIndexHtml);
+  const blob = await sampleZip.generateAsync({ type: "blob" });
+  await loadScormZipFile(blob, "sample-phishing-scorm12.zip");
+}
+
+function revokeAllScormBlobs() {
+  scormPlayerState.blobUrls.forEach(u => {
+    try { URL.revokeObjectURL(u); } catch (e) {}
+  });
+  scormPlayerState.blobUrls = [];
+}
+
+async function loadScormZipFile(fileOrBlob, overrideName = null) {
+  if (typeof JSZip === "undefined") {
+    showToast("ZIP library still loading—please try again in a moment.");
+    return;
+  }
+  const fileName = overrideName || fileOrBlob.name || "package.zip";
+  try {
+    revokeAllScormBlobs();
+    const zip = await JSZip.loadAsync(fileOrBlob);
+    scormPlayerState.zip = zip;
+
+    const allEntries = Object.keys(zip.files).filter(k => !zip.files[k].dir && !k.startsWith("__MACOSX/"));
+    document.getElementById("scorm-pkg-files").textContent = `${allEntries.length} files`;
+
+    // Locate imsmanifest.xml (prefer root, fallback to nested)
+    let manifestPath = allEntries.find(p => p.toLowerCase() === "imsmanifest.xml");
+    const warnEl = document.getElementById("scorm-manifest-warning");
+    warnEl.classList.add("hidden");
+
+    if (!manifestPath) {
+      manifestPath = allEntries.find(p => p.toLowerCase().endsWith("/imsmanifest.xml"));
+      if (manifestPath) {
+        warnEl.classList.remove("hidden");
+        warnEl.innerHTML = `<strong>⚠️ Nested Manifest Warning:</strong> <code>${escapeHtml(manifestPath)}</code> is inside a subfolder instead of the root of the .zip. Most LMS platforms require <code>imsmanifest.xml</code> at the root level.`;
+      }
+    }
+
+    let courseTitle = fileName.replace(/\.zip$/i, "");
+    let schemaVersion = "SCORM 1.2";
+    let scos = [];
+    const manifestDir = manifestPath && manifestPath.includes("/")
+      ? manifestPath.slice(0, manifestPath.lastIndexOf("/") + 1)
+      : "";
+    scormPlayerState.manifestDir = manifestDir;
+
+    if (manifestPath) {
+      const xmlText = await zip.file(manifestPath).async("string");
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(xmlText, "application/xml");
+
+      const schemaVerNode = xmlDoc.getElementsByTagName("schemaversion")[0];
+      if (schemaVerNode && schemaVerNode.textContent) {
+        const sv = schemaVerNode.textContent.trim();
+        schemaVersion = sv.includes("2004") || sv.includes("1.3") ? `SCORM 2004 (${sv})` : `SCORM ${sv}`;
+      }
+
+      const orgTitleNode = xmlDoc.querySelector("organization > title") || xmlDoc.getElementsByTagName("title")[0];
+      if (orgTitleNode && orgTitleNode.textContent.trim()) {
+        courseTitle = orgTitleNode.textContent.trim();
+      }
+
+      // Map resource identifiers -> href
+      const resourceMap = {};
+      Array.from(xmlDoc.getElementsByTagName("resource")).forEach(res => {
+        const id = res.getAttribute("identifier");
+        const href = res.getAttribute("href");
+        if (id && href) resourceMap[id] = href.split("?")[0].split("#")[0];
+      });
+
+      // Extract SCO items
+      Array.from(xmlDoc.getElementsByTagName("item")).forEach((item, idx) => {
+        const ref = item.getAttribute("identifierref");
+        if (ref && resourceMap[ref]) {
+          const tNode = item.getElementsByTagName("title")[0];
+          const itemTitle = (tNode && tNode.textContent.trim()) || `SCO ${idx + 1}`;
+          scos.push({ title: itemTitle, href: resourceMap[ref] });
+        }
+      });
+
+      // Fallback if resources exist without item refs
+      if (scos.length === 0) {
+        Object.keys(resourceMap).forEach((id, idx) => {
+          scos.push({ title: `Resource ${idx + 1}`, href: resourceMap[id] });
+        });
+      }
+    } else {
+      // Fallback: look for index.html if no manifest present
+      const fallbackHtml = allEntries.find(p => p.toLowerCase().endsWith("index.html")) || allEntries.find(p => p.toLowerCase().endsWith(".html"));
+      if (fallbackHtml) {
+        schemaVersion = "HTML / Non-Manifest";
+        scos.push({ title: fallbackHtml, href: fallbackHtml });
+        warnEl.classList.remove("hidden");
+        warnEl.innerHTML = `<strong>⚠️ Missing imsmanifest.xml:</strong> No SCORM manifest was found in this archive. Launching <code>${escapeHtml(fallbackHtml)}</code> directly.`;
+      } else {
+        showToast("No imsmanifest.xml or HTML launch file found inside .zip.");
+        return;
+      }
+    }
+
+    scormPlayerState.scos = scos;
+    document.getElementById("scorm-schema-badge").textContent = schemaVersion;
+    document.getElementById("scorm-pkg-title").textContent = courseTitle;
+
+    // Render SCO selector if multiple SCOs exist
+    const scoWrap = document.getElementById("scorm-sco-list-wrap");
+    const scoList = document.getElementById("scorm-sco-list");
+    if (scos.length > 1) {
+      scoWrap.classList.remove("hidden");
+      scoList.innerHTML = scos.map((s, idx) => `
+        <button type="button" onclick="launchScormSco(${idx})" class="w-full text-left px-2.5 py-1.5 rounded-lg bg-slate-50 hover:bg-indigo-50 border border-slate-200 text-xs font-medium text-slate-800 truncate transition">
+          ${idx + 1}. ${escapeHtml(s.title)}
+        </button>
+      `).join("");
+    } else {
+      scoWrap.classList.add("hidden");
+    }
+
+    resetScormSession(false);
+    await launchScormSco(0);
+    showToast(`Loaded "${courseTitle}" (${schemaVersion})`);
+  } catch (err) {
+    console.error("SCORM load error:", err);
+    showToast("Failed to read .zip package. Please check the archive file.");
+  }
+}
+
+function getMimeTypeForPath(path) {
+  const ext = path.split(".").pop().toLowerCase();
+  const map = {
+    html: "text/html",
+    htm: "text/html",
+    js: "application/javascript",
+    mjs: "application/javascript",
+    css: "text/css",
+    json: "application/json",
+    xml: "application/xml",
+    svg: "image/svg+xml",
+    png: "image/png",
+    jpg: "image/jpeg",
+    jpeg: "image/jpeg",
+    gif: "image/gif",
+    webp: "image/webp",
+    mp3: "audio/mpeg",
+    wav: "audio/wav",
+    ogg: "audio/ogg",
+    mp4: "video/mp4",
+    webm: "video/webm",
+    woff: "font/woff",
+    woff2: "font/woff2",
+    ttf: "font/ttf"
+  };
+  return map[ext] || "application/octet-stream";
+}
+
+function resolveZipRelativePath(baseDir, relPath) {
+  const cleanRel = relPath.split("?")[0].split("#")[0];
+  const parts = (baseDir + cleanRel).split("/");
+  const stack = [];
+  for (const part of parts) {
+    if (!part || part === ".") continue;
+    if (part === "..") stack.pop();
+    else stack.push(part);
+  }
+  return stack.join("/");
+}
+
+async function launchScormSco(scoIndex) {
+  const sco = scormPlayerState.scos[scoIndex];
+  if (!sco || !scormPlayerState.zip) return;
+
+  scormPlayerState.activeScoHref = sco.href;
+  document.getElementById("scorm-pkg-entry").textContent = sco.href;
+  document.getElementById("scorm-active-sco-label").textContent = sco.title;
+
+  installSimulatedScormApis();
+
+  const fullEntryPath = resolveZipRelativePath(scormPlayerState.manifestDir, sco.href);
+  const entryFile = scormPlayerState.zip.file(fullEntryPath);
+  if (!entryFile) {
+    showToast(`Launch file "${fullEntryPath}" not found in archive.`);
+    return;
+  }
+
+  let htmlContent = await entryFile.async("string");
+  const entryDir = fullEntryPath.includes("/")
+    ? fullEntryPath.slice(0, fullEntryPath.lastIndexOf("/") + 1)
+    : "";
+
+  // Convert internal assets (JS, CSS, media) to Blob URLs for multi-file SCORM packages
+  const assetUrlMap = {};
+  const zipEntries = Object.keys(scormPlayerState.zip.files).filter(k => !scormPlayerState.zip.files[k].dir);
+
+  for (const path of zipEntries) {
+    if (path === fullEntryPath) continue;
+    const mime = getMimeTypeForPath(path);
+    const bytes = await scormPlayerState.zip.file(path).async("uint8array");
+    const blob = new Blob([bytes], { type: mime });
+    const url = URL.createObjectURL(blob);
+    scormPlayerState.blobUrls.push(url);
+    assetUrlMap[path] = url;
+  }
+
+  // Rewrite relative src="..." and href="..." attributes in the launch HTML
+  htmlContent = htmlContent.replace(/(src|href)=(["'])([^"']+)\2/gi, (match, attr, quote, val) => {
+    if (/^(https?:|data:|blob:|mailto:|tel:|#|javascript:)/i.test(val.trim())) {
+      return match;
+    }
+    const resolved = resolveZipRelativePath(entryDir, val.trim());
+    if (assetUrlMap[resolved]) {
+      return `${attr}=${quote}${assetUrlMap[resolved]}${quote}`;
+    }
+    return match;
+  });
+
+  const iframe = document.getElementById("scorm-player-iframe");
+  iframe.srcdoc = htmlContent;
+  appendScormApiLog(`Launched SCO: "${sco.title}" (${fullEntryPath})`, "info");
+}
+
+function relaunchedCurrentSco() {
+  if (!scormPlayerState.zip || scormPlayerState.scos.length === 0) {
+    showToast("Load a SCORM .zip package first.");
+    return;
+  }
+  resetScormSession(false);
+  launchScormSco(0);
+  showToast("Relaunched SCO session");
+}
+
+function setScormViewport(width) {
+  document.getElementById("scorm-preview-wrapper").style.maxWidth = width;
+  const dBtn = document.getElementById("svp-desktop");
+  const mBtn = document.getElementById("svp-mobile");
+  if (width === "100%") {
+    dBtn.className = "px-2.5 py-1 rounded-lg text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200";
+    mBtn.className = "px-2.5 py-1 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100";
+  } else {
+    mBtn.className = "px-2.5 py-1 rounded-lg text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200";
+    dBtn.className = "px-2.5 py-1 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100";
+  }
+}
+
+function resetScormSession(relaunch = true) {
+  scormPlayerState.cmi12 = {
+    "cmi.core.student_id": "learner_001",
+    "cmi.core.student_name": "Demo Learner",
+    "cmi.core.lesson_status": "not attempted",
+    "cmi.core.lesson_location": "",
+    "cmi.core.score.raw": "",
+    "cmi.core.score.min": "0",
+    "cmi.core.score.max": "100",
+    "cmi.core.session_time": "00:00:00",
+    "cmi.suspend_data": ""
+  };
+  scormPlayerState.cmi2004 = {
+    "cmi.learner_id": "learner_001",
+    "cmi.learner_name": "Demo Learner",
+    "cmi.completion_status": "not attempted",
+    "cmi.success_status": "unknown",
+    "cmi.location": "",
+    "cmi.score.raw": "",
+    "cmi.score.scaled": "",
+    "cmi.session_time": "PT0H0M0S",
+    "cmi.suspend_data": ""
+  };
+  scormPlayerState.initialized = false;
+  scormPlayerState.terminated = false;
+  updateScormTelemetryUI();
+  clearScormLog();
+  if (relaunch && scormPlayerState.zip) {
+    launchScormSco(0);
+  }
+}
+
+function updateScormTelemetryUI() {
+  const c12 = scormPlayerState.cmi12;
+  const c24 = scormPlayerState.cmi2004;
+
+  const status = c12["cmi.core.lesson_status"] !== "not attempted"
+    ? c12["cmi.core.lesson_status"]
+    : (c24["cmi.success_status"] !== "unknown" ? `${c24["cmi.completion_status"]} / ${c24["cmi.success_status"]}` : c24["cmi.completion_status"]);
+
+  const statusEl = document.getElementById("tel-status");
+  statusEl.textContent = status;
+  if (/completed|passed/i.test(status)) {
+    statusEl.className = "text-xs font-extrabold text-emerald-400 mt-0.5";
+  } else if (/failed/i.test(status)) {
+    statusEl.className = "text-xs font-extrabold text-rose-400 mt-0.5";
+  } else {
+    statusEl.className = "text-xs font-extrabold text-amber-300 mt-0.5";
+  }
+
+  const rawScore = c12["cmi.core.score.raw"] || c24["cmi.score.raw"];
+  const scaledScore = c24["cmi.score.scaled"];
+  document.getElementById("tel-score").textContent = rawScore
+    ? `${rawScore}%`
+    : (scaledScore ? `${Math.round(Number(scaledScore) * 100)}%` : "—");
+
+  const loc = c12["cmi.core.lesson_location"] || c24["cmi.location"] || "—";
+  document.getElementById("tel-location").textContent = loc;
+
+  const time = c12["cmi.core.session_time"] !== "00:00:00"
+    ? c12["cmi.core.session_time"]
+    : (c24["cmi.session_time"] !== "PT0H0M0S" ? c24["cmi.session_time"] : "00:00:00");
+  document.getElementById("tel-time").textContent = time;
+}
+
+function appendScormApiLog(message, level = "call") {
+  const logEl = document.getElementById("scorm-api-log");
+  if (!logEl) return;
+  if (logEl.children.length === 1 && logEl.children[0].textContent.includes("Waiting for SCORM")) {
+    logEl.innerHTML = "";
+  }
+  const ts = new Date().toLocaleTimeString("en-US", { hour12: false, hour: "2-digit", minute: "2-digit", second: "2-digit" });
+  const colorClass = level === "set" ? "text-sky-300" : level === "info" ? "text-indigo-300" : "text-emerald-300";
+  const row = document.createElement("div");
+  row.className = colorClass;
+  row.textContent = `[${ts}] ${message}`;
+  logEl.appendChild(row);
+  logEl.scrollTop = logEl.scrollHeight;
+}
+
+function clearScormLog() {
+  const logEl = document.getElementById("scorm-api-log");
+  if (logEl) logEl.innerHTML = `<div class="text-slate-500">Log cleared. Ready for API events...</div>`;
+}
+
+function installSimulatedScormApis() {
+  // SCORM 1.2 Runtime API (window.API)
+  window.API = {
+    LMSInitialize: function(param) {
+      scormPlayerState.initialized = true;
+      appendScormApiLog(`1.2 LMSInitialize("${param || ""}") -> "true"`);
+      return "true";
+    },
+    LMSFinish: function(param) {
+      scormPlayerState.terminated = true;
+      appendScormApiLog(`1.2 LMSFinish("${param || ""}") -> "true"`);
+      return "true";
+    },
+    LMSGetValue: function(key) {
+      const val = scormPlayerState.cmi12[key] ?? "";
+      appendScormApiLog(`1.2 LMSGetValue("${key}") -> "${val}"`);
+      return String(val);
+    },
+    LMSSetValue: function(key, val) {
+      scormPlayerState.cmi12[key] = String(val);
+      appendScormApiLog(`1.2 LMSSetValue("${key}", "${val}")`, "set");
+      updateScormTelemetryUI();
+      return "true";
+    },
+    LMSCommit: function(param) {
+      appendScormApiLog(`1.2 LMSCommit("${param || ""}") -> "true"`);
+      updateScormTelemetryUI();
+      return "true";
+    },
+    LMSGetLastError: function() { return "0"; },
+    LMSGetErrorString: function() { return "No error"; },
+    LMSGetDiagnostic: function() { return ""; }
+  };
+
+  // SCORM 2004 Runtime API (window.API_1484_11)
+  window.API_1484_11 = {
+    Initialize: function(param) {
+      scormPlayerState.initialized = true;
+      appendScormApiLog(`2004 Initialize("${param || ""}") -> "true"`);
+      return "true";
+    },
+    Terminate: function(param) {
+      scormPlayerState.terminated = true;
+      appendScormApiLog(`2004 Terminate("${param || ""}") -> "true"`);
+      return "true";
+    },
+    GetValue: function(key) {
+      const val = scormPlayerState.cmi2004[key] ?? "";
+      appendScormApiLog(`2004 GetValue("${key}") -> "${val}"`);
+      return String(val);
+    },
+    SetValue: function(key, val) {
+      scormPlayerState.cmi2004[key] = String(val);
+      appendScormApiLog(`2004 SetValue("${key}", "${val}")`, "set");
+      updateScormTelemetryUI();
+      return "true";
+    },
+    Commit: function(param) {
+      appendScormApiLog(`2004 Commit("${param || ""}") -> "true"`);
+      updateScormTelemetryUI();
+      return "true";
+    },
+    GetLastError: function() { return "0"; },
+    GetErrorString: function() { return "No error"; },
+    GetDiagnostic: function() { return ""; }
+  };
+}
+
+// ============================================================================
+// 12. MODALS & TOAST HELPERS
 // ============================================================================
 function openGuideModal() {
   document.getElementById("guide-modal").classList.remove("hidden");
@@ -4176,6 +4873,7 @@ window.onload = function() {
   initRecommender();
   renderBlueprint();
   renderDraftVault();
+  installSimulatedScormApis();
 };
 </script>
 </body>
