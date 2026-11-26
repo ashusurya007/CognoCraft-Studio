@@ -160,7 +160,7 @@
           <!-- Category Pills -->
           <div class="flex flex-wrap items-center gap-1.5" id="category-filters">
             <button data-filter="all" class="filter-btn active px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-900 text-white shadow-sm transition">
-              All Blocks (16)
+              All Blocks (17)
             </button>
             <button data-filter="scenario" class="filter-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 transition">
               Scenarios & Decisions
@@ -215,7 +215,7 @@
           </div>
 
           <div class="flex items-end justify-between sm:justify-end h-full pt-4 sm:pt-5 gap-3">
-            <span id="active-filter-count" class="text-xs font-semibold text-slate-600">Showing 16 of 16 blocks</span>
+            <span id="active-filter-count" class="text-xs font-semibold text-slate-600">Showing 17 of 17 blocks</span>
             <button onclick="resetAllFilters()" class="text-xs font-semibold text-indigo-600 hover:text-indigo-800 underline">
               Reset Filters
             </button>
@@ -395,6 +395,27 @@
       </div>
     </div>
 
+    <!-- SCORM Package Patching Active Banner (Shown when editing a SCORM archive's launch HTML) -->
+    <div id="viewer-scorm-patch-banner" class="hidden mb-5 p-4 rounded-2xl bg-gradient-to-r from-indigo-900 to-violet-900 text-white shadow-md border border-indigo-700 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div class="flex items-start sm:items-center gap-3">
+        <span class="text-xl">🛠️</span>
+        <div>
+          <div class="text-xs font-bold uppercase tracking-wider text-indigo-200">SCORM Package Patch Mode Active</div>
+          <p class="text-xs text-slate-200 mt-0.5">
+            Editing <code id="viewer-scorm-patch-target" class="bg-white/15 px-1.5 py-0.5 rounded font-mono text-white">index.html</code> from <strong id="viewer-scorm-patch-pkg">package.zip</strong>. All original manifest files, scripts, and media assets will be preserved.
+          </p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 shrink-0">
+        <button onclick="repackagePatchedScormZip()" class="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs shadow-sm transition">
+          ⬇ Re-Package into SCORM .zip
+        </button>
+        <button onclick="exitScormPatchMode()" class="px-2.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-semibold text-white transition" title="Detach SCORM archive">
+          Exit Patch Mode
+        </button>
+      </div>
+    </div>
+
     <!-- Split Workspace: Left Code & Color Swapper | Right Visual Canvas -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
       
@@ -499,6 +520,25 @@
             <!-- Font Size Steppers -->
             <button type="button" onmousedown="event.preventDefault(); adjustSelectedFontSize(-2)" class="px-2 py-1 rounded-lg bg-white hover:bg-indigo-100 border border-slate-200 text-[11px] font-bold text-slate-700" title="Decrease font size of clicked element">A-</button>
             <button type="button" onmousedown="event.preventDefault(); adjustSelectedFontSize(2)" class="px-2 py-1 rounded-lg bg-white hover:bg-indigo-100 border border-slate-200 text-[11px] font-bold text-slate-700" title="Increase font size of clicked element">A+</button>
+
+            <span class="h-4 w-px bg-slate-300 mx-1"></span>
+
+            <!-- Button / Element Shape Selector -->
+            <div class="inline-flex items-center gap-1 bg-white border border-slate-200 rounded-lg px-1.5 py-0.5" title="Click a button or box in preview, then choose its shape">
+              <span class="text-[10px] font-bold uppercase text-slate-400 px-1">Shape</span>
+              <button type="button" onmousedown="event.preventDefault(); applySelectedElementShape('rect')" class="px-1.5 py-0.5 rounded hover:bg-indigo-100 text-[11px] font-semibold text-slate-700" title="Sharp Rectangle (4px radius)">▭</button>
+              <button type="button" onmousedown="event.preventDefault(); applySelectedElementShape('rounded')" class="px-1.5 py-0.5 rounded hover:bg-indigo-100 text-[11px] font-semibold text-slate-700" title="Rounded Rectangle (12px radius)">▢</button>
+              <button type="button" onmousedown="event.preventDefault(); applySelectedElementShape('pill')" class="px-1.5 py-0.5 rounded hover:bg-indigo-100 text-[11px] font-semibold text-slate-700" title="Pill / Stadium Button (9999px radius)">💊</button>
+              <button type="button" onmousedown="event.preventDefault(); applySelectedElementShape('circle')" class="px-1.5 py-0.5 rounded hover:bg-indigo-100 text-[11px] font-semibold text-slate-700" title="Circle Shape (50% radius, equal width & height)">●</button>
+            </div>
+
+            <!-- Drag-to-Move Toggle & Reset -->
+            <button type="button" id="vtool-drag-toggle" onmousedown="event.preventDefault(); toggleViewerDragMode()" class="px-2.5 py-1 rounded-lg bg-white hover:bg-indigo-100 border border-slate-200 text-[11px] font-semibold text-slate-700 transition flex items-center gap-1" title="Toggle Drag-to-Move mode to reposition buttons or elements anywhere">
+              <span>✥ Drag Move: Off</span>
+            </button>
+            <button type="button" onmousedown="event.preventDefault(); resetSelectedElementPosition()" class="px-2 py-1 rounded-lg bg-white hover:bg-rose-50 border border-slate-200 text-[11px] font-semibold text-slate-600 hover:text-rose-700" title="Reset clicked element back to its original flow position">
+              ↺ Reset Pos
+            </button>
           </div>
 
           <button type="button" onmousedown="event.preventDefault(); execViewerFormat('undo')" class="px-2.5 py-1 rounded-lg bg-white hover:bg-slate-100 border border-slate-200 text-[11px] font-semibold text-slate-600">
@@ -508,7 +548,7 @@
 
         <!-- Helper Banner -->
         <div id="viewer-mode-hint" class="px-4 py-1.5 bg-amber-50 border-b border-amber-100 text-[11px] text-amber-900 flex items-center justify-between">
-          <span><strong>Visual Edit Mode:</strong> Click any heading, paragraph, or button to edit text directly. Highlight words to Bold or recolor.</span>
+          <span><strong>Visual Edit Mode:</strong> Click any text or button to edit copy, change shape (▭ ▢ 💊 ●), or toggle <strong>✥ Drag Move</strong> to reposition elements.</span>
           <span id="viewer-selected-tag" class="font-mono text-[10px] bg-white px-1.5 py-0.5 rounded border border-amber-200 hidden">Selected: &lt;div&gt;</span>
         </div>
 
@@ -593,6 +633,17 @@
               <span class="text-slate-500">Launch Entry:</span>
               <span id="scorm-pkg-entry" class="font-mono text-indigo-700 truncate max-w-[200px]">—</span>
             </div>
+          </div>
+
+          <!-- SCORM Package Editor & Patcher Actions -->
+          <div id="scorm-patcher-actions" class="hidden pt-3 border-t border-slate-100 space-y-2">
+            <div class="text-[11px] font-bold uppercase tracking-wider text-slate-500">SCORM Package Patcher</div>
+            <button type="button" onclick="openScormLaunchInVisualEditor()" class="w-full py-2 px-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold shadow-sm transition flex items-center justify-center gap-1.5">
+              <span>✏️ Edit Launch HTML in Visual Editor</span>
+            </button>
+            <button id="btn-normalize-scorm" type="button" onclick="normalizeAndRezipScorm()" class="hidden w-full py-2 px-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 text-xs font-bold shadow-sm transition flex items-center justify-center gap-1.5">
+              <span>📦 Normalize Root & Re-Zip</span>
+            </button>
           </div>
 
           <!-- SCO Selector (for multi-SCO packages) -->
@@ -1584,6 +1635,64 @@ const COMPONENTS = [
         { x: 82.0, y: 83.5, title: "Alarm Threshold & Limits Menu", detail: "Opens patient-specific high/low parameter boundaries. Adjust limits to prevent alarm fatigue while maintaining clinical safety margins." }
       ]
     }
+  },
+  {
+    id: "media-checkpoint",
+    title: "Interactive Video / Audio Checkpoint",
+    category: "visual",
+    categoryLabel: "Visual & Reflection",
+    icon: "🎬",
+    blooms: ["Analyze", "Evaluate"],
+    gagne: [4, 6, 7],
+    verbs: ["Observe", "Analyze", "Pause", "Evaluate"],
+    completionTrigger: "Completes once the learner answers all timestamped media checkpoints.",
+    description: "Timestamped video or audio player that automatically pauses at critical cue points to surface knowledge checks and coaching feedback before resuming.",
+    idTip: "Place checkpoints right after a critical decision cue or safety warning (e.g., 5s, 11s) so learners actively analyze what they just observed instead of passively watching.",
+    aiPromptSchema: `{
+  "title": "Media Activity Title",
+  "subtitle": "Instructions for watching/listening and answering checkpoints",
+  "mediaType": "video",
+  "mediaUrl": "",
+  "durationSec": 18,
+  "checkpoints": [
+    {
+      "timeSec": 5,
+      "label": "Cue 1: Early Warning Sign",
+      "question": "What critical red flag did you just observe?",
+      "options": [
+        { "text": "Distractor choice", "feedback": "Coaching feedback explaining why this misses the cue.", "correct": false },
+        { "text": "Correct analytical choice", "feedback": "Spot on! Explain why spotting this early matters.", "correct": true }
+      ]
+    }
+  ]
+}`,
+    defaultData: {
+      title: "Warehouse Forklift & Pedestrian Safety Walkthrough",
+      subtitle: "Play the briefing below. Playback automatically pauses at each checkpoint marker for a quick safety evaluation.",
+      mediaType: "video",
+      mediaUrl: "",
+      durationSec: 16,
+      checkpoints: [
+        {
+          timeSec: 4,
+          label: "Checkpoint 1: Blind Intersection Approach",
+          question: "The operator is approaching Cross-Aisle B with a tall pallet load obstructing forward visibility. What is required before crossing?",
+          options: [
+            { text: "Maintain steady speed and flash the overhead strobe light.", feedback: "Flashing lights alone are insufficient when forward vision is blocked.", correct: false },
+            { text: "Come to a complete stop, sound the horn twice, and travel in reverse if the load blocks forward view.", feedback: "Correct! Stopping, sounding the horn, and trailing the load prevents blind-spot collisions.", correct: true }
+          ]
+        },
+        {
+          timeSec: 11,
+          label: "Checkpoint 2: Pedestrian Right-of-Way Zone",
+          question: "A team member steps onto the marked yellow pedestrian walkway 15 feet ahead. How must the operator respond?",
+          options: [
+            { text: "Stop completely, lower forks to floor level, and make eye contact/hand signal before proceeding.", feedback: "Spot on! Pedestrians always hold right-of-way in marked lanes, and lowering forks eliminates trip/impact hazards.", correct: true },
+            { text: "Steer around the pedestrian at 3 mph without stopping to keep warehouse flow moving.", feedback: "Never swerve around pedestrians in active aisles—always come to a full stop.", correct: false }
+          ]
+        }
+      ]
+    }
   }
 ];
 
@@ -2482,42 +2591,92 @@ function renderEditorFields() {
       </div>`;
     });
     html += renderAddBar("Add Pin at Center (50%, 50%)", "addEditorArrayItem('pins', { x: 50.0, y: 50.0, title: 'New Hotspot #' + (currentData.pins.length + 1), detail: 'Describe what this part does and why it matters.' })");
+
+  } else if (currentComp.id === "media-checkpoint") {
+    html += `<div class="grid grid-cols-2 gap-2.5">
+      <div>
+        <label class="block text-xs font-semibold text-slate-700 mb-1">Media Format</label>
+        <select onchange="currentData.mediaType=this.value;updateStudioPreview()" class="w-full px-2.5 py-2 bg-white border border-slate-200 rounded-lg text-xs font-semibold text-slate-800">
+          <option value="video" ${currentData.mediaType !== 'audio' ? 'selected' : ''}>🎬 Video (.mp4 / .webm)</option>
+          <option value="audio" ${currentData.mediaType === 'audio' ? 'selected' : ''}>🎧 Audio (.mp3 / .wav)</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-xs font-semibold text-slate-700 mb-1">Demo Duration (sec)</label>
+        <input type="number" min="6" max="600" value="${Number(currentData.durationSec || 16)}" oninput="currentData.durationSec=Math.max(6, Number(this.value)||16);updateStudioPreview()" class="w-full px-2.5 py-2 bg-white border border-slate-200 rounded-lg text-xs text-slate-800" />
+      </div>
+    </div>`;
+
+    html += `<div class="p-3 bg-white rounded-xl border border-slate-200 space-y-2">
+      <div class="flex items-center justify-between gap-2">
+        <label class="text-xs font-bold text-slate-800">Media Source (Upload or URL)</label>
+        <label class="px-2.5 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-[11px] font-semibold cursor-pointer transition">
+          ⬆ Upload Video/Audio
+          <input type="file" accept="video/*,audio/*" onchange="handleCheckpointMediaUpload(event)" class="hidden" />
+        </label>
+      </div>
+      <input type="text" placeholder="Paste .mp4 / .mp3 URL, or leave blank to use built-in interactive briefing player" value="${escapeAttr(currentData.mediaUrl || '')}" oninput="currentData.mediaUrl=this.value;updateStudioPreview()" class="w-full px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-[11px] font-mono text-slate-700" />
+      <p class="text-[10.5px] text-slate-500">Leave blank to use the built-in self-contained animated briefing player (zero external hosting needed).</p>
+    </div>`;
+
+    currentData.checkpoints.forEach((cp, i) => {
+      html += `<div class="p-3 bg-white rounded-xl border border-slate-200 space-y-2">
+        <div class="flex items-center justify-between gap-2">
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 rounded bg-indigo-600 text-white text-[10px] font-bold">Cue #${i + 1}</span>
+            <label class="inline-flex items-center gap-1 text-[11px] font-semibold text-slate-700">
+              <span>Pause at</span>
+              <input type="number" min="1" max="3600" value="${Number(cp.timeSec || 1)}" oninput="currentData.checkpoints[${i}].timeSec=Math.max(1, Number(this.value)||1);updateStudioPreview()" class="w-14 px-1.5 py-0.5 border border-slate-300 rounded text-xs font-mono text-center" />
+              <span>sec</span>
+            </label>
+          </div>
+          ${renderRemoveButton("checkpoints", i, currentData.checkpoints.length, "Remove checkpoint")}
+        </div>
+        <input type="text" placeholder="Checkpoint Heading" value="${escapeAttr(cp.label || '')}" oninput="currentData.checkpoints[${i}].label=this.value;updateStudioPreview()" class="w-full p-1.5 text-xs font-bold border border-slate-200 rounded" />
+        <textarea rows="2" placeholder="Question prompt shown when media pauses..." oninput="currentData.checkpoints[${i}].question=this.value;updateStudioPreview()" class="w-full p-1.5 text-xs border border-slate-200 rounded">${escapeHtml(cp.question || '')}</textarea>
+        ${(cp.options || []).map((opt, oi) => `
+          <div class="pl-2 border-l-2 ${opt.correct ? 'border-emerald-400' : 'border-rose-300'} space-y-1">
+            <div class="flex items-center justify-between gap-2">
+              <label class="inline-flex items-center gap-1 text-[10px] font-semibold text-slate-600 cursor-pointer">
+                <input type="checkbox" ${opt.correct ? 'checked' : ''} onchange="currentData.checkpoints[${i}].options[${oi}].correct=this.checked;renderEditorFields();updateStudioPreview()" class="accent-emerald-600" />
+                Correct Answer
+              </label>
+              ${renderRemoveButton(`checkpoints.${i}.options`, oi, cp.options.length, "Remove option")}
+            </div>
+            <input type="text" value="${escapeAttr(opt.text)}" oninput="currentData.checkpoints[${i}].options[${oi}].text=this.value;updateStudioPreview()" class="w-full p-1.5 text-xs border border-slate-200 rounded" />
+            <input type="text" value="${escapeAttr(opt.feedback)}" oninput="currentData.checkpoints[${i}].options[${oi}].feedback=this.value;updateStudioPreview()" class="w-full p-1.5 text-[11px] bg-slate-50 border border-slate-200 rounded" />
+          </div>
+        `).join("")}
+        <button type="button" onclick="addEditorArrayItem('checkpoints.${i}.options', { text: 'New answer choice', feedback: 'Coaching feedback for this selection.', correct: false })" class="text-[11px] font-semibold text-indigo-600 hover:underline pt-1">+ Add Answer Option</button>
+      </div>`;
+    });
+
+    const nextSec = currentData.checkpoints.length > 0
+      ? Number(currentData.checkpoints[currentData.checkpoints.length - 1].timeSec || 5) + 4
+      : 5;
+    html += renderAddBar("Add Timestamped Checkpoint", `addEditorArrayItem('checkpoints', { timeSec: ${nextSec}, label: 'Checkpoint ' + (currentData.checkpoints.length + 1) + ': Observation Check', question: 'What should happen next based on what you just observed?', options: [{ text: 'Recommended best-practice action', feedback: 'Correct! Explain the rationale.', correct: true }, { text: 'Suboptimal shortcut', feedback: 'Coaching note: Explain the risk.', correct: false }] })`);
   }
 
   container.innerHTML = html;
 }
 
-function handleHotspotImageUpload(event) {
+function handleCheckpointMediaUpload(event) {
   const file = event.target.files && event.target.files[0];
   if (!file) return;
+  if (file.size > 12 * 1024 * 1024) {
+    showToast("Large media file (>12MB): For best LMS performance, consider pasting a hosted .mp4/.mp3 URL.");
+  }
   const reader = new FileReader();
   reader.onload = function(e) {
-    const img = new Image();
-    img.onload = function() {
-      const maxDim = 1200;
-      let w = img.width;
-      let h = img.height;
-      if (w > maxDim || h > maxDim) {
-        if (w > h) {
-          h = Math.round((h * maxDim) / w);
-          w = maxDim;
-        } else {
-          w = Math.round((w * maxDim) / h);
-          h = maxDim;
-        }
-      }
-      const canvas = document.createElement("canvas");
-      canvas.width = w;
-      canvas.height = h;
-      const ctx = canvas.getContext("2d");
-      ctx.drawImage(img, 0, 0, w, h);
-      const isPng = file.type === "image/png" || file.type === "image/svg+xml";
-      currentData.imageUrl = isPng ? canvas.toDataURL("image/png") : canvas.toDataURL("image/jpeg", 0.86);
-      renderEditorFields();
-      updateStudioPreview();
-      showToast(`Loaded "${file.name}" into diagram canvas`);
-    };
-    img.src = e.target.result;
+    currentData.mediaUrl = e.target.result;
+    if (file.type.startsWith("audio/")) {
+      currentData.mediaType = "audio";
+    } else if (file.type.startsWith("video/")) {
+      currentData.mediaType = "video";
+    }
+    renderEditorFields();
+    updateStudioPreview();
+    showToast(`Embedded "${file.name}" into checkpoint player`);
   };
   reader.readAsDataURL(file);
   event.target.value = "";
@@ -2549,6 +2708,34 @@ function focusHotspotPinEditor(index) {
     card.classList.add("ring-2", "ring-indigo-500", "border-indigo-400");
     setTimeout(() => card.classList.remove("ring-2", "ring-indigo-500", "border-indigo-400"), 1500);
   }
+}
+
+function handleHotspotImageUpload(event) {
+  const file = event.target.files && event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const img = new Image();
+    img.onload = function() {
+      const maxW = 1100;
+      const scale = img.width > maxW ? maxW / img.width : 1;
+      const canvas = document.createElement("canvas");
+      canvas.width = Math.round(img.width * scale);
+      canvas.height = Math.round(img.height * scale);
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      const compressedDataUrl = file.type === "image/png"
+        ? canvas.toDataURL("image/png")
+        : canvas.toDataURL("image/jpeg", 0.86);
+      currentData.imageUrl = compressedDataUrl;
+      renderEditorFields();
+      updateStudioPreview();
+      showToast(`Embedded "${file.name}" into diagram`);
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+  event.target.value = "";
 }
 
 function fieldInput(label, key, val) {
@@ -3133,6 +3320,248 @@ function buildStandaloneHTML() {
         renderPins();
         renderQuizBanner();`;
       break;
+
+    case "media-checkpoint":
+      bodyMarkup = `
+        <div id="mc-stage" style="position:relative;border-radius:var(--inner-radius);overflow:hidden;border:1px solid #cbd5e1;background:#0f172a;color:#fff;">
+          <div id="mc-media-mount"></div>
+          <div id="mc-overlay" style="display:none;position:relative;background:rgba(15,23,42,0.97);padding:20px;border-top:2px solid var(--primary);"></div>
+        </div>
+        <div style="margin-top:12px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:600;color:#475569;margin-bottom:6px;">
+            <span id="mc-time-label">00:00 / 00:16</span>
+            <span id="mc-prog-label">0 of ${currentData.checkpoints.length} checkpoints completed</span>
+          </div>
+          <div id="mc-timeline-track" style="position:relative;height:10px;background:#e2e8f0;border-radius:999px;cursor:pointer;" onclick="seekMediaTimeline(event)">
+            <div id="mc-timeline-fill" style="height:100%;width:0%;background:var(--primary);border-radius:999px;transition:width .15s linear;"></div>
+            <div id="mc-cue-markers"></div>
+          </div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;margin-top:12px;">
+          <div style="display:flex;gap:8px;">
+            <button type="button" id="mc-play-btn" class="btn-primary" onclick="toggleMediaPlay()">▶ Play</button>
+            <button type="button" class="btn-opt" style="width:auto;padding:8px 12px;" onclick="restartMediaDemo()">↺ Restart</button>
+          </div>
+          <div id="mc-cue-pills" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
+        </div>`;
+      widgetLogic = `
+        const sortedCues = [...DATA.checkpoints].sort((a, b) => Number(a.timeSec) - Number(b.timeSec));
+        const completedCues = new Set();
+        let activeCueIdx = -1;
+        let simPlaying = false;
+        let simTime = 0;
+        let simTimer = null;
+        const hasRealMedia = Boolean(DATA.mediaUrl && DATA.mediaUrl.trim());
+        const isAudioOnly = DATA.mediaType === 'audio';
+        let mediaEl = null;
+
+        function fmtTime(sec) {
+          const s = Math.max(0, Math.floor(sec));
+          const m = Math.floor(s / 60);
+          const r = s % 60;
+          return String(m).padStart(2, '0') + ':' + String(r).padStart(2, '0');
+        }
+
+        function getTotalDuration() {
+          if (mediaEl && mediaEl.duration && isFinite(mediaEl.duration)) return mediaEl.duration;
+          const maxCue = sortedCues.length ? Math.max(...sortedCues.map(c => Number(c.timeSec) + 3)) : 16;
+          return Math.max(Number(DATA.durationSec || 16), maxCue);
+        }
+
+        function getCurrentTime() {
+          return mediaEl ? mediaEl.currentTime : simTime;
+        }
+
+        function initMediaMount() {
+          const mount = document.getElementById('mc-media-mount');
+          if (hasRealMedia && !isAudioOnly) {
+            mount.innerHTML = '<video id="mc-html5-media" src="' + esc(DATA.mediaUrl) + '" playsinline style="width:100%;max-height:360px;display:block;background:#000;"></video>';
+            mediaEl = document.getElementById('mc-html5-media');
+          } else if (hasRealMedia && isAudioOnly) {
+            mount.innerHTML = '<div style="padding:26px 20px;text-align:center;background:linear-gradient(135deg,#0f172a,#1e1b4b);">' +
+              '<div style="font-size:28px;margin-bottom:6px;">🎧</div>' +
+              '<div id="mc-sim-caption" style="font-size:14px;font-weight:700;color:#e2e8f0;">Audio Briefing Ready — Press Play</div>' +
+              '<audio id="mc-html5-media" src="' + esc(DATA.mediaUrl) + '" style="display:none;"></audio></div>';
+            mediaEl = document.getElementById('mc-html5-media');
+          } else {
+            mount.innerHTML = '<div style="padding:28px 22px;min-height:200px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:linear-gradient(135deg,#0f172a 0%,#1e1b4b 100%);">' +
+              '<span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#93c5fd;background:rgba(59,130,246,0.18);padding:4px 10px;border-radius:999px;margin-bottom:10px;">' + (isAudioOnly ? '🎧 Interactive Audio Briefing' : '🎬 Interactive Video Briefing') + '</span>' +
+              '<div id="mc-sim-caption" style="font-size:16px;font-weight:700;max-width:520px;line-height:1.45;color:#f8fafc;">Press Play to begin the briefing. Playback pauses automatically at each checkpoint.</div>' +
+              '<div id="mc-sim-sub" style="font-size:12.5px;color:#94a3b8;margin-top:6px;">' + sortedCues.length + ' interactive checkpoints scheduled</div>' +
+              '</div>';
+          }
+
+          if (mediaEl) {
+            mediaEl.addEventListener('timeupdate', onTick);
+            mediaEl.addEventListener('ended', () => {
+              simPlaying = false;
+              updatePlayButton();
+            });
+          }
+        }
+
+        function renderCueMarkersAndPills() {
+          const dur = getTotalDuration();
+          const markersEl = document.getElementById('mc-cue-markers');
+          const pillsEl = document.getElementById('mc-cue-pills');
+          markersEl.innerHTML = sortedCues.map((c, idx) => {
+            const pct = Math.min(98, Math.max(2, (Number(c.timeSec) / dur) * 100));
+            const done = completedCues.has(idx);
+            return '<span title="' + esc(c.label) + ' (' + fmtTime(c.timeSec) + ')" style="position:absolute;top:50%;left:' + pct + '%;transform:translate(-50%,-50%);width:14px;height:14px;border-radius:999px;background:' + (done ? '#10b981' : '#f59e0b') + ';border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.3);"></span>';
+          }).join('');
+
+          pillsEl.innerHTML = sortedCues.map((c, idx) => {
+            const done = completedCues.has(idx);
+            return '<button type="button" onclick="jumpToCue(' + idx + ')" style="padding:5px 10px;border-radius:999px;font-size:11.5px;font-weight:700;cursor:pointer;border:1px solid ' + (done ? '#a7f3d0' : '#cbd5e1') + ';background:' + (done ? '#ecfdf5' : '#f8fafc') + ';color:' + (done ? '#065f46' : '#334155') + ';">' + (done ? '✓ ' : '⏱ ') + fmtTime(c.timeSec) + '</button>';
+          }).join('');
+
+          document.getElementById('mc-prog-label').textContent = completedCues.size + ' of ' + sortedCues.length + ' checkpoints completed';
+        }
+
+        function updatePlayButton() {
+          const btn = document.getElementById('mc-play-btn');
+          if (btn) btn.textContent = simPlaying ? '⏸ Pause' : '▶ Play';
+        }
+
+        function pausePlayback() {
+          simPlaying = false;
+          if (mediaEl) mediaEl.pause();
+          if (simTimer) { clearInterval(simTimer); simTimer = null; }
+          updatePlayButton();
+        }
+
+        function startPlayback() {
+          if (activeCueIdx !== -1) return;
+          simPlaying = true;
+          updatePlayButton();
+          if (mediaEl) {
+            mediaEl.play().catch(() => {});
+          } else {
+            if (simTimer) clearInterval(simTimer);
+            simTimer = setInterval(() => {
+              simTime += 0.25;
+              const dur = getTotalDuration();
+              if (simTime >= dur) {
+                simTime = dur;
+                onTick();
+                pausePlayback();
+                return;
+              }
+              onTick();
+            }, 250);
+          }
+        }
+
+        window.toggleMediaPlay = function() {
+          if (activeCueIdx !== -1) return;
+          if (simPlaying) pausePlayback();
+          else startPlayback();
+        };
+
+        window.restartMediaDemo = function() {
+          pausePlayback();
+          completedCues.clear();
+          activeCueIdx = -1;
+          document.getElementById('mc-overlay').style.display = 'none';
+          if (mediaEl) mediaEl.currentTime = 0;
+          simTime = 0;
+          onTick();
+          renderCueMarkersAndPills();
+        };
+
+        window.jumpToCue = function(idx) {
+          const cue = sortedCues[idx];
+          if (!cue) return;
+          if (mediaEl) mediaEl.currentTime = Number(cue.timeSec);
+          simTime = Number(cue.timeSec);
+          onTick();
+          triggerCheckpointOverlay(idx);
+        };
+
+        window.seekMediaTimeline = function(e) {
+          if (activeCueIdx !== -1) return;
+          const track = document.getElementById('mc-timeline-track');
+          const rect = track.getBoundingClientRect();
+          const ratio = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+          const targetTime = ratio * getTotalDuration();
+          if (mediaEl) mediaEl.currentTime = targetTime;
+          simTime = targetTime;
+          onTick();
+        };
+
+        function triggerCheckpointOverlay(idx) {
+          pausePlayback();
+          activeCueIdx = idx;
+          const cue = sortedCues[idx];
+          const ov = document.getElementById('mc-overlay');
+          ov.style.display = 'block';
+          ov.innerHTML =
+            '<div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#93c5fd;">' + esc(cue.label) + ' • Paused at ' + fmtTime(cue.timeSec) + '</div>' +
+            '<div style="font-size:15.5px;font-weight:700;margin:6px 0 12px;line-height:1.45;color:#ffffff;">' + esc(cue.question) + '</div>' +
+            '<div style="display:flex;flex-direction:column;gap:8px;">' +
+            (cue.options || []).map((o, oi) => '<button type="button" class="btn-opt" onclick="answerMediaCue(' + idx + ',' + oi + ')">' + esc(o.text) + '</button>').join('') +
+            '</div>' +
+            '<div id="mc-cue-fb" style="margin-top:12px;"></div>';
+        }
+
+        window.answerMediaCue = function(cueIdx, optIdx) {
+          const cue = sortedCues[cueIdx];
+          const opt = cue.options[optIdx];
+          const fb = document.getElementById('mc-cue-fb');
+          completedCues.add(cueIdx);
+          renderCueMarkersAndPills();
+          const allDone = completedCues.size >= sortedCues.length;
+          if (allDone) {
+            notifyActivityComplete(100);
+          }
+          fb.innerHTML = '<div style="padding:12px 14px;border-radius:var(--inner-radius);font-size:13.5px;background:' + (opt.correct ? '#ecfdf5;color:#065f46;border:1px solid #a7f3d0;' : '#fffbeb;color:#92400e;border:1px solid #fde68a;') + '">' +
+            '<strong>' + (opt.correct ? 'Correct: ' : 'Coaching Note: ') + '</strong>' + esc(opt.feedback) +
+            '<div style="margin-top:10px;"><button type="button" class="btn-primary" onclick="resumeAfterCue()">' + (allDone ? 'Finish & Resume Playback →' : 'Resume Playback →') + '</button></div></div>';
+        };
+
+        window.resumeAfterCue = function() {
+          activeCueIdx = -1;
+          document.getElementById('mc-overlay').style.display = 'none';
+          if (mediaEl) mediaEl.currentTime += 0.35;
+          else simTime += 0.35;
+          startPlayback();
+        };
+
+        function onTick() {
+          const t = getCurrentTime();
+          const dur = getTotalDuration();
+          document.getElementById('mc-time-label').textContent = fmtTime(t) + ' / ' + fmtTime(dur);
+          document.getElementById('mc-timeline-fill').style.width = Math.min(100, (t / dur) * 100) + '%';
+
+          if (!hasRealMedia) {
+            const cap = document.getElementById('mc-sim-caption');
+            const sub = document.getElementById('mc-sim-sub');
+            if (cap && sub) {
+              const nextCue = sortedCues.find((c, idx) => !completedCues.has(idx));
+              if (nextCue) {
+                cap.textContent = 'Observing Briefing Segment... (' + fmtTime(t) + ')';
+                sub.textContent = 'Next checkpoint: "' + nextCue.label + '" at ' + fmtTime(nextCue.timeSec);
+              } else {
+                cap.textContent = 'All Checkpoints Completed! (' + fmtTime(t) + ')';
+                sub.textContent = 'Great work analyzing every cue in this briefing.';
+              }
+            }
+          }
+
+          if (activeCueIdx === -1) {
+            for (let i = 0; i < sortedCues.length; i++) {
+              if (!completedCues.has(i) && t >= Number(sortedCues[i].timeSec)) {
+                triggerCheckpointOverlay(i);
+                break;
+              }
+            }
+          }
+        }
+
+        initMediaMount();
+        renderCueMarkersAndPills();
+        onTick();`;
+      break;
   }
 
   const embeddedSourceSnapshot = safeJsonForScript({
@@ -3559,6 +3988,23 @@ function buildSmeReviewRows() {
         });
       });
       break;
+
+    case "media-checkpoint":
+      (d.checkpoints || []).forEach((cp, i) => {
+        const choicesHtml = (cp.options || []).map((o, oi) =>
+          `<div style="margin-bottom:6px;"><strong>Option ${String.fromCharCode(65 + oi)}:</strong> ${escapeHtml(o.text)}</div>`
+        ).join("");
+        const fbHtml = (cp.options || []).map((o, oi) =>
+          `<div style="margin-bottom:6px;"><strong>${String.fromCharCode(65 + oi)} [${o.correct ? 'CORRECT' : 'DISTRACTOR'}]:</strong> ${escapeHtml(o.feedback)}</div>`
+        ).join("");
+        rows.push({
+          id: `Cue #${i + 1} (@ ${cp.timeSec}s)`,
+          prompt: `<strong>${escapeHtml(cp.label)}</strong><br/>${escapeHtml(cp.question)}`,
+          choices: choicesHtml,
+          feedback: fbHtml
+        });
+      });
+      break;
   }
   return rows;
 }
@@ -3661,6 +4107,7 @@ function downloadSmeReviewHtml() {
 // 9. HTML VIEWER & NO-CODE VISUAL EDITOR (WORKSPACE 4)
 // ============================================================================
 let viewerMode = "edit";
+let viewerDragEnabled = false;
 let selectedSwapHex = null;
 let viewerSyncLock = false;
 
@@ -3735,7 +4182,7 @@ function setViewerMode(mode) {
     btnEdit.className = "px-3 py-1.5 rounded-lg text-xs font-bold bg-white text-indigo-700 shadow-sm transition flex items-center gap-1.5";
     btnTest.className = "px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:text-slate-900 transition flex items-center gap-1.5";
     toolbar.classList.remove("hidden");
-    hint.innerHTML = `<span><strong>Visual Edit Mode:</strong> Click any heading, paragraph, or button to edit text directly. Highlight words to Bold or recolor.</span><span id="viewer-selected-tag" class="font-mono text-[10px] bg-white px-1.5 py-0.5 rounded border border-amber-200 hidden"></span>`;
+    hint.innerHTML = `<span><strong>Visual Edit Mode:</strong> Click any text or button to edit copy, change shape (▭ ▢ 💊 ●), or toggle <strong>✥ Drag Move</strong> to reposition elements.</span><span id="viewer-selected-tag" class="font-mono text-[10px] bg-white px-1.5 py-0.5 rounded border border-amber-200 hidden"></span>`;
   } else {
     btnTest.className = "px-3 py-1.5 rounded-lg text-xs font-bold bg-white text-emerald-700 shadow-sm transition flex items-center gap-1.5";
     btnEdit.className = "px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:text-slate-900 transition flex items-center gap-1.5";
@@ -3775,37 +4222,108 @@ function renderViewerIframe() {
   iframe.srcdoc = rawHtml;
 }
 
+function toggleViewerDragMode() {
+  viewerDragEnabled = !viewerDragEnabled;
+  const btn = document.getElementById("vtool-drag-toggle");
+  if (btn) {
+    if (viewerDragEnabled) {
+      btn.className = "px-2.5 py-1 rounded-lg bg-indigo-600 text-white border border-indigo-600 text-[11px] font-bold shadow-xs transition flex items-center gap-1";
+      btn.innerHTML = `<span>✥ Drag Move: ON</span>`;
+    } else {
+      btn.className = "px-2.5 py-1 rounded-lg bg-white hover:bg-indigo-100 border border-slate-200 text-[11px] font-semibold text-slate-700 transition flex items-center gap-1";
+      btn.innerHTML = `<span>✥ Drag Move: Off</span>`;
+    }
+  }
+  const iframe = document.getElementById("viewer-iframe");
+  try {
+    const doc = iframe.contentDocument || iframe.contentWindow.document;
+    if (doc && doc.body) {
+      doc.designMode = viewerDragEnabled ? "off" : "on";
+      doc.body.setAttribute("data-nocode-drag-mode", viewerDragEnabled ? "true" : "false");
+    }
+  } catch (e) {}
+  showToast(viewerDragEnabled ? "Drag Move ON — click and drag any button or element to reposition" : "Drag Move OFF — click any text or button to type");
+}
+// ... existing code ... -->
 function activateIframeVisualEditor(iframe) {
   try {
     const doc = iframe.contentDocument || iframe.contentWindow.document;
     if (!doc || !doc.body) return;
 
-    doc.designMode = "on";
+    doc.designMode = viewerDragEnabled ? "off" : "on";
+    doc.body.setAttribute("data-nocode-drag-mode", viewerDragEnabled ? "true" : "false");
 
     const editorStyle = doc.createElement("style");
     editorStyle.setAttribute("data-nocode-editor-helper", "true");
     editorStyle.textContent = `
       body * { cursor: text !important; }
-      [data-nocode-selected="true"] { outline: 2px dashed #4f46e5 !important; outline-offset: 2px; }
+      body[data-nocode-drag-mode="true"] * { cursor: grab !important; user-select: none !important; }
+      body[data-nocode-drag-mode="true"] *:active { cursor: grabbing !important; }
+      [data-nocode-selected="true"] { outline: 2px dashed #4f46e5 !important; outline-offset: 3px; }
     `;
     doc.head.appendChild(editorStyle);
+
+    // Drag-to-move state inside the iframe
+    let dragTarget = null;
+    let startX = 0;
+    let startY = 0;
+    let origLeft = 0;
+    let origTop = 0;
+    let didMove = false;
+
+    doc.addEventListener("mousedown", function(e) {
+      const target = e.target;
+      if (!target || target === doc.body || target === doc.documentElement) return;
+
+      doc.querySelectorAll('[data-nocode-selected="true"]').forEach(el => el.removeAttribute("data-nocode-selected"));
+      target.setAttribute("data-nocode-selected", "true");
+      window.__viewerSelectedEl = target;
+
+      const tagPill = document.getElementById("viewer-selected-tag");
+      if (tagPill) {
+        tagPill.classList.remove("hidden");
+        tagPill.textContent = `Selected: <${target.tagName.toLowerCase()}>`;
+      }
+
+      if (viewerDragEnabled || e.altKey) {
+        e.preventDefault();
+        e.stopPropagation();
+        dragTarget = target;
+        didMove = false;
+        startX = e.clientX;
+        startY = e.clientY;
+
+        const computedPos = iframe.contentWindow.getComputedStyle(dragTarget).position;
+        if (computedPos === "static") {
+          dragTarget.style.position = "relative";
+        }
+        origLeft = parseFloat(dragTarget.style.left) || 0;
+        origTop = parseFloat(dragTarget.style.top) || 0;
+      }
+    }, true);
+
+    doc.addEventListener("mousemove", function(e) {
+      if (!dragTarget) return;
+      e.preventDefault();
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+      if (Math.abs(dx) > 1 || Math.abs(dy) > 1) didMove = true;
+      dragTarget.style.left = `${Math.round(origLeft + dx)}px`;
+      dragTarget.style.top = `${Math.round(origTop + dy)}px`;
+    }, true);
+
+    doc.addEventListener("mouseup", function() {
+      if (dragTarget) {
+        if (didMove) {
+          syncIframeBackToCode(iframe);
+        }
+        dragTarget = null;
+      }
+    }, true);
 
     doc.addEventListener("click", function(e) {
       e.preventDefault();
       e.stopPropagation();
-
-      doc.querySelectorAll('[data-nocode-selected="true"]').forEach(el => el.removeAttribute("data-nocode-selected"));
-      const target = e.target;
-      if (target && target !== doc.body && target !== doc.documentElement) {
-        target.setAttribute("data-nocode-selected", "true");
-        window.__viewerSelectedEl = target;
-
-        const tagPill = document.getElementById("viewer-selected-tag");
-        if (tagPill) {
-          tagPill.classList.remove("hidden");
-          tagPill.textContent = `Selected: <${target.tagName.toLowerCase()}>`;
-        }
-      }
     }, true);
 
     let syncTimer = null;
@@ -3889,6 +4407,65 @@ function adjustSelectedFontSize(deltaPx) {
   syncIframeBackToCode(iframe);
 }
 
+function applySelectedElementShape(shape) {
+  const iframe = document.getElementById("viewer-iframe");
+  const el = window.__viewerSelectedEl;
+  if (!el) {
+    showToast("Click a button, badge, or card in the preview first.");
+    return;
+  }
+  const win = iframe.contentWindow;
+  const rect = el.getBoundingClientRect();
+
+  // Reset circle-specific dimensions when switching away from circle
+  if (shape !== "circle") {
+    el.style.width = "";
+    el.style.height = "";
+    el.style.display = "";
+    el.style.alignItems = "";
+    el.style.justifyContent = "";
+    el.style.textAlign = "";
+  }
+
+  if (shape === "rect") {
+    el.style.borderRadius = "4px";
+    showToast("Applied sharp rectangle shape (4px)");
+  } else if (shape === "rounded") {
+    el.style.borderRadius = "12px";
+    showToast("Applied rounded rectangle shape (12px)");
+  } else if (shape === "pill") {
+    el.style.borderRadius = "9999px";
+    showToast("Applied pill button shape");
+  } else if (shape === "circle") {
+    const diameter = Math.max(48, Math.min(220, Math.round(Math.max(rect.width, rect.height))));
+    el.style.width = `${diameter}px`;
+    el.style.height = `${diameter}px`;
+    el.style.borderRadius = "50%";
+    el.style.display = "inline-flex";
+    el.style.alignItems = "center";
+    el.style.justifyContent = "center";
+    el.style.textAlign = "center";
+    el.style.padding = "10px";
+    showToast(`Applied circle shape (${diameter}×${diameter}px)`);
+  }
+
+  syncIframeBackToCode(iframe);
+}
+
+function resetSelectedElementPosition() {
+  const iframe = document.getElementById("viewer-iframe");
+  const el = window.__viewerSelectedEl;
+  if (!el) {
+    showToast("Click an element in the preview first.");
+    return;
+  }
+  el.style.position = "";
+  el.style.left = "";
+  el.style.top = "";
+  syncIframeBackToCode(iframe);
+  showToast("Reset element position");
+}
+
 // SMART BRAND COLOR REPLACER
 function detectViewerHexColors(code) {
   const container = document.getElementById("viewer-detected-colors");
@@ -3960,6 +4537,98 @@ function getPreparedViewerExportHtml() {
     }
   }
   return html;
+}
+
+function openScormLaunchInVisualEditor() {
+  if (!scormPlayerState.zip || !scormPlayerState.activeFullEntryPath) {
+    showToast("Load a SCORM .zip package first.");
+    return;
+  }
+  const entryFile = scormPlayerState.zip.file(scormPlayerState.activeFullEntryPath);
+  if (!entryFile) {
+    showToast("Could not locate launch HTML inside SCORM archive.");
+    return;
+  }
+  entryFile.async("string").then(htmlStr => {
+    scormPlayerState.isPatchingInEditor = true;
+    document.getElementById("viewer-scorm-patch-target").textContent = scormPlayerState.activeFullEntryPath;
+    document.getElementById("viewer-scorm-patch-pkg").textContent = scormPlayerState.packageFileName || "scorm-package.zip";
+    document.getElementById("viewer-scorm-patch-banner").classList.remove("hidden");
+
+    switchWorkspace("viewer");
+    document.getElementById("viewer-code-input").value = htmlStr;
+    onViewerCodeInput();
+    showToast(`Loaded "${scormPlayerState.activeFullEntryPath}" into Visual Editor`);
+  });
+}
+
+function exitScormPatchMode() {
+  scormPlayerState.isPatchingInEditor = false;
+  document.getElementById("viewer-scorm-patch-banner").classList.add("hidden");
+  showToast("Exited SCORM Patch Mode");
+}
+
+async function repackagePatchedScormZip() {
+  if (!scormPlayerState.zip || !scormPlayerState.activeFullEntryPath) {
+    showToast("No active SCORM package to re-package.");
+    return;
+  }
+  const updatedHtml = document.getElementById("viewer-code-input").value;
+  if (!updatedHtml.trim()) {
+    showToast("HTML editor is empty.");
+    return;
+  }
+
+  const outZip = new JSZip();
+  const entries = Object.keys(scormPlayerState.zip.files);
+
+  for (const path of entries) {
+    const fileObj = scormPlayerState.zip.files[path];
+    if (fileObj.dir || path.startsWith("__MACOSX/")) continue;
+    if (path === scormPlayerState.activeFullEntryPath) {
+      outZip.file(path, updatedHtml);
+    } else {
+      const bytes = await fileObj.async("uint8array");
+      outZip.file(path, bytes);
+    }
+  }
+
+  const blob = await outZip.generateAsync({ type: "blob" });
+  const baseName = (scormPlayerState.packageFileName || "scorm-package.zip").replace(/\.zip$/i, "");
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = `${baseName}-patched.zip`;
+  a.click();
+  showToast(`Downloaded ${baseName}-patched.zip`);
+}
+
+async function normalizeAndRezipScorm() {
+  if (!scormPlayerState.zip || !scormPlayerState.manifestDir) {
+    showToast("This package already has imsmanifest.xml at the root.");
+    return;
+  }
+  const prefix = scormPlayerState.manifestDir;
+  const fixedZip = new JSZip();
+  const entries = Object.keys(scormPlayerState.zip.files);
+  let movedCount = 0;
+
+  for (const path of entries) {
+    const fileObj = scormPlayerState.zip.files[path];
+    if (fileObj.dir || path.startsWith("__MACOSX/")) continue;
+    const normalizedPath = path.startsWith(prefix) ? path.slice(prefix.length) : path;
+    if (!normalizedPath) continue;
+    const bytes = await fileObj.async("uint8array");
+    fixedZip.file(normalizedPath, bytes);
+    movedCount++;
+  }
+
+  const blob = await fixedZip.generateAsync({ type: "blob" });
+  const baseName = (scormPlayerState.packageFileName || "scorm-package.zip").replace(/\.zip$/i, "");
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = `${baseName}-root-fixed.zip`;
+  a.click();
+  showToast(`Promoted ${movedCount} files to root & downloaded ${baseName}-root-fixed.zip`);
 }
 
 function copyViewerHtml() {
@@ -4316,9 +4985,12 @@ function importProjectJsonFile(event) {
 // ============================================================================
 const scormPlayerState = {
   zip: null,
+  packageFileName: "",
   manifestDir: "",
   scos: [],
   activeScoHref: "",
+  activeFullEntryPath: "",
+  isPatchingInEditor: false,
   blobUrls: [],
   cmi12: {},
   cmi2004: {},
@@ -4475,6 +5147,7 @@ async function loadScormZipFile(fileOrBlob, overrideName = null) {
     revokeAllScormBlobs();
     const zip = await JSZip.loadAsync(fileOrBlob);
     scormPlayerState.zip = zip;
+    scormPlayerState.packageFileName = fileName;
 
     const allEntries = Object.keys(zip.files).filter(k => !zip.files[k].dir && !k.startsWith("__MACOSX/"));
     document.getElementById("scorm-pkg-files").textContent = `${allEntries.length} files`;
@@ -4482,13 +5155,16 @@ async function loadScormZipFile(fileOrBlob, overrideName = null) {
     // Locate imsmanifest.xml (prefer root, fallback to nested)
     let manifestPath = allEntries.find(p => p.toLowerCase() === "imsmanifest.xml");
     const warnEl = document.getElementById("scorm-manifest-warning");
+    const normBtn = document.getElementById("btn-normalize-scorm");
     warnEl.classList.add("hidden");
+    if (normBtn) normBtn.classList.add("hidden");
 
     if (!manifestPath) {
       manifestPath = allEntries.find(p => p.toLowerCase().endsWith("/imsmanifest.xml"));
       if (manifestPath) {
         warnEl.classList.remove("hidden");
         warnEl.innerHTML = `<strong>⚠️ Nested Manifest Warning:</strong> <code>${escapeHtml(manifestPath)}</code> is inside a subfolder instead of the root of the .zip. Most LMS platforms require <code>imsmanifest.xml</code> at the root level.`;
+        if (normBtn) normBtn.classList.remove("hidden");
       }
     }
 
@@ -4557,6 +5233,8 @@ async function loadScormZipFile(fileOrBlob, overrideName = null) {
     scormPlayerState.scos = scos;
     document.getElementById("scorm-schema-badge").textContent = schemaVersion;
     document.getElementById("scorm-pkg-title").textContent = courseTitle;
+    const patcherActions = document.getElementById("scorm-patcher-actions");
+    if (patcherActions) patcherActions.classList.remove("hidden");
 
     // Render SCO selector if multiple SCOs exist
     const scoWrap = document.getElementById("scorm-sco-list-wrap");
@@ -4632,6 +5310,7 @@ async function launchScormSco(scoIndex) {
   installSimulatedScormApis();
 
   const fullEntryPath = resolveZipRelativePath(scormPlayerState.manifestDir, sco.href);
+  scormPlayerState.activeFullEntryPath = fullEntryPath;
   const entryFile = scormPlayerState.zip.file(fullEntryPath);
   if (!entryFile) {
     showToast(`Launch file "${fullEntryPath}" not found in archive.`);
