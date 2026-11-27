@@ -6,7 +6,7 @@
   <title>CognoCraft Studio | Pedagogy-Driven eLearning Component Library</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- JSZip for SCORM 1.2 Micro-Package (.zip) Generation & SCORM Package Previewer -->
+  <!-- JSZip for SCORM 1.2 & 2004 Micro-Package (.zip) Generation & Inspection -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
   <!-- Google Fonts: Inter & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -160,7 +160,7 @@
           <!-- Category Pills -->
           <div class="flex flex-wrap items-center gap-1.5" id="category-filters">
             <button data-filter="all" class="filter-btn active px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-900 text-white shadow-sm transition">
-              All Blocks (17)
+              All Blocks (19)
             </button>
             <button data-filter="scenario" class="filter-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 transition">
               Scenarios & Decisions
@@ -215,7 +215,7 @@
           </div>
 
           <div class="flex items-end justify-between sm:justify-end h-full pt-4 sm:pt-5 gap-3">
-            <span id="active-filter-count" class="text-xs font-semibold text-slate-600">Showing 17 of 17 blocks</span>
+            <span id="active-filter-count" class="text-xs font-semibold text-slate-600">Showing 19 of 19 blocks</span>
             <button onclick="resetAllFilters()" class="text-xs font-semibold text-indigo-600 hover:text-indigo-800 underline">
               Reset Filters
             </button>
@@ -238,12 +238,12 @@
           </div>
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div class="bg-slate-800/80 border border-slate-700/80 rounded-xl p-3.5">
-              <div class="font-semibold text-sm text-white">🎡 Spin The Wheel</div>
-              <p class="text-xs text-slate-400 mt-1">Event 1 & 6 • Randomized case prompts & icebreakers.</p>
-            </div>
-            <div class="bg-slate-800/80 border border-slate-700/80 rounded-xl p-3.5">
               <div class="font-semibold text-sm text-white">🌳 Branching Decision Tree</div>
               <p class="text-xs text-slate-400 mt-1">Bloom: Evaluate • Multi-path consequence mapping.</p>
+            </div>
+            <div class="bg-slate-800/80 border border-slate-700/80 rounded-xl p-3.5">
+              <div class="font-semibold text-sm text-white">🎚️ Confidence-Weighted Quiz</div>
+              <p class="text-xs text-slate-400 mt-1">Bloom: Evaluate • Surfaces high-confidence misconceptions.</p>
             </div>
             <div class="bg-slate-800/80 border border-slate-700/80 rounded-xl p-3.5">
               <div class="font-semibold text-sm text-white">📱 3D Object Inspector</div>
@@ -1693,6 +1693,158 @@ const COMPONENTS = [
         }
       ]
     }
+  },
+  {
+    id: "chart-spotlight",
+    title: "Interactive Chart / Data Spotlight",
+    category: "process",
+    categoryLabel: "Process & Concepts",
+    icon: "📊",
+    blooms: ["Analyze", "Evaluate"],
+    gagne: [4, 5],
+    verbs: ["Analyze", "Interpret", "Diagnose", "Compare"],
+    completionTrigger: "Completes once the learner clicks and inspects all data points on the chart.",
+    description: "Interactive SVG bar or trend-line chart where learners click metrics and highlighted anomalies to uncover root-cause insights and recommended actions.",
+    idTip: "Flag one outlier bar or trend inflection point as an 'Anomaly / Spotlight' so learners practice spotting diagnostic red flags instead of passively reading numbers.",
+    aiPromptSchema: `{
+  "title": "Chart Activity Title",
+  "subtitle": "Instructions for exploring the data points",
+  "chartStyle": "bar",
+  "unitSuffix": "%",
+  "points": [
+    {
+      "label": "Q1",
+      "value": 9,
+      "isAnomaly": false,
+      "heading": "Q1: 9% Baseline Churn",
+      "insight": "Root-cause analysis of what drove this metric.",
+      "action": "Recommended operational or coaching takeaway."
+    }
+  ]
+}`,
+    defaultData: {
+      title: "Quarterly Customer Churn & Onboarding Drop-Off",
+      subtitle: "Click each quarter's bar to uncover the root-cause metrics and spot the Q4 anomaly.",
+      chartStyle: "bar",
+      unitSuffix: "%",
+      points: [
+        {
+          label: "Q1",
+          value: 9,
+          isAnomaly: false,
+          heading: "Q1: 9% Baseline Churn (Healthy)",
+          insight: "Accounts that completed live onboarding within 10 days retained at 91%, establishing our annual benchmark.",
+          action: "Maintain automated Day-3 welcome check-ins for all new enterprise workspaces."
+        },
+        {
+          label: "Q2",
+          value: 14,
+          isAnomaly: false,
+          heading: "Q2: 14% Seasonal Uptick",
+          insight: "Minor increase driven by self-serve mid-market signups skipping initial admin permissions setup.",
+          action: "Embed an interactive role-assignment checklist inside the first-login wizard."
+        },
+        {
+          label: "Q3",
+          value: 11,
+          isAnomaly: false,
+          heading: "Q3: 11% Recovery Post-Checklist",
+          insight: "Adding the guided setup checklist reduced permissions-related support tickets by 38% and stabilized retention.",
+          action: "Continue tracking Day-7 activation milestones across all customer tiers."
+        },
+        {
+          label: "Q4",
+          value: 22,
+          isAnomaly: true,
+          heading: "Q4: 22% Churn Spike (Anomaly)",
+          insight: "68% of churned Q4 accounts never completed the Day-7 configuration workflow following the October navigation redesign.",
+          action: "Trigger an immediate Customer Success intervention alert whenever Day-5 setup progress is below 50%."
+        }
+      ]
+    }
+  },
+  {
+    id: "spin-wheel",
+    title: "Spin the Wheel",
+    category: "practice",
+    categoryLabel: "Practice & Assessment",
+    icon: "🎡",
+    blooms: ["Remember", "Apply"],
+    gagne: [1, 6],
+    verbs: ["Recall", "Apply", "Respond", "Discuss"],
+    completionTrigger: "Completes once the learner spins and clears all wedges on the wheel.",
+    description: "Interactive SVG prize/prompt wheel with smooth physics easing, optional elimination mode, and either Case Prompt reveals or Quick-Fire Micro-Questions per slice.",
+    idTip: "Keep slice labels short (1–3 words) so the wheel reads cleanly on mobile, and use 'Eliminate cleared slices' so learners complete every topic without duplicate spins.",
+    aiPromptSchema: `{
+  "title": "Wheel Activity Title",
+  "subtitle": "Instructions for spinning the wheel",
+  "wheelMode": "prompt",
+  "eliminateCleared": true,
+  "slices": [
+    {
+      "label": "Short Slice Title",
+      "prompt": "Scenario challenge or quick-fire question shown when landed on",
+      "takeaway": "Key coaching takeaway (used in Prompt Reveal mode)",
+      "optA": "Choice A (used in Quick-Fire Question mode)",
+      "optB": "Choice B (used in Quick-Fire Question mode)",
+      "correctOpt": "A",
+      "feedback": "Coaching rationale (used in Quick-Fire Question mode)"
+    }
+  ]
+}`,
+    defaultData: {
+      title: "Customer Escalation Rapid-Fire Wheel",
+      subtitle: "Spin the wheel to draw a randomized customer scenario and test your response.",
+      wheelMode: "question",
+      eliminateCleared: true,
+      slices: [
+        {
+          label: "Billing Dispute",
+          prompt: "A client claims they were double-charged on yesterday's invoice and demands an immediate refund over chat. What is your first step?",
+          takeaway: "Verify ledger transaction IDs in the billing console before promising a refund timeline.",
+          optA: "Inspect the transaction ledger first and confirm whether one entry is a temporary pre-authorization.",
+          optB: "Issue a manual credit immediately so the customer ends the chat happy.",
+          correctOpt: "A",
+          feedback: "Spot on! Checking for pending pre-authorizations prevents duplicate refunds."
+        },
+        {
+          label: "Outage Panic",
+          prompt: "An enterprise admin messages that their team cannot export reports 15 minutes before an executive review.",
+          takeaway: "Acknowledge urgency, check tenant status, and offer a temporary CSV/read-only workaround.",
+          optA: "Tell them to check the public status page and try again in an hour.",
+          optB: "Acknowledge the deadline immediately and provide a temporary cached report link while checking SSO.",
+          correctOpt: "B",
+          feedback: "Strong response! Immediate empathy plus an interim workaround protects their meeting."
+        },
+        {
+          label: "Scope Creep",
+          prompt: "During onboarding, a stakeholder asks you to build three custom API webhooks not included in their tier.",
+          takeaway: "Validate their business goal, clarify tier boundaries warmly, and loop in their Account Manager.",
+          optA: "Explain what is included in their current plan and introduce their Account Manager to scope an add-on.",
+          optB: "Agree to build one webhook off the record to avoid an awkward conversation.",
+          correctOpt: "A",
+          feedback: "Correct! Transparent boundary-setting with a warm handoff builds long-term trust."
+        },
+        {
+          label: "Data Export",
+          prompt: "A caller asks you to email a full list of user accounts to a personal Gmail address because they are traveling.",
+          takeaway: "Never send customer data to unverified external addresses—require authenticated portal export.",
+          optA: "Send the file with a password in a separate email.",
+          optB: "Decline emailing to external addresses and guide them to export securely inside the authenticated admin portal.",
+          correctOpt: "B",
+          feedback: "Right call! Enforcing authenticated in-app exports prevents unauthorized data exposure."
+        },
+        {
+          label: "Feature Bug",
+          prompt: "A user reports a reproducible UI glitch that blocks saving changes on Safari.",
+          takeaway: "Reproduce, log browser/OS version details, and give a clear workaround (e.g., Chrome/Edge) with ticket ID.",
+          optA: "Log the exact Safari version, share a ticket number, and confirm whether Chrome works as an immediate workaround.",
+          optB: "Close the ticket since Safari is used by a smaller percentage of users.",
+          correctOpt: "A",
+          feedback: "Excellent! Capturing environment details accelerates engineering triage while keeping the user productive."
+        }
+      ]
+    }
   }
 ];
 
@@ -2655,87 +2807,95 @@ function renderEditorFields() {
       ? Number(currentData.checkpoints[currentData.checkpoints.length - 1].timeSec || 5) + 4
       : 5;
     html += renderAddBar("Add Timestamped Checkpoint", `addEditorArrayItem('checkpoints', { timeSec: ${nextSec}, label: 'Checkpoint ' + (currentData.checkpoints.length + 1) + ': Observation Check', question: 'What should happen next based on what you just observed?', options: [{ text: 'Recommended best-practice action', feedback: 'Correct! Explain the rationale.', correct: true }, { text: 'Suboptimal shortcut', feedback: 'Coaching note: Explain the risk.', correct: false }] })`);
+
+  } else if (currentComp.id === "chart-spotlight") {
+    html += `<div class="grid grid-cols-2 gap-2.5">
+      <div>
+        <label class="block text-xs font-semibold text-slate-700 mb-1">Chart Visualization</label>
+        <select onchange="currentData.chartStyle=this.value;updateStudioPreview()" class="w-full px-2.5 py-2 bg-white border border-slate-200 rounded-lg text-xs font-semibold text-slate-800">
+          <option value="bar" ${currentData.chartStyle !== 'line' ? 'selected' : ''}>📊 Vertical Bar Chart</option>
+          <option value="line" ${currentData.chartStyle === 'line' ? 'selected' : ''}>📈 Trend Line Chart</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-xs font-semibold text-slate-700 mb-1">Metric Unit Suffix</label>
+        <input type="text" placeholder="e.g., %, pts, k, hrs" value="${escapeAttr(currentData.unitSuffix || '')}" oninput="currentData.unitSuffix=this.value;updateStudioPreview()" class="w-full px-2.5 py-2 bg-white border border-slate-200 rounded-lg text-xs font-mono text-slate-800" />
+      </div>
+    </div>`;
+
+    currentData.points.forEach((pt, i) => {
+      html += `<div class="p-3 bg-white rounded-xl border ${pt.isAnomaly ? 'border-amber-300 ring-1 ring-amber-100' : 'border-slate-200'} space-y-2">
+        <div class="flex items-center justify-between gap-2">
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 rounded ${pt.isAnomaly ? 'bg-amber-500 text-slate-950' : 'bg-indigo-600 text-white'} text-[10px] font-bold">Point #${i + 1}</span>
+            <label class="inline-flex items-center gap-1 text-[11px] font-semibold text-amber-800 cursor-pointer">
+              <input type="checkbox" ${pt.isAnomaly ? 'checked' : ''} onchange="currentData.points[${i}].isAnomaly=this.checked;renderEditorFields();updateStudioPreview()" class="accent-amber-500" />
+              ⚠️ Anomaly / Spotlight
+            </label>
+          </div>
+          ${renderRemoveButton("points", i, currentData.points.length, "Remove data point")}
+        </div>
+        <div class="grid grid-cols-3 gap-2">
+          <input type="text" placeholder="Axis Label (e.g. Q1)" value="${escapeAttr(pt.label)}" oninput="currentData.points[${i}].label=this.value;updateStudioPreview()" class="p-1.5 text-xs font-bold border border-slate-200 rounded" />
+          <input type="number" step="any" placeholder="Numeric Value" value="${Number(pt.value || 0)}" oninput="currentData.points[${i}].value=Number(this.value)||0;updateStudioPreview()" class="p-1.5 text-xs font-mono border border-slate-200 rounded" />
+          <input type="text" placeholder="Callout Heading" value="${escapeAttr(pt.heading)}" oninput="currentData.points[${i}].heading=this.value;updateStudioPreview()" class="col-span-3 p-1.5 text-xs font-semibold border border-slate-200 rounded" />
+        </div>
+        <textarea rows="2" placeholder="Root-cause analytical insight..." oninput="currentData.points[${i}].insight=this.value;updateStudioPreview()" class="w-full p-1.5 text-xs border border-slate-200 rounded">${escapeHtml(pt.insight || '')}</textarea>
+        <input type="text" placeholder="Recommended Action / Takeaway" value="${escapeAttr(pt.action || '')}" oninput="currentData.points[${i}].action=this.value;updateStudioPreview()" class="w-full p-1.5 text-[11px] bg-slate-50 border border-slate-200 rounded" />
+      </div>`;
+    });
+
+    html += renderAddBar("Add Data Point", "addEditorArrayItem('points', { label: 'P' + (currentData.points.length + 1), value: 15, isAnomaly: false, heading: 'Data Point #' + (currentData.points.length + 1) + ' Analysis', insight: 'Explain the root cause behind this metric.', action: 'Recommended next step for learners.' })");
+
+  } else if (currentComp.id === "spin-wheel") {
+    html += `<div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+      <div>
+        <label class="block text-xs font-semibold text-slate-700 mb-1">Landing Interaction Mode</label>
+        <select onchange="currentData.wheelMode=this.value;renderEditorFields();updateStudioPreview()" class="w-full px-2.5 py-2 bg-white border border-slate-200 rounded-lg text-xs font-semibold text-slate-800">
+          <option value="question" ${currentData.wheelMode === 'question' ? 'selected' : ''}>⚡ Quick-Fire Micro-Question</option>
+          <option value="prompt" ${currentData.wheelMode !== 'question' ? 'selected' : ''}>💡 Case Prompt & Key Takeaway</option>
+        </select>
+      </div>
+      <div class="flex items-end pb-1">
+        <label class="inline-flex items-center gap-2 text-xs font-semibold text-slate-700 cursor-pointer bg-white px-3 py-2 rounded-lg border border-slate-200 w-full">
+          <input type="checkbox" ${currentData.eliminateCleared !== false ? 'checked' : ''} onchange="currentData.eliminateCleared=this.checked;updateStudioPreview()" class="accent-indigo-600 rounded" />
+          <span>Eliminate cleared wedges</span>
+        </label>
+      </div>
+    </div>`;
+
+    currentData.slices.forEach((sl, i) => {
+      html += `<div class="p-3 bg-white rounded-xl border border-slate-200 space-y-2">
+        <div class="flex items-center justify-between gap-2">
+          <span class="px-2 py-0.5 rounded bg-indigo-600 text-white text-[10px] font-bold">Wedge #${i + 1}</span>
+          ${renderRemoveButton("slices", i, currentData.slices.length, "Remove wedge")}
+        </div>
+        <input type="text" placeholder="Wheel Slice Label (1–3 words)" value="${escapeAttr(sl.label)}" oninput="currentData.slices[${i}].label=this.value;updateStudioPreview()" class="w-full p-1.5 text-xs font-bold border border-slate-200 rounded" />
+        <textarea rows="2" placeholder="Scenario prompt or question..." oninput="currentData.slices[${i}].prompt=this.value;updateStudioPreview()" class="w-full p-1.5 text-xs border border-slate-200 rounded">${escapeHtml(sl.prompt || '')}</textarea>
+        ${currentData.wheelMode === 'question' ? `
+          <div class="space-y-1.5 pl-2 border-l-2 border-indigo-200">
+            <div class="flex items-center gap-1.5">
+              <input type="radio" name="sw_ans_${i}" ${sl.correctOpt !== 'B' ? 'checked' : ''} onchange="currentData.slices[${i}].correctOpt='A';updateStudioPreview()" class="accent-emerald-600 cursor-pointer" title="Mark Option A as correct" />
+              <input type="text" placeholder="Option A" value="${escapeAttr(sl.optA || '')}" oninput="currentData.slices[${i}].optA=this.value;updateStudioPreview()" class="flex-1 p-1.5 text-xs border border-slate-200 rounded" />
+            </div>
+            <div class="flex items-center gap-1.5">
+              <input type="radio" name="sw_ans_${i}" ${sl.correctOpt === 'B' ? 'checked' : ''} onchange="currentData.slices[${i}].correctOpt='B';updateStudioPreview()" class="accent-emerald-600 cursor-pointer" title="Mark Option B as correct" />
+              <input type="text" placeholder="Option B" value="${escapeAttr(sl.optB || '')}" oninput="currentData.slices[${i}].optB=this.value;updateStudioPreview()" class="flex-1 p-1.5 text-xs border border-slate-200 rounded" />
+            </div>
+            <input type="text" placeholder="Coaching feedback rationale..." value="${escapeAttr(sl.feedback || '')}" oninput="currentData.slices[${i}].feedback=this.value;updateStudioPreview()" class="w-full p-1.5 text-[11px] bg-slate-50 border border-slate-200 rounded" />
+          </div>
+        ` : `
+          <input type="text" placeholder="Key Takeaway / Coaching Rule..." value="${escapeAttr(sl.takeaway || '')}" oninput="currentData.slices[${i}].takeaway=this.value;updateStudioPreview()" class="w-full p-1.5 text-[11px] bg-slate-50 border border-slate-200 rounded" />
+        `}
+      </div>`;
+    });
+
+    if (currentData.slices.length < 10) {
+      html += renderAddBar("Add Wheel Wedge", "addEditorArrayItem('slices', { label: 'Topic #' + (currentData.slices.length + 1), prompt: 'Describe the scenario or recall question for this wedge...', takeaway: 'Key principle to remember on the job.', optA: 'Recommended best-practice action', optB: 'Suboptimal shortcut', correctOpt: 'A', feedback: 'Explain why Option A is the stronger choice.' })");
+    }
   }
 
   container.innerHTML = html;
-}
-
-function handleCheckpointMediaUpload(event) {
-  const file = event.target.files && event.target.files[0];
-  if (!file) return;
-  if (file.size > 12 * 1024 * 1024) {
-    showToast("Large media file (>12MB): For best LMS performance, consider pasting a hosted .mp4/.mp3 URL.");
-  }
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    currentData.mediaUrl = e.target.result;
-    if (file.type.startsWith("audio/")) {
-      currentData.mediaType = "audio";
-    } else if (file.type.startsWith("video/")) {
-      currentData.mediaType = "video";
-    }
-    renderEditorFields();
-    updateStudioPreview();
-    showToast(`Embedded "${file.name}" into checkpoint player`);
-  };
-  reader.readAsDataURL(file);
-  event.target.value = "";
-}
-
-function handleHotspotCanvasClick(event) {
-  const container = document.getElementById("hotspot-editor-canvas");
-  if (!container) return;
-  const rect = container.getBoundingClientRect();
-  const xPct = Math.max(2, Math.min(98, Number((((event.clientX - rect.left) / rect.width) * 100).toFixed(1))));
-  const yPct = Math.max(2, Math.min(98, Number((((event.clientY - rect.top) / rect.height) * 100).toFixed(1))));
-  const nextNum = currentData.pins.length + 1;
-  currentData.pins.push({
-    x: xPct,
-    y: yPct,
-    title: `Hotspot #${nextNum}`,
-    detail: "Explain the purpose, rule, or inspection cue for this location."
-  });
-  renderEditorFields();
-  updateStudioPreview();
-  focusHotspotPinEditor(nextNum - 1);
-  showToast(`Dropped Pin #${nextNum} at (${xPct}%, ${yPct}%)`);
-}
-
-function focusHotspotPinEditor(index) {
-  const card = document.getElementById(`hotspot-pin-card-${index}`);
-  if (card) {
-    card.scrollIntoView({ behavior: "smooth", block: "nearest" });
-    card.classList.add("ring-2", "ring-indigo-500", "border-indigo-400");
-    setTimeout(() => card.classList.remove("ring-2", "ring-indigo-500", "border-indigo-400"), 1500);
-  }
-}
-
-function handleHotspotImageUpload(event) {
-  const file = event.target.files && event.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    const img = new Image();
-    img.onload = function() {
-      const maxW = 1100;
-      const scale = img.width > maxW ? maxW / img.width : 1;
-      const canvas = document.createElement("canvas");
-      canvas.width = Math.round(img.width * scale);
-      canvas.height = Math.round(img.height * scale);
-      const ctx = canvas.getContext("2d");
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-      const compressedDataUrl = file.type === "image/png"
-        ? canvas.toDataURL("image/png")
-        : canvas.toDataURL("image/jpeg", 0.86);
-      currentData.imageUrl = compressedDataUrl;
-      renderEditorFields();
-      updateStudioPreview();
-      showToast(`Embedded "${file.name}" into diagram`);
-    };
-    img.src = e.target.result;
-  };
-  reader.readAsDataURL(file);
-  event.target.value = "";
 }
 
 function fieldInput(label, key, val) {
@@ -2752,29 +2912,93 @@ function fieldTextarea(label, key, val) {
   </div>`;
 }
 
-function escapeHtml(str) {
-  return String(str)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
+function escapeAttr(str) {
+  return String(str ?? "").replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
-function escapeAttr(str) {
-  return String(str)
-    .replace(/&/g, "&amp;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
+function escapeHtml(str) {
+  return String(str ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
 }
 
 function safeJsonForScript(obj) {
-  return JSON.stringify(obj)
-    .replace(/</g, "\\u003c")
-    .replace(/>/g, "\\u003e")
-    .replace(/&/g, "\\u0026")
-    .replace(/\u2028/g, "\\u2028")
-    .replace(/\u2029/g, "\\u2029");
+  return JSON.stringify(obj).replace(/</g, "\\u003c").replace(/>/g, "\\u003e").replace(/&/g, "\\u0026");
+}
+
+function handleHotspotCanvasClick(event) {
+  const canvas = document.getElementById("hotspot-editor-canvas");
+  if (!canvas || !currentData || !Array.isArray(currentData.pins)) return;
+  const rect = canvas.getBoundingClientRect();
+  const x = Math.max(2, Math.min(98, Number((((event.clientX - rect.left) / rect.width) * 100).toFixed(1))));
+  const y = Math.max(2, Math.min(98, Number((((event.clientY - rect.top) / rect.height) * 100).toFixed(1))));
+  const nextNum = currentData.pins.length + 1;
+  currentData.pins.push({
+    x,
+    y,
+    title: `Hotspot #${nextNum}`,
+    detail: "Explain the function, rule, or inspection detail for this area."
+  });
+  renderEditorFields();
+  updateStudioPreview();
+  showToast(`Placed Pin #${nextNum} at (${x}%, ${y}%)`);
+}
+
+function focusHotspotPinEditor(idx) {
+  const card = document.getElementById(`hotspot-pin-card-${idx}`);
+  if (card) {
+    card.scrollIntoView({ behavior: "smooth", block: "center" });
+    card.classList.add("ring-2", "ring-indigo-500");
+    setTimeout(() => card.classList.remove("ring-2", "ring-indigo-500"), 1400);
+  }
+}
+
+function handleHotspotImageUpload(event) {
+  const file = event.target.files && event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const img = new Image();
+    img.onload = function() {
+      const maxDim = 1100;
+      let w = img.width;
+      let h = img.height;
+      if (w > maxDim || h > maxDim) {
+        if (w > h) { h = Math.round((h * maxDim) / w); w = maxDim; }
+        else { w = Math.round((w * maxDim) / h); h = maxDim; }
+      }
+      const cvs = document.createElement("canvas");
+      cvs.width = w;
+      cvs.height = h;
+      cvs.getContext("2d").drawImage(img, 0, 0, w, h);
+      currentData.imageUrl = cvs.toDataURL("image/jpeg", 0.84);
+      renderEditorFields();
+      updateStudioPreview();
+      showToast("Diagram image embedded!");
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+  event.target.value = "";
+}
+
+function handleCheckpointMediaUpload(event) {
+  const file = event.target.files && event.target.files[0];
+  if (!file) return;
+  if (file.size > 12 * 1024 * 1024) {
+    showToast("Large media file (>12MB): using temporary session preview URL. For SCORM export, host externally or keep under 12MB.");
+    currentData.mediaUrl = URL.createObjectURL(file);
+    renderEditorFields();
+    updateStudioPreview();
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    currentData.mediaUrl = e.target.result;
+    renderEditorFields();
+    updateStudioPreview();
+    showToast(`Embedded "${file.name}"`);
+  };
+  reader.readAsDataURL(file);
+  event.target.value = "";
 }
 
 // ============================================================================
@@ -2810,22 +3034,17 @@ function buildStandaloneHTML() {
         : "";
 
   const labelBadgeHTML = label
-    ? `<span style="display:inline-block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--primary);background:color-mix(in srgb, var(--primary) 10%, white);padding:4px 10px;border-radius:999px;margin-bottom:8px;">${escapeHtml(label)}</span>`
+    ? `<span style="display:inline-block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--primary);background:color-mix(in srgb, var(--primary) 10%, white);padding:4px 10px;border-radius:999px;margin-bottom:8px;">${escapeAttr(label)}</span>`
     : "";
 
   const subtitleText = currentData.subtitle || currentData.instructions || "";
   const subtitleHTML = subtitleText
-    ? `<p style="margin:6px 0 0;font-size:14px;color:#475569;line-height:1.5;">${escapeHtml(subtitleText)}</p>`
+    ? `<p style="margin:6px 0 0;font-size:14px;color:#475569;line-height:1.5;">${escapeAttr(subtitleText)}</p>`
     : "";
 
   const integrationScripts = `
-  function esc(str) {
-    return String(str == null ? '' : str)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#39;');
+  function esc(s) {
+    return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
   function notifyActivityComplete(scorePercent) {
     if (window.__activityCompleted) return;
@@ -2899,47 +3118,105 @@ function buildStandaloneHTML() {
       break;
 
     case "scenario-walkthrough":
-      bodyMarkup = `<div id="scene-box"></div>`;
+      bodyMarkup = `<div id="scene-stepper" style="display:flex;align-items:center;gap:6px;margin-bottom:18px;overflow-x:auto;padding-bottom:4px;"></div>
+        <div id="scene-box"></div>`;
       widgetLogic = `
         let sIdx = 0;
+        function renderStepper() {
+          const stepper = document.getElementById('scene-stepper');
+          if (!stepper) return;
+          stepper.innerHTML = DATA.scenes.map((sc, idx) => {
+            const done = idx < sIdx;
+            const active = idx === sIdx;
+            const dotBg = done ? '#10b981' : (active ? 'var(--primary)' : '#e2e8f0');
+            const dotColor = (done || active) ? '#ffffff' : '#64748b';
+            const lineBg = done ? '#10b981' : '#e2e8f0';
+            return '<div style="display:flex;align-items:center;gap:6px;' + (idx < DATA.scenes.length - 1 ? 'flex:1;' : '') + '">' +
+              '<div style="display:flex;align-items:center;gap:6px;white-space:nowrap;">' +
+                '<span style="width:24px;height:24px;border-radius:999px;background:' + dotBg + ';color:' + dotColor + ';font-size:11px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;">' + (done ? '✓' : (idx + 1)) + '</span>' +
+                '<span style="font-size:11.5px;font-weight:' + (active ? '700' : '600') + ';color:' + (active ? '#0f172a' : '#64748b') + ';">Scene ' + (idx + 1) + '</span>' +
+              '</div>' +
+              (idx < DATA.scenes.length - 1 ? '<div style="flex:1;min-width:18px;height:2px;background:' + lineBg + ';border-radius:2px;"></div>' : '') +
+            '</div>';
+          }).join('');
+        }
         function renderScene() {
+          renderStepper();
           const box = document.getElementById('scene-box');
           if (sIdx >= DATA.scenes.length) {
-            box.innerHTML = '<div style="padding:18px;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:var(--inner-radius);color:#065f46;font-weight:600;">Scenario Complete! You navigated all decision points.</div>';
+            box.innerHTML = '<div style="padding:20px;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:var(--inner-radius);color:#065f46;text-align:center;">' +
+              '<div style="font-size:22px;margin-bottom:4px;">🏁</div>' +
+              '<div style="font-weight:800;font-size:15px;">Multi-Stage Scenario Complete</div>' +
+              '<div style="font-size:13px;margin-top:4px;opacity:.9;">You successfully navigated all ' + DATA.scenes.length + ' decision points.</div></div>';
             notifyActivityComplete(100);
             return;
           }
           const sc = DATA.scenes[sIdx];
-          box.innerHTML = '<div style="font-size:12px;font-weight:700;color:var(--primary);text-transform:uppercase;">Scene ' + (sIdx+1) + ' of ' + DATA.scenes.length + '</div>' +
-            '<h3 style="margin:4px 0 8px;font-size:17px;">' + esc(sc.heading) + '</h3>' +
-            '<p style="font-size:14px;color:#334155;line-height:1.6;background:#f8fafc;padding:14px;border-radius:var(--inner-radius);border:1px solid #e2e8f0;">' + esc(sc.narrative) + '</p>' +
-            '<div style="display:flex;flex-direction:column;gap:8px;margin-top:14px;">' +
-            sc.choices.map((c, idx) => '<button class="btn-opt" onclick="chooseScene(' + idx + ')">' + esc(c.label) + '</button>').join('') +
+          box.innerHTML =
+            '<div style="background:linear-gradient(135deg,color-mix(in srgb,var(--primary) 7%,white),#f8fafc);border:1px solid #cbd5e1;border-radius:var(--inner-radius);padding:16px 18px;margin-bottom:14px;">' +
+              '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px;">' +
+                '<span style="font-size:11px;font-weight:800;color:var(--primary);text-transform:uppercase;letter-spacing:.05em;">Stage ' + (sIdx+1) + ' of ' + DATA.scenes.length + ' • Evolving Situation</span>' +
+              '</div>' +
+              '<h3 style="margin:0 0 8px;font-size:16.5px;color:#0f172a;">' + esc(sc.heading) + '</h3>' +
+              '<p style="margin:0;font-size:14px;color:#334155;line-height:1.6;">' + esc(sc.narrative) + '</p>' +
+            '</div>' +
+            '<div style="font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:#64748b;margin-bottom:8px;">Select Your Next Action:</div>' +
+            '<div style="display:flex;flex-direction:column;gap:8px;">' +
+            sc.choices.map((c, idx) =>
+              '<button class="btn-opt" style="display:flex;align-items:flex-start;gap:10px;" onclick="chooseScene(' + idx + ')">' +
+                '<span style="flex-shrink:0;width:22px;height:22px;border-radius:6px;background:#f1f5f9;color:var(--primary);font-size:11.5px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;border:1px solid #cbd5e1;">' + String.fromCharCode(65 + idx) + '</span>' +
+                '<span>' + esc(c.label) + '</span>' +
+              '</button>'
+            ).join('') +
             '</div><div id="scene-outcome" style="margin-top:14px;"></div>';
         }
         window.chooseScene = function(idx) {
           const ch = DATA.scenes[sIdx].choices[idx];
           const out = document.getElementById('scene-outcome');
-          out.innerHTML = '<div style="padding:14px;border-radius:var(--inner-radius);font-size:13.5px;background:' + (ch.isOptimal ? '#ecfdf5;border:1px solid #a7f3d0;color:#065f46;' : '#fffbeb;border:1px solid #fde68a;color:#92400e;') + '">' +
-            '<strong>Outcome:</strong> ' + esc(ch.outcome) +
-            '<div style="margin-top:10px;"><button class="btn-primary" onclick="nextScene()">Continue →</button></div></div>';
+          const isLast = sIdx + 1 >= DATA.scenes.length;
+          out.innerHTML = '<div style="padding:14px 16px;border-radius:var(--inner-radius);font-size:13.5px;line-height:1.55;background:' + (ch.isOptimal ? '#ecfdf5;border:1px solid #a7f3d0;color:#065f46;' : '#fffbeb;border:1px solid #fde68a;color:#92400e;') + '">' +
+            '<div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px;">' + (ch.isOptimal ? '✓ Optimal Path Consequence' : '⚠ Downstream Consequence') + '</div>' +
+            '<div>' + esc(ch.outcome) + '</div>' +
+            '<div style="margin-top:12px;"><button class="btn-primary" onclick="nextScene()">' + (isLast ? 'Finish Scenario ✓' : 'Proceed to Scene ' + (sIdx + 2) + ' →') + '</button></div></div>';
         };
         window.nextScene = function() { sIdx++; renderScene(); };
         renderScene();`;
       break;
 
     case "judgment-card":
-      bodyMarkup = `<div style="padding:14px;background:#f8fafc;border-left:4px solid var(--primary);border-radius:var(--inner-radius);font-size:14px;line-height:1.6;margin-bottom:14px;">${escapeHtml(currentData.situation)}</div>
-        <div style="font-weight:700;font-size:14.5px;margin-bottom:10px;">${escapeHtml(currentData.question)}</div>
+      bodyMarkup = `<div style="border:1px solid #cbd5e1;border-radius:var(--inner-radius);overflow:hidden;margin-bottom:16px;background:#ffffff;">
+          <div style="background:#0f172a;color:#ffffff;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:8px;">
+            <span style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:#93c5fd;">⚖️ Case Brief • ${escapeAttr(currentData.tag || 'Decision Gate')}</span>
+            <span style="font-size:11px;color:#cbd5e1;">Single-Point Judgment</span>
+          </div>
+          <div style="padding:16px;background:#f8fafc;border-left:4px solid var(--primary);font-size:14px;color:#1e293b;line-height:1.65;">
+            ${escapeAttr(currentData.situation)}
+          </div>
+        </div>
+        <div style="font-weight:800;font-size:15px;color:#0f172a;margin-bottom:10px;">${escapeAttr(currentData.question)}</div>
         <div id="jc-opts" style="display:flex;flex-direction:column;gap:8px;"></div>
         <div id="jc-fb" style="margin-top:14px;"></div>`;
       widgetLogic = `
         const optsEl = document.getElementById('jc-opts');
-        optsEl.innerHTML = DATA.options.map((o, i) => '<button class="btn-opt" onclick="pickJC(' + i + ')">' + esc(o.text) + '</button>').join('');
+        function renderJCOpts(selectedIdx = -1) {
+          optsEl.innerHTML = DATA.options.map((o, i) => {
+            const isSel = i === selectedIdx;
+            const borderStyle = isSel ? (o.correct ? 'border:2px solid #10b981;background:#ecfdf5;' : 'border:2px solid #ef4444;background:#fef2f2;') : '';
+            return '<button class="btn-opt" style="display:flex;align-items:flex-start;gap:10px;' + borderStyle + '" onclick="pickJC(' + i + ')">' +
+              '<span style="flex-shrink:0;width:22px;height:22px;border-radius:999px;background:' + (isSel ? 'var(--primary)' : '#f1f5f9') + ';color:' + (isSel ? '#ffffff' : '#334155') + ';font-size:11.5px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;border:1px solid #cbd5e1;">' + String.fromCharCode(65 + i) + '</span>' +
+              '<span>' + esc(o.text) + '</span>' +
+            '</button>';
+          }).join('');
+        }
+        renderJCOpts();
         window.pickJC = function(i) {
+          renderJCOpts(i);
           const o = DATA.options[i];
           const fb = document.getElementById('jc-fb');
-          fb.innerHTML = '<div style="padding:14px;border-radius:var(--inner-radius);font-size:13.5px;background:' + (o.correct ? '#ecfdf5;border:1px solid #a7f3d0;color:#065f46;' : '#fef2f2;border:1px solid #fecaca;color:#991b1b;') + '"><strong>' + (o.correct ? 'Recommended Decision: ' : 'Reconsider: ') + '</strong>' + esc(o.rationale) + '</div>';
+          fb.innerHTML = '<div style="padding:15px 16px;border-radius:var(--inner-radius);font-size:13.5px;line-height:1.55;background:' + (o.correct ? '#ecfdf5;border:1px solid #a7f3d0;color:#065f46;' : '#fef2f2;border:1px solid #fecaca;color:#991b1b;') + '">' +
+            '<div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;">' + (o.correct ? '✓ Policy & Ethics Verdict: Sound Judgment' : '✕ Risk Analysis: Reconsider Choice') + '</div>' +
+            '<div>' + esc(o.rationale) + '</div>' +
+          '</div>';
           notifyActivityComplete(o.correct ? 100 : 70);
         };`;
       break;
@@ -2982,8 +3259,8 @@ function buildStandaloneHTML() {
     case "concept-breakdown":
       bodyMarkup = `<div style="padding:16px;background:var(--primary);color:#fff;border-radius:var(--inner-radius);margin-bottom:14px;">
           <div style="font-size:11px;text-transform:uppercase;letter-spacing:.05em;opacity:.85;">Core Concept</div>
-          <div style="font-size:18px;font-weight:700;margin-top:2px;">${escapeHtml(currentData.coreConcept)}</div>
-          <p style="margin:6px 0 0;font-size:13.5px;opacity:.95;">${escapeHtml(currentData.coreDesc)}</p>
+          <div style="font-size:18px;font-weight:700;margin-top:2px;">${escapeAttr(currentData.coreConcept)}</div>
+          <p style="margin:6px 0 0;font-size:13.5px;opacity:.95;">${escapeAttr(currentData.coreDesc)}</p>
         </div>
         <div id="cb-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;"></div>`;
       widgetLogic = `
@@ -3004,14 +3281,14 @@ function buildStandaloneHTML() {
     case "before-after":
       bodyMarkup = `<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
           <div style="padding:14px;background:#fef2f2;border:1px solid #fecaca;border-radius:var(--inner-radius);">
-            <span style="font-size:11px;font-weight:700;color:#991b1b;text-transform:uppercase;">${escapeHtml(currentData.beforeLabel)}</span>
-            <h4 style="margin:6px 0 8px;font-size:15px;color:#7f1d1d;">${escapeHtml(currentData.beforeTitle)}</h4>
-            <ul style="margin:0;padding-left:18px;font-size:13px;color:#991b1b;line-height:1.5;">${currentData.beforePoints.map(p => `<li>${escapeHtml(p)}</li>`).join("")}</ul>
+            <span style="font-size:11px;font-weight:700;color:#991b1b;text-transform:uppercase;">${escapeAttr(currentData.beforeLabel)}</span>
+            <h4 style="margin:6px 0 8px;font-size:15px;color:#7f1d1d;">${escapeAttr(currentData.beforeTitle)}</h4>
+            <ul style="margin:0;padding-left:18px;font-size:13px;color:#991b1b;line-height:1.5;">${currentData.beforePoints.map(p => `<li>${escapeAttr(p)}</li>`).join("")}</ul>
           </div>
           <div id="after-box" style="padding:14px;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:var(--inner-radius);opacity:0.45;transition:opacity .25s;">
-            <span style="font-size:11px;font-weight:700;color:#065f46;text-transform:uppercase;">${escapeHtml(currentData.afterLabel)}</span>
-            <h4 style="margin:6px 0 8px;font-size:15px;color:#064e3b;">${escapeHtml(currentData.afterTitle)}</h4>
-            <ul style="margin:0;padding-left:18px;font-size:13px;color:#065f46;line-height:1.5;">${currentData.afterPoints.map(p => `<li>${escapeHtml(p)}</li>`).join("")}</ul>
+            <span style="font-size:11px;font-weight:700;color:#065f46;text-transform:uppercase;">${escapeAttr(currentData.afterLabel)}</span>
+            <h4 style="margin:6px 0 8px;font-size:15px;color:#064e3b;">${escapeAttr(currentData.afterTitle)}</h4>
+            <ul style="margin:0;padding-left:18px;font-size:13px;color:#065f46;line-height:1.5;">${currentData.afterPoints.map(p => `<li>${escapeAttr(p)}</li>`).join("")}</ul>
           </div>
         </div>
         <label style="display:block;font-size:12px;font-weight:600;color:#475569;">Slide to Reveal Redesign Contrast:
@@ -3031,7 +3308,7 @@ function buildStandaloneHTML() {
         function renderCar() {
           const sl = DATA.slides[cIdx];
           document.getElementById('car-box').innerHTML =
-            '<div style="padding:22px;border-radius:var(--inner-radius);color:#fff;background:' + esc(sl.accent || 'var(--primary)') + ';margin-bottom:12px;">' +
+            '<div style="padding:22px;border-radius:var(--inner-radius);color:#fff;background:' + (sl.accent || 'var(--primary)') + ';margin-bottom:12px;">' +
             '<div style="font-size:11px;font-weight:700;text-transform:uppercase;opacity:.85;">' + esc(sl.badge) + '</div>' +
             '<h3 style="margin:6px 0 8px;font-size:18px;">' + esc(sl.heading) + '</h3>' +
             '<p style="margin:0;font-size:14px;line-height:1.6;opacity:.95;">' + esc(sl.caption) + '</p></div>' +
@@ -3223,359 +3500,562 @@ function buildStandaloneHTML() {
       break;
 
     case "hotspot-diagram":
-      bodyMarkup = `
-        <div id="hs-quiz-banner" style="display:none;padding:12px 16px;background:#eef2ff;border:1px solid #c7d2fe;border-radius:var(--inner-radius);margin-bottom:14px;font-size:14px;color:#1e1b4b;"></div>
+      bodyMarkup = `<div id="hs-quiz-banner" style="display:none;padding:12px 14px;margin-bottom:14px;border-radius:var(--inner-radius);background:#f8fafc;border:1px solid #cbd5e1;font-size:13.5px;"></div>
         <div style="position:relative;width:100%;border-radius:var(--inner-radius);overflow:hidden;border:1px solid #cbd5e1;background:#0f172a;">
-          <img src="${escapeAttr(currentData.imageUrl || '')}" alt="${escapeAttr(pageTitle)}" style="width:100%;height:auto;display:block;" />
+          <img src="${escapeAttr(currentData.imageUrl || '')}" alt="Interactive Diagram" style="width:100%;height:auto;display:block;" />
           <div id="hs-pins-layer"></div>
         </div>
-        <div id="hs-status-bar" style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;font-size:12px;font-weight:600;color:#64748b;"></div>
-        <div id="hs-callout" style="margin-top:12px;padding:16px;background:#f8fafc;border:1px solid #e2e8f0;border-left:4px solid var(--primary);border-radius:var(--inner-radius);font-size:13.5px;line-height:1.55;">
-          Click any numbered pin on the diagram above to inspect its details.
-        </div>`;
+        <div id="hs-progress" style="margin-top:12px;font-size:12px;font-weight:700;color:var(--primary);"></div>
+        <div id="hs-callout" style="margin-top:10px;"></div>`;
       widgetLogic = `
         const isQuiz = DATA.mode === 'quiz';
-        const inspected = new Set();
-        let activePin = -1;
-        let qTargetIdx = 0;
-        let qCorrectCount = 0;
-        let qAnsweredCurrent = false;
+        const visited = new Set();
+        let activeIdx = 0;
+        let qIdx = 0;
+        let correctCount = 0;
 
         function renderPins() {
           const layer = document.getElementById('hs-pins-layer');
           layer.innerHTML = DATA.pins.map((p, i) => {
-            const isAct = i === activePin;
-            const isDone = inspected.has(i);
-            const bg = isAct ? 'var(--accent)' : (isDone ? '#10b981' : 'var(--primary)');
-            const labelTxt = isQuiz && !isDone ? '?' : (i + 1);
-            return '<button type="button" onclick="clickHotspot(' + i + ')" aria-label="Pin ' + (i+1) + '" style="position:absolute;left:' + p.x + '%;top:' + p.y + '%;transform:translate(-50%,-50%) scale(' + (isAct ? '1.18' : '1') + ');width:30px;height:30px;border-radius:999px;border:2.5px solid #ffffff;background:' + bg + ';color:#ffffff;font-family:inherit;font-size:12px;font-weight:800;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.38);transition:all .18s;">' + labelTxt + '</button>';
+            const done = visited.has(i);
+            const active = !isQuiz && activeIdx === i;
+            const bg = done ? '#10b981' : (active ? 'var(--accent)' : 'var(--primary)');
+            return '<button onclick="clickPin(' + i + ')" aria-label="Pin ' + (i+1) + '" style="position:absolute;left:' + p.x + '%;top:' + p.y + '%;transform:translate(-50%,-50%);width:30px;height:30px;border-radius:999px;border:2.5px solid #ffffff;background:' + bg + ';color:#ffffff;font-family:inherit;font-size:12px;font-weight:800;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.35);">' + (isQuiz ? '?' : (i+1)) + '</button>';
           }).join('');
-
-          const statusEl = document.getElementById('hs-status-bar');
-          if (!isQuiz) {
-            statusEl.innerHTML = '<span>Explored ' + inspected.size + ' of ' + DATA.pins.length + ' hotspots</span>' + (inspected.size >= DATA.pins.length ? '<span style="color:#059669;">All pins inspected ✓</span>' : '');
-          } else {
-            statusEl.innerHTML = '<span>Progress: ' + Math.min(qTargetIdx, DATA.pins.length) + ' of ' + DATA.pins.length + '</span><span>Accuracy: ' + qCorrectCount + ' / ' + DATA.pins.length + '</span>';
-          }
         }
 
-        function renderQuizBanner() {
+        function updateExploreUI() {
+          const p = DATA.pins[activeIdx];
+          document.getElementById('hs-progress').textContent = 'Explored ' + visited.size + ' of ' + DATA.pins.length + ' hotspots';
+          if (p) {
+            document.getElementById('hs-callout').innerHTML = '<div style="padding:14px 16px;background:#f8fafc;border-left:4px solid var(--primary);border-radius:var(--inner-radius);font-size:13.5px;line-height:1.55;">' +
+              '<div style="font-size:11px;font-weight:700;color:var(--primary);text-transform:uppercase;">Hotspot #' + (activeIdx+1) + '</div>' +
+              '<div style="font-size:15px;font-weight:700;margin:2px 0 6px;">' + esc(p.title) + '</div>' +
+              '<div style="color:#334155;">' + esc(p.detail) + '</div></div>';
+          }
+          if (visited.size >= DATA.pins.length) notifyActivityComplete(100);
+        }
+
+        function updateQuizUI() {
           const banner = document.getElementById('hs-quiz-banner');
-          if (!isQuiz) { banner.style.display = 'none'; return; }
           banner.style.display = 'block';
-          if (qTargetIdx >= DATA.pins.length) {
-            const pct = Math.round((qCorrectCount / DATA.pins.length) * 100);
-            banner.style.background = '#ecfdf5';
-            banner.style.borderColor = '#a7f3d0';
-            banner.style.color = '#065f46';
-            banner.innerHTML = '<strong>Identification Complete!</strong> You located ' + qCorrectCount + ' of ' + DATA.pins.length + ' components (' + pct + '%).';
+          document.getElementById('hs-progress').textContent = 'Identified ' + visited.size + ' of ' + DATA.pins.length + ' targets';
+          if (qIdx >= DATA.pins.length) {
+            const pct = Math.round((correctCount / DATA.pins.length) * 100);
+            banner.innerHTML = '<strong style="color:#065f46;">Diagram Check Complete!</strong> Accuracy: ' + correctCount + ' / ' + DATA.pins.length + ' (' + pct + '%)';
             notifyActivityComplete(pct);
             return;
           }
-          const target = DATA.pins[qTargetIdx];
-          banner.innerHTML = '<div style="font-size:11px;font-weight:700;text-transform:uppercase;color:var(--primary);">Target ' + (qTargetIdx + 1) + ' of ' + DATA.pins.length + '</div>' +
-            '<div style="margin-top:2px;">Locate and click: <strong>' + esc(target.title) + '</strong></div>';
+          banner.innerHTML = '<strong>Locate Target (' + (qIdx+1) + ' of ' + DATA.pins.length + '):</strong> Click the pin for <span style="color:var(--primary);font-weight:700;">' + esc(DATA.pins[qIdx].title) + '</span>';
         }
 
-        window.clickHotspot = function(i) {
-          const p = DATA.pins[i];
-          const callout = document.getElementById('hs-callout');
+        window.clickPin = function(i) {
           if (!isQuiz) {
-            activePin = i;
-            inspected.add(i);
-            callout.style.borderLeftColor = 'var(--primary)';
-            callout.style.background = '#f8fafc';
-            callout.innerHTML = '<div style="font-size:11px;font-weight:700;text-transform:uppercase;color:var(--primary);margin-bottom:4px;">Pin #' + (i + 1) + '</div>' +
-              '<div style="font-size:15.5px;font-weight:700;color:#0f172a;margin-bottom:6px;">' + esc(p.title) + '</div>' +
-              '<div style="color:#334155;">' + esc(p.detail) + '</div>';
+            activeIdx = i;
+            visited.add(i);
             renderPins();
-            if (inspected.size >= DATA.pins.length) notifyActivityComplete(100);
+            updateExploreUI();
           } else {
-            if (qTargetIdx >= DATA.pins.length) return;
-            const target = DATA.pins[qTargetIdx];
-            if (i === qTargetIdx) {
-              if (!qAnsweredCurrent) qCorrectCount++;
-              qAnsweredCurrent = false;
-              inspected.add(i);
-              activePin = i;
-              callout.style.borderLeftColor = '#10b981';
-              callout.style.background = '#ecfdf5';
-              callout.innerHTML = '<div style="font-weight:700;color:#065f46;margin-bottom:4px;">✓ Correct — ' + esc(target.title) + '</div>' +
-                '<div style="color:#064e3b;">' + esc(target.detail) + '</div>';
-              qTargetIdx++;
+            if (qIdx >= DATA.pins.length) return;
+            const target = DATA.pins[qIdx];
+            const picked = DATA.pins[i];
+            const callout = document.getElementById('hs-callout');
+            if (i === qIdx) {
+              visited.add(i);
+              correctCount++;
+              callout.innerHTML = '<div style="padding:12px 14px;background:#ecfdf5;border:1px solid #a7f3d0;color:#065f46;border-radius:var(--inner-radius);font-size:13.5px;"><strong>Correct: ' + esc(target.title) + '</strong> — ' + esc(target.detail) + '</div>';
+              qIdx++;
               renderPins();
-              renderQuizBanner();
+              updateQuizUI();
             } else {
-              qAnsweredCurrent = true;
-              activePin = i;
-              callout.style.borderLeftColor = '#ef4444';
-              callout.style.background = '#fef2f2';
-              callout.innerHTML = '<div style="font-weight:700;color:#991b1b;margin-bottom:4px;">Not quite — that pin is "' + esc(p.title) + '"</div>' +
-                '<div style="color:#7f1d1d;">Try again to locate: <strong>' + esc(target.title) + '</strong></div>';
-              renderPins();
+              callout.innerHTML = '<div style="padding:12px 14px;background:#fef2f2;border:1px solid #fecaca;color:#991b1b;border-radius:var(--inner-radius);font-size:13.5px;"><strong>Not quite:</strong> That pin is <em>' + esc(picked.title) + '</em>. Try again to locate <strong>' + esc(target.title) + '</strong>.</div>';
             }
           }
         };
 
-        renderPins();
-        renderQuizBanner();`;
+        if (!isQuiz) {
+          if (DATA.pins.length > 0) visited.add(0);
+          renderPins();
+          updateExploreUI();
+        } else {
+          renderPins();
+          updateQuizUI();
+        }`;
       break;
 
     case "media-checkpoint":
       bodyMarkup = `
-        <div id="mc-stage" style="position:relative;border-radius:var(--inner-radius);overflow:hidden;border:1px solid #cbd5e1;background:#0f172a;color:#fff;">
+        <div id="mc-player-wrap" style="border-radius:var(--inner-radius);overflow:hidden;border:1px solid #cbd5e1;background:#0f172a;color:#ffffff;">
           <div id="mc-media-mount"></div>
-          <div id="mc-overlay" style="display:none;position:relative;background:rgba(15,23,42,0.97);padding:20px;border-top:2px solid var(--primary);"></div>
+          <div style="padding:12px 14px;background:#1e293b;display:flex;flex-wrap:wrap;align-items:center;gap:10px;">
+            <button id="mc-play-btn" class="btn-primary" style="padding:7px 14px;" onclick="toggleMediaPlay()">▶ Play</button>
+            <div style="flex:1;min-width:160px;">
+              <div id="mc-track" onclick="scrubMedia(event)" style="position:relative;height:10px;border-radius:999px;background:#334155;cursor:pointer;">
+                <div id="mc-fill" style="height:100%;width:0%;border-radius:999px;background:var(--accent);"></div>
+                <div id="mc-markers"></div>
+              </div>
+            </div>
+            <span id="mc-time-label" style="font-family:monospace;font-size:12px;color:#cbd5e1;">0:00 / 0:16</span>
+          </div>
         </div>
-        <div style="margin-top:12px;">
-          <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:600;color:#475569;margin-bottom:6px;">
-            <span id="mc-time-label">00:00 / 00:16</span>
-            <span id="mc-prog-label">0 of ${currentData.checkpoints.length} checkpoints completed</span>
-          </div>
-          <div id="mc-timeline-track" style="position:relative;height:10px;background:#e2e8f0;border-radius:999px;cursor:pointer;" onclick="seekMediaTimeline(event)">
-            <div id="mc-timeline-fill" style="height:100%;width:0%;background:var(--primary);border-radius:999px;transition:width .15s linear;"></div>
-            <div id="mc-cue-markers"></div>
-          </div>
-        </div>
-        <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;margin-top:12px;">
-          <div style="display:flex;gap:8px;">
-            <button type="button" id="mc-play-btn" class="btn-primary" onclick="toggleMediaPlay()">▶ Play</button>
-            <button type="button" class="btn-opt" style="width:auto;padding:8px 12px;" onclick="restartMediaDemo()">↺ Restart</button>
-          </div>
-          <div id="mc-cue-pills" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
-        </div>`;
+        <div id="mc-cue-pills" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;"></div>
+        <div id="mc-overlay-card" style="display:none;margin-top:14px;padding:16px;border-radius:var(--inner-radius);background:#f8fafc;border:2px solid var(--primary);"></div>`;
       widgetLogic = `
-        const sortedCues = [...DATA.checkpoints].sort((a, b) => Number(a.timeSec) - Number(b.timeSec));
+        const cues = (DATA.checkpoints || []).slice().sort((a, b) => Number(a.timeSec) - Number(b.timeSec));
         const completedCues = new Set();
+        const triggeredCues = new Set();
         let activeCueIdx = -1;
-        let simPlaying = false;
+        let isPlaying = false;
         let simTime = 0;
         let simTimer = null;
-        const hasRealMedia = Boolean(DATA.mediaUrl && DATA.mediaUrl.trim());
-        const isAudioOnly = DATA.mediaType === 'audio';
         let mediaEl = null;
 
-        function fmtTime(sec) {
-          const s = Math.max(0, Math.floor(sec));
-          const m = Math.floor(s / 60);
-          const r = s % 60;
-          return String(m).padStart(2, '0') + ':' + String(r).padStart(2, '0');
+        function fmtSec(s) {
+          const sec = Math.max(0, Math.floor(s));
+          const m = Math.floor(sec / 60);
+          const r = sec % 60;
+          return m + ':' + (r < 10 ? '0' : '') + r;
         }
 
-        function getTotalDuration() {
+        function getDuration() {
           if (mediaEl && mediaEl.duration && isFinite(mediaEl.duration)) return mediaEl.duration;
-          const maxCue = sortedCues.length ? Math.max(...sortedCues.map(c => Number(c.timeSec) + 3)) : 16;
-          return Math.max(Number(DATA.durationSec || 16), maxCue);
+          return Math.max(6, Number(DATA.durationSec) || 16);
         }
 
         function getCurrentTime() {
           return mediaEl ? mediaEl.currentTime : simTime;
         }
 
+        function setCurrentTime(t) {
+          const clamped = Math.max(0, Math.min(getDuration(), t));
+          if (mediaEl) mediaEl.currentTime = clamped;
+          else simTime = clamped;
+          onTick();
+        }
+
         function initMediaMount() {
           const mount = document.getElementById('mc-media-mount');
-          if (hasRealMedia && !isAudioOnly) {
-            mount.innerHTML = '<video id="mc-html5-media" src="' + esc(DATA.mediaUrl) + '" playsinline style="width:100%;max-height:360px;display:block;background:#000;"></video>';
-            mediaEl = document.getElementById('mc-html5-media');
-          } else if (hasRealMedia && isAudioOnly) {
-            mount.innerHTML = '<div style="padding:26px 20px;text-align:center;background:linear-gradient(135deg,#0f172a,#1e1b4b);">' +
-              '<div style="font-size:28px;margin-bottom:6px;">🎧</div>' +
-              '<div id="mc-sim-caption" style="font-size:14px;font-weight:700;color:#e2e8f0;">Audio Briefing Ready — Press Play</div>' +
-              '<audio id="mc-html5-media" src="' + esc(DATA.mediaUrl) + '" style="display:none;"></audio></div>';
-            mediaEl = document.getElementById('mc-html5-media');
-          } else {
-            mount.innerHTML = '<div style="padding:28px 22px;min-height:200px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:linear-gradient(135deg,#0f172a 0%,#1e1b4b 100%);">' +
-              '<span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#93c5fd;background:rgba(59,130,246,0.18);padding:4px 10px;border-radius:999px;margin-bottom:10px;">' + (isAudioOnly ? '🎧 Interactive Audio Briefing' : '🎬 Interactive Video Briefing') + '</span>' +
-              '<div id="mc-sim-caption" style="font-size:16px;font-weight:700;max-width:520px;line-height:1.45;color:#f8fafc;">Press Play to begin the briefing. Playback pauses automatically at each checkpoint.</div>' +
-              '<div id="mc-sim-sub" style="font-size:12.5px;color:#94a3b8;margin-top:6px;">' + sortedCues.length + ' interactive checkpoints scheduled</div>' +
-              '</div>';
-          }
-
-          if (mediaEl) {
+          if (DATA.mediaUrl && DATA.mediaUrl.trim()) {
+            if (DATA.mediaType === 'audio') {
+              mount.innerHTML = '<div style="padding:22px;text-align:center;"><div style="font-size:28px;margin-bottom:6px;">🎧</div><div style="font-size:13px;color:#cbd5e1;">Audio Briefing Player</div><audio id="mc-native-media" src="' + esc(DATA.mediaUrl) + '" preload="metadata"></audio></div>';
+            } else {
+              mount.innerHTML = '<video id="mc-native-media" src="' + esc(DATA.mediaUrl) + '" playsinline style="width:100%;max-height:320px;display:block;background:#000;"></video>';
+            }
+            mediaEl = document.getElementById('mc-native-media');
             mediaEl.addEventListener('timeupdate', onTick);
-            mediaEl.addEventListener('ended', () => {
-              simPlaying = false;
-              updatePlayButton();
-            });
+            mediaEl.addEventListener('loadedmetadata', () => { renderCueMarkersAndPills(); onTick(); });
+            mediaEl.addEventListener('ended', () => { isPlaying = false; updatePlayButton(); });
+          } else {
+            mount.innerHTML = '<div style="padding:26px 20px;text-align:center;background:linear-gradient(135deg,#0f172a,#1e1b4b);">' +
+              '<div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#93c5fd;margin-bottom:6px;">Interactive ' + (DATA.mediaType === 'audio' ? 'Audio' : 'Video') + ' Briefing</div>' +
+              '<div id="mc-sim-caption" style="font-size:15px;font-weight:700;color:#ffffff;max-width:520px;margin:0 auto;line-height:1.5;">Press Play to begin the walkthrough. Playback will pause automatically at each checkpoint.</div>' +
+              '</div>';
           }
         }
 
         function renderCueMarkersAndPills() {
-          const dur = getTotalDuration();
-          const markersEl = document.getElementById('mc-cue-markers');
-          const pillsEl = document.getElementById('mc-cue-pills');
-          markersEl.innerHTML = sortedCues.map((c, idx) => {
+          const dur = getDuration();
+          document.getElementById('mc-markers').innerHTML = cues.map((c, idx) => {
             const pct = Math.min(98, Math.max(2, (Number(c.timeSec) / dur) * 100));
             const done = completedCues.has(idx);
-            return '<span title="' + esc(c.label) + ' (' + fmtTime(c.timeSec) + ')" style="position:absolute;top:50%;left:' + pct + '%;transform:translate(-50%,-50%);width:14px;height:14px;border-radius:999px;background:' + (done ? '#10b981' : '#f59e0b') + ';border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.3);"></span>';
+            return '<div title="' + esc(c.label) + ' (' + fmtSec(c.timeSec) + ')" style="position:absolute;top:-3px;left:' + pct + '%;transform:translateX(-50%);width:14px;height:14px;border-radius:999px;background:' + (done ? '#10b981' : '#f59e0b') + ';border:2px solid #ffffff;"></div>';
           }).join('');
 
-          pillsEl.innerHTML = sortedCues.map((c, idx) => {
+          document.getElementById('mc-cue-pills').innerHTML = cues.map((c, idx) => {
             const done = completedCues.has(idx);
-            return '<button type="button" onclick="jumpToCue(' + idx + ')" style="padding:5px 10px;border-radius:999px;font-size:11.5px;font-weight:700;cursor:pointer;border:1px solid ' + (done ? '#a7f3d0' : '#cbd5e1') + ';background:' + (done ? '#ecfdf5' : '#f8fafc') + ';color:' + (done ? '#065f46' : '#334155') + ';">' + (done ? '✓ ' : '⏱ ') + fmtTime(c.timeSec) + '</button>';
+            return '<button onclick="jumpToCue(' + idx + ')" style="padding:6px 11px;border-radius:999px;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;border:1px solid ' + (done ? '#10b981' : '#cbd5e1') + ';background:' + (done ? '#ecfdf5' : '#ffffff') + ';color:' + (done ? '#065f46' : '#334155') + ';">' + (done ? '✓ ' : '⏱ ') + fmtSec(c.timeSec) + ' • ' + esc(c.label) + '</button>';
           }).join('');
-
-          document.getElementById('mc-prog-label').textContent = completedCues.size + ' of ' + sortedCues.length + ' checkpoints completed';
         }
 
         function updatePlayButton() {
-          const btn = document.getElementById('mc-play-btn');
-          if (btn) btn.textContent = simPlaying ? '⏸ Pause' : '▶ Play';
+          document.getElementById('mc-play-btn').textContent = isPlaying ? '❚❚ Pause' : '▶ Play';
         }
 
-        function pausePlayback() {
-          simPlaying = false;
-          if (mediaEl) mediaEl.pause();
-          if (simTimer) { clearInterval(simTimer); simTimer = null; }
-          updatePlayButton();
-        }
-
-        function startPlayback() {
-          if (activeCueIdx !== -1) return;
-          simPlaying = true;
-          updatePlayButton();
-          if (mediaEl) {
-            mediaEl.play().catch(() => {});
-          } else {
-            if (simTimer) clearInterval(simTimer);
-            simTimer = setInterval(() => {
-              simTime += 0.25;
-              const dur = getTotalDuration();
-              if (simTime >= dur) {
-                simTime = dur;
-                onTick();
-                pausePlayback();
-                return;
-              }
-              onTick();
-            }, 250);
+        function pauseForCue(idx) {
+          if (isPlaying) {
+            isPlaying = false;
+            if (mediaEl) mediaEl.pause();
+            if (simTimer) { clearInterval(simTimer); simTimer = null; }
+            updatePlayButton();
           }
-        }
-
-        window.toggleMediaPlay = function() {
-          if (activeCueIdx !== -1) return;
-          if (simPlaying) pausePlayback();
-          else startPlayback();
-        };
-
-        window.restartMediaDemo = function() {
-          pausePlayback();
-          completedCues.clear();
-          activeCueIdx = -1;
-          document.getElementById('mc-overlay').style.display = 'none';
-          if (mediaEl) mediaEl.currentTime = 0;
-          simTime = 0;
-          onTick();
-          renderCueMarkersAndPills();
-        };
-
-        window.jumpToCue = function(idx) {
-          const cue = sortedCues[idx];
-          if (!cue) return;
-          if (mediaEl) mediaEl.currentTime = Number(cue.timeSec);
-          simTime = Number(cue.timeSec);
-          onTick();
-          triggerCheckpointOverlay(idx);
-        };
-
-        window.seekMediaTimeline = function(e) {
-          if (activeCueIdx !== -1) return;
-          const track = document.getElementById('mc-timeline-track');
-          const rect = track.getBoundingClientRect();
-          const ratio = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-          const targetTime = ratio * getTotalDuration();
-          if (mediaEl) mediaEl.currentTime = targetTime;
-          simTime = targetTime;
-          onTick();
-        };
-
-        function triggerCheckpointOverlay(idx) {
-          pausePlayback();
           activeCueIdx = idx;
-          const cue = sortedCues[idx];
-          const ov = document.getElementById('mc-overlay');
-          ov.style.display = 'block';
-          ov.innerHTML =
-            '<div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#93c5fd;">' + esc(cue.label) + ' • Paused at ' + fmtTime(cue.timeSec) + '</div>' +
-            '<div style="font-size:15.5px;font-weight:700;margin:6px 0 12px;line-height:1.45;color:#ffffff;">' + esc(cue.question) + '</div>' +
+          const cue = cues[idx];
+          const card = document.getElementById('mc-overlay-card');
+          card.style.display = 'block';
+          card.innerHTML = '<div style="font-size:11px;font-weight:700;text-transform:uppercase;color:var(--primary);">Paused at ' + fmtSec(cue.timeSec) + ' • ' + esc(cue.label) + '</div>' +
+            '<div style="font-size:15px;font-weight:700;margin:6px 0 12px;">' + esc(cue.question) + '</div>' +
             '<div style="display:flex;flex-direction:column;gap:8px;">' +
-            (cue.options || []).map((o, oi) => '<button type="button" class="btn-opt" onclick="answerMediaCue(' + idx + ',' + oi + ')">' + esc(o.text) + '</button>').join('') +
-            '</div>' +
-            '<div id="mc-cue-fb" style="margin-top:12px;"></div>';
+            (cue.options || []).map((o, oi) => '<button class="btn-opt" onclick="answerCue(' + idx + ',' + oi + ')">' + esc(o.text) + '</button>').join('') +
+            '</div><div id="mc-cue-fb" style="margin-top:12px;"></div>';
         }
 
-        window.answerMediaCue = function(cueIdx, optIdx) {
-          const cue = sortedCues[cueIdx];
-          const opt = cue.options[optIdx];
-          const fb = document.getElementById('mc-cue-fb');
-          completedCues.add(cueIdx);
+        window.answerCue = function(cIdx, oIdx) {
+          const cue = cues[cIdx];
+          const opt = cue.options[oIdx];
+          completedCues.add(cIdx);
           renderCueMarkersAndPills();
-          const allDone = completedCues.size >= sortedCues.length;
-          if (allDone) {
-            notifyActivityComplete(100);
-          }
-          fb.innerHTML = '<div style="padding:12px 14px;border-radius:var(--inner-radius);font-size:13.5px;background:' + (opt.correct ? '#ecfdf5;color:#065f46;border:1px solid #a7f3d0;' : '#fffbeb;color:#92400e;border:1px solid #fde68a;') + '">' +
-            '<strong>' + (opt.correct ? 'Correct: ' : 'Coaching Note: ') + '</strong>' + esc(opt.feedback) +
-            '<div style="margin-top:10px;"><button type="button" class="btn-primary" onclick="resumeAfterCue()">' + (allDone ? 'Finish & Resume Playback →' : 'Resume Playback →') + '</button></div></div>';
+          const fb = document.getElementById('mc-cue-fb');
+          fb.innerHTML = '<div style="padding:12px;border-radius:var(--inner-radius);font-size:13.5px;background:' + (opt.correct ? '#ecfdf5;border:1px solid #a7f3d0;color:#065f46;' : '#fef2f2;border:1px solid #fecaca;color:#991b1b;') + '"><strong>' + (opt.correct ? 'Correct: ' : 'Coaching Note: ') + '</strong>' + esc(opt.feedback) +
+            '<div style="margin-top:10px;"><button class="btn-primary" onclick="resumeAfterCue()">Resume Playback →</button></div></div>';
+          if (completedCues.size >= cues.length) notifyActivityComplete(100);
         };
 
         window.resumeAfterCue = function() {
+          document.getElementById('mc-overlay-card').style.display = 'none';
           activeCueIdx = -1;
-          document.getElementById('mc-overlay').style.display = 'none';
-          if (mediaEl) mediaEl.currentTime += 0.35;
-          else simTime += 0.35;
-          startPlayback();
+          toggleMediaPlay();
+        };
+
+        window.jumpToCue = function(idx) {
+          triggeredCues.delete(idx);
+          setCurrentTime(Number(cues[idx].timeSec));
+          pauseForCue(idx);
+        };
+
+        window.scrubMedia = function(e) {
+          const track = document.getElementById('mc-track');
+          const rect = track.getBoundingClientRect();
+          const ratio = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+          setCurrentTime(ratio * getDuration());
         };
 
         function onTick() {
-          const t = getCurrentTime();
-          const dur = getTotalDuration();
-          document.getElementById('mc-time-label').textContent = fmtTime(t) + ' / ' + fmtTime(dur);
-          document.getElementById('mc-timeline-fill').style.width = Math.min(100, (t / dur) * 100) + '%';
+          const cur = getCurrentTime();
+          const dur = getDuration();
+          document.getElementById('mc-fill').style.width = Math.min(100, (cur / dur) * 100) + '%';
+          document.getElementById('mc-time-label').textContent = fmtSec(cur) + ' / ' + fmtSec(dur);
 
-          if (!hasRealMedia) {
-            const cap = document.getElementById('mc-sim-caption');
-            const sub = document.getElementById('mc-sim-sub');
-            if (cap && sub) {
-              const nextCue = sortedCues.find((c, idx) => !completedCues.has(idx));
-              if (nextCue) {
-                cap.textContent = 'Observing Briefing Segment... (' + fmtTime(t) + ')';
-                sub.textContent = 'Next checkpoint: "' + nextCue.label + '" at ' + fmtTime(nextCue.timeSec);
-              } else {
-                cap.textContent = 'All Checkpoints Completed! (' + fmtTime(t) + ')';
-                sub.textContent = 'Great work analyzing every cue in this briefing.';
-              }
-            }
+          const simCap = document.getElementById('mc-sim-caption');
+          if (simCap && isPlaying) {
+            const nextCue = cues.find((c, i) => !triggeredCues.has(i) && Number(c.timeSec) >= cur);
+            simCap.textContent = nextCue
+              ? 'Playing segment leading to: ' + nextCue.label + ' (' + fmtSec(nextCue.timeSec) + ')...'
+              : 'Completing final walkthrough segment...';
           }
 
-          if (activeCueIdx === -1) {
-            for (let i = 0; i < sortedCues.length; i++) {
-              if (!completedCues.has(i) && t >= Number(sortedCues[i].timeSec)) {
-                triggerCheckpointOverlay(i);
+          if (isPlaying && activeCueIdx === -1) {
+            for (let i = 0; i < cues.length; i++) {
+              if (!triggeredCues.has(i) && cur >= Number(cues[i].timeSec)) {
+                triggeredCues.add(i);
+                pauseForCue(i);
                 break;
               }
             }
           }
         }
 
+        window.toggleMediaPlay = function() {
+          if (isPlaying) {
+            isPlaying = false;
+            if (mediaEl) mediaEl.pause();
+            if (simTimer) { clearInterval(simTimer); simTimer = null; }
+          } else {
+            if (getCurrentTime() >= getDuration()) {
+              simTime = 0;
+              if (mediaEl) mediaEl.currentTime = 0;
+              triggeredCues.clear();
+            }
+            isPlaying = true;
+            if (mediaEl) {
+              mediaEl.play().catch(() => {});
+            } else {
+              simTimer = setInterval(() => {
+                simTime += 0.25;
+                if (simTime >= getDuration()) {
+                  simTime = getDuration();
+                  isPlaying = false;
+                  clearInterval(simTimer);
+                  simTimer = null;
+                  updatePlayButton();
+                }
+                onTick();
+              }, 250);
+            }
+          }
+          updatePlayButton();
+        };
+
         initMediaMount();
         renderCueMarkersAndPills();
         onTick();`;
+      break;
+
+    case "chart-spotlight":
+      bodyMarkup = `
+        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:var(--inner-radius);padding:16px 14px 10px;">
+          <svg id="cs-svg" viewBox="0 0 640 270" style="width:100%;height:auto;display:block;overflow:visible;" role="img" aria-label="${escapeAttr(pageTitle)}"></svg>
+        </div>
+        <div style="margin-top:12px;">
+          <div id="cs-prog-bar" style="display:flex;gap:6px;margin-bottom:6px;"></div>
+          <div id="cs-status" style="display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:600;color:#64748b;"></div>
+        </div>
+        <div id="cs-spotlight-card" style="margin-top:12px;padding:16px 18px;border-radius:var(--inner-radius);border:1px solid #cbd5e1;border-left:4px solid var(--primary);background:#ffffff;font-size:13.5px;line-height:1.55;"></div>`;
+      widgetLogic = `
+        const pts = DATA.points || [];
+        const unit = DATA.unitSuffix || '';
+        const isLine = DATA.chartStyle === 'line';
+        const explored = new Set();
+        const initialAnomalyIdx = pts.findIndex(p => p.isAnomaly);
+        let selectedIdx = initialAnomalyIdx !== -1 ? initialAnomalyIdx : 0;
+        if (pts.length > 0) explored.add(selectedIdx);
+
+        function renderChart() {
+          const svg = document.getElementById('cs-svg');
+          if (!pts.length) return;
+          const padL = 52, padR = 24, padT = 28, padB = 38;
+          const chartW = 640 - padL - padR;
+          const chartH = 270 - padT - padB;
+          const rawMax = Math.max(...pts.map(p => Number(p.value) || 0), 1);
+          const niceMax = Math.ceil(rawMax * 1.18);
+
+          let out = '';
+          const ticks = 4;
+          for (let t = 0; t <= ticks; t++) {
+            const val = Math.round((niceMax / ticks) * t);
+            const y = padT + chartH - (t / ticks) * chartH;
+            out += '<line x1="' + padL + '" y1="' + y + '" x2="' + (640 - padR) + '" y2="' + y + '" stroke="' + (t === 0 ? '#94a3b8' : '#e2e8f0') + '" stroke-width="' + (t === 0 ? '1.5' : '1') + '" />';
+            out += '<text x="' + (padL - 8) + '" y="' + (y + 4) + '" text-anchor="end" font-family="inherit" font-size="11" font-weight="600" fill="#64748b">' + esc(val + unit) + '</text>';
+          }
+
+          const stepW = chartW / pts.length;
+          const coords = pts.map((p, i) => {
+            const val = Math.max(0, Number(p.value) || 0);
+            const barH = (val / niceMax) * chartH;
+            const cx = padL + stepW * i + stepW / 2;
+            const cy = padT + chartH - barH;
+            return { cx, cy, barH, val, p, i };
+          });
+
+          if (isLine && coords.length > 1) {
+            const polyPts = coords.map(c => c.cx + ',' + c.cy).join(' ');
+            out += '<polyline points="' + polyPts + '" fill="none" stroke="var(--primary)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />';
+          }
+
+          coords.forEach(c => {
+            const isSel = c.i === selectedIdx;
+            const isAnom = Boolean(c.p.isAnomaly);
+            const fillCol = isAnom ? '#f59e0b' : (isSel ? 'var(--accent)' : 'var(--primary)');
+            const strokeCol = isSel ? '#0f172a' : 'none';
+
+            if (!isLine) {
+              const bw = Math.min(64, Math.max(28, stepW * 0.56));
+              const bx = c.cx - bw / 2;
+              out += '<g style="cursor:pointer;" onclick="selectChartPoint(' + c.i + ')">';
+              out += '<rect x="' + bx + '" y="' + c.cy + '" width="' + bw + '" height="' + Math.max(4, c.barH) + '" rx="7" fill="' + fillCol + '" stroke="' + strokeCol + '" stroke-width="' + (isSel ? '2.5' : '0') + '" opacity="' + (isSel ? '1' : '0.86') + '" />';
+              out += '<text x="' + c.cx + '" y="' + (c.cy - 7) + '" text-anchor="middle" font-family="inherit" font-size="12" font-weight="800" fill="' + (isAnom ? '#b45309' : '#0f172a') + '">' + esc(c.val + unit) + (isAnom ? ' ⚠' : '') + '</text>';
+              out += '<text x="' + c.cx + '" y="' + (padT + chartH + 20) + '" text-anchor="middle" font-family="inherit" font-size="12" font-weight="' + (isSel ? '800' : '600') + '" fill="' + (isSel ? '#0f172a' : '#475569') + '">' + esc(c.p.label) + '</text>';
+              out += '</g>';
+            } else {
+              out += '<g style="cursor:pointer;" onclick="selectChartPoint(' + c.i + ')">';
+              out += '<circle cx="' + c.cx + '" cy="' + c.cy + '" r="' + (isSel ? '10' : '7.5') + '" fill="' + fillCol + '" stroke="#ffffff" stroke-width="2.5" />';
+              out += '<text x="' + c.cx + '" y="' + (c.cy - 13) + '" text-anchor="middle" font-family="inherit" font-size="12" font-weight="800" fill="' + (isAnom ? '#b45309' : '#0f172a') + '">' + esc(c.val + unit) + (isAnom ? ' ⚠' : '') + '</text>';
+              out += '<text x="' + c.cx + '" y="' + (padT + chartH + 20) + '" text-anchor="middle" font-family="inherit" font-size="12" font-weight="' + (isSel ? '800' : '600') + '" fill="' + (isSel ? '#0f172a' : '#475569') + '">' + esc(c.p.label) + '</text>';
+              out += '</g>';
+            }
+          });
+
+          svg.innerHTML = out;
+        }
+
+        function renderSpotlightCard() {
+          const pt = pts[selectedIdx];
+          if (!pt) return;
+          const isAnom = Boolean(pt.isAnomaly);
+          const card = document.getElementById('cs-spotlight-card');
+          card.style.background = isAnom ? '#fffbeb' : '#f8fafc';
+          card.style.borderColor = isAnom ? '#fcd34d' : '#e2e8f0';
+          card.style.borderLeftColor = isAnom ? '#f59e0b' : 'var(--primary)';
+
+          card.innerHTML =
+            '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px;">' +
+              '<span style="font-size:15.5px;font-weight:800;color:' + (isAnom ? '#78350f' : '#0f172a') + ';">' + esc(pt.heading) + '</span>' +
+              (isAnom ? '<span style="font-size:10.5px;font-weight:800;text-transform:uppercase;padding:3px 8px;border-radius:999px;background:#fef3c7;color:#92400e;border:1px solid #f59e0b;">Anomaly Spotlight</span>' : '') +
+            '</div>' +
+            '<div style="color:#334155;margin-bottom:8px;"><strong>Root Cause:</strong> ' + esc(pt.insight) + '</div>' +
+            (pt.action ? '<div style="padding:9px 12px;border-radius:8px;background:#ffffff;border:1px solid #e2e8f0;color:#0f172a;font-size:13px;"><strong>Recommended Action:</strong> ' + esc(pt.action) + '</div>' : '');
+
+          const progBar = document.getElementById('cs-prog-bar');
+          progBar.innerHTML = pts.map((_, idx) =>
+            '<div onclick="selectChartPoint(' + idx + ')" style="flex:1;height:6px;border-radius:999px;cursor:pointer;background:' + (explored.has(idx) ? (pts[idx].isAnomaly ? '#f59e0b' : 'var(--primary)') : '#e2e8f0') + ';"></div>'
+          ).join('');
+
+          const statusEl = document.getElementById('cs-status');
+          statusEl.innerHTML = '<span>Explored ' + explored.size + ' of ' + pts.length + ' data points</span>' +
+            (explored.size >= pts.length ? '<span style="color:#059669;">Full dataset analyzed ✓</span>' : '<span>Click remaining bars to complete</span>');
+
+          if (explored.size >= pts.length) {
+            notifyActivityComplete(100);
+          }
+        }
+
+        window.selectChartPoint = function(i) {
+          selectedIdx = i;
+          explored.add(i);
+          renderChart();
+          renderSpotlightCard();
+        };
+
+        renderChart();
+        renderSpotlightCard();`;
+      break;
+
+    case "spin-wheel":
+      bodyMarkup = `
+        <div style="display:flex;flex-direction:column;align-items:center;gap:14px;">
+          <div style="position:relative;width:100%;max-width:330px;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;">
+            <div style="position:absolute;top:-8px;left:50%;transform:translateX(-50%);z-index:10;width:0;height:0;border-left:13px solid transparent;border-right:13px solid transparent;border-top:22px solid #0f172a;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.25));"></div>
+            <div id="sw-rotator" style="width:100%;height:100%;border-radius:999px;box-shadow:0 10px 28px rgba(15,23,42,0.14);border:6px solid #ffffff;transition:transform 3.4s cubic-bezier(0.14,0.85,0.22,1);will-change:transform;">
+              <svg id="sw-svg" viewBox="0 0 320 320" style="width:100%;height:100%;display:block;border-radius:999px;"></svg>
+            </div>
+            <button id="sw-spin-btn" onclick="spinWheelNow()" style="position:absolute;width:68px;height:68px;border-radius:999px;border:4px solid #ffffff;background:#0f172a;color:#ffffff;font-family:inherit;font-size:12px;font-weight:800;letter-spacing:.04em;cursor:pointer;box-shadow:0 4px 14px rgba(15,23,42,0.35);z-index:5;">SPIN</button>
+          </div>
+          <div id="sw-status" style="font-size:12.5px;font-weight:700;color:var(--primary);"></div>
+        </div>
+        <div id="sw-result-card" style="display:none;margin-top:16px;padding:16px 18px;border-radius:var(--inner-radius);background:#f8fafc;border:1px solid #cbd5e1;border-left:4px solid var(--primary);font-size:13.5px;line-height:1.55;"></div>`;
+      widgetLogic = `
+        const slices = DATA.slices || [];
+        const eliminate = DATA.eliminateCleared !== false;
+        const isQuestionMode = DATA.wheelMode === 'question';
+        const cleared = new Set();
+        let currentRotation = 0;
+        let spinning = false;
+        let activeSliceIdx = -1;
+
+        const palette = [
+          'var(--primary)',
+          'var(--accent)',
+          '#0f172a',
+          '#0d9488',
+          '#6366f1',
+          '#0284c7',
+          '#475569',
+          '#059669'
+        ];
+
+        function drawWheel() {
+          const svg = document.getElementById('sw-svg');
+          const n = slices.length;
+          if (!n) return;
+          const cx = 160, cy = 160, r = 158;
+          const stepDeg = 360 / n;
+          let markup = '';
+
+          for (let i = 0; i < n; i++) {
+            const startDeg = -90 + i * stepDeg;
+            const endDeg = startDeg + stepDeg;
+            const startRad = (startDeg * Math.PI) / 180;
+            const endRad = (endDeg * Math.PI) / 180;
+            const x1 = cx + r * Math.cos(startRad);
+            const y1 = cy + r * Math.sin(startRad);
+            const x2 = cx + r * Math.cos(endRad);
+            const y2 = cy + r * Math.sin(endRad);
+            const largeArc = stepDeg > 180 ? 1 : 0;
+            const isCleared = cleared.has(i);
+            const fill = isCleared ? '#cbd5e1' : palette[i % palette.length];
+
+            markup += '<path d="M ' + cx + ' ' + cy + ' L ' + x1.toFixed(2) + ' ' + y1.toFixed(2) + ' A ' + r + ' ' + r + ' 0 ' + largeArc + ' 1 ' + x2.toFixed(2) + ' ' + y2.toFixed(2) + ' Z" fill="' + fill + '" stroke="#ffffff" stroke-width="2.5" />';
+
+            const midDeg = startDeg + stepDeg / 2;
+            const midRad = (midDeg * Math.PI) / 180;
+            const tx = cx + (r * 0.62) * Math.cos(midRad);
+            const ty = cy + (r * 0.62) * Math.sin(midRad);
+            const rawLbl = slices[i].label || ('Slice ' + (i + 1));
+            const shortLbl = rawLbl.length > 14 ? rawLbl.slice(0, 13) + '…' : rawLbl;
+
+            markup += '<text x="' + tx.toFixed(1) + '" y="' + ty.toFixed(1) + '" fill="' + (isCleared ? '#475569' : '#ffffff') + '" font-family="inherit" font-size="11.5" font-weight="800" text-anchor="middle" dominant-baseline="middle" transform="rotate(' + (midDeg + 90).toFixed(1) + ' ' + tx.toFixed(1) + ' ' + ty.toFixed(1) + ')">' + esc((isCleared ? '✓ ' : '') + shortLbl) + '</text>';
+          }
+          svg.innerHTML = markup;
+          updateWheelStatus();
+        }
+
+        function updateWheelStatus() {
+          const stEl = document.getElementById('sw-status');
+          const btn = document.getElementById('sw-spin-btn');
+          stEl.textContent = 'Completed ' + cleared.size + ' of ' + slices.length + ' wedges';
+          if (cleared.size >= slices.length) {
+            stEl.innerHTML = '<span style="color:#059669;">All ' + slices.length + ' wedges completed ✓</span>';
+            btn.textContent = 'DONE';
+            notifyActivityComplete(100);
+          }
+        }
+
+        window.spinWheelNow = function() {
+          if (spinning || !slices.length) return;
+          let candidates = slices.map((_, i) => i);
+          if (eliminate) {
+            const remaining = candidates.filter(i => !cleared.has(i));
+            if (remaining.length > 0) candidates = remaining;
+          }
+          const targetIdx = candidates[Math.floor(Math.random() * candidates.length)];
+          const n = slices.length;
+          const stepDeg = 360 / n;
+          // Pointer is at top (-90deg). Slice i center is at -90 + (i + 0.5)*stepDeg.
+          // To bring slice i center to -90deg, wheel rotation mod 360 must equal (360 - (i + 0.5)*stepDeg) % 360.
+          const desiredMod = (360 - ((targetIdx + 0.5) * stepDeg) % 360 + 360) % 360;
+          const currentMod = ((currentRotation % 360) + 360) % 360;
+          const delta = ((desiredMod - currentMod) + 360) % 360;
+          const extraSpins = 360 * 5;
+          currentRotation += extraSpins + delta;
+
+          spinning = true;
+          document.getElementById('sw-spin-btn').style.opacity = '0.7';
+          document.getElementById('sw-rotator').style.transform = 'rotate(' + currentRotation + 'deg)';
+
+          setTimeout(() => {
+            spinning = false;
+            document.getElementById('sw-spin-btn').style.opacity = '1';
+            activeSliceIdx = targetIdx;
+            showSliceCard(targetIdx);
+          }, 3450);
+        };
+
+        function showSliceCard(idx) {
+          const sl = slices[idx];
+          const card = document.getElementById('sw-result-card');
+          card.style.display = 'block';
+
+          if (!isQuestionMode) {
+            cleared.add(idx);
+            drawWheel();
+            card.innerHTML =
+              '<div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--primary);margin-bottom:4px;">Wedge #' + (idx + 1) + ' • ' + esc(sl.label) + '</div>' +
+              '<div style="font-size:14.5px;font-weight:700;color:#0f172a;margin-bottom:8px;">' + esc(sl.prompt) + '</div>' +
+              (sl.takeaway ? '<div style="padding:10px 12px;border-radius:8px;background:#ffffff;border:1px solid #e2e8f0;color:#334155;font-size:13px;"><strong>Key Takeaway:</strong> ' + esc(sl.takeaway) + '</div>' : '') +
+              (cleared.size < slices.length ? '<div style="margin-top:12px;"><button class="btn-primary" onclick="spinWheelNow()">Spin Next Wedge ↻</button></div>' : '');
+          } else {
+            card.innerHTML =
+              '<div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--primary);margin-bottom:4px;">Wedge #' + (idx + 1) + ' • ' + esc(sl.label) + '</div>' +
+              '<div style="font-size:14.5px;font-weight:700;color:#0f172a;margin-bottom:10px;">' + esc(sl.prompt) + '</div>' +
+              '<div style="display:flex;flex-direction:column;gap:8px;">' +
+                '<button class="btn-opt" onclick="answerWheelSlice(' + idx + ',\\'A\\')"><strong>A.</strong> ' + esc(sl.optA || 'Option A') + '</button>' +
+                '<button class="btn-opt" onclick="answerWheelSlice(' + idx + ',\\'B\\')"><strong>B.</strong> ' + esc(sl.optB || 'Option B') + '</button>' +
+              '</div>' +
+              '<div id="sw-q-fb" style="margin-top:12px;"></div>';
+          }
+        }
+
+        window.answerWheelSlice = function(idx, choice) {
+          const sl = slices[idx];
+          const ok = (sl.correctOpt || 'A') === choice;
+          cleared.add(idx);
+          drawWheel();
+          const fb = document.getElementById('sw-q-fb');
+          fb.innerHTML =
+            '<div style="padding:12px 14px;border-radius:var(--inner-radius);font-size:13.5px;background:' + (ok ? '#ecfdf5;border:1px solid #a7f3d0;color:#065f46;' : '#fef2f2;border:1px solid #fecaca;color:#991b1b;') + '">' +
+              '<strong>' + (ok ? '✓ Strong Choice: ' : '⚠ Coaching Note: ') + '</strong>' + esc(sl.feedback || '') +
+              (cleared.size < slices.length ? '<div style="margin-top:10px;"><button class="btn-primary" onclick="spinWheelNow()">Spin Next Wedge ↻</button></div>' : '') +
+            '</div>';
+        };
+
+        drawWheel();`;
       break;
   }
 
   const embeddedSourceSnapshot = safeJsonForScript({
     version: "1.0",
-    savedAt: new Date().toISOString(),
     componentId: currentComp.id,
     componentTitle: currentComp.title,
-    branding: {
-      primary,
-      accent,
-      font: fontKey,
-      radius,
-      label
-    },
+    branding: { primary, accent, font: fontKey, radius, label },
     lms: {
       riseComplete: enableRiseComplete,
       autoResize: enableAutoResize,
@@ -3589,7 +4069,7 @@ function buildStandaloneHTML() {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>${escapeHtml(pageTitle)}</title>
+  <title>${escapeAttr(pageTitle)}</title>
   ${googleFontImport}
   <style>
     :root { --primary: ${primary}; --accent: ${accent}; --radius: ${radius}; --inner-radius: ${innerRadius}; }
@@ -3607,7 +4087,7 @@ function buildStandaloneHTML() {
   <div class="card">
     <div class="header">
       ${labelBadgeHTML}
-      <h2>${escapeHtml(pageTitle)}</h2>
+      <h2>${escapeAttr(pageTitle)}</h2>
       ${subtitleHTML}
     </div>
     ${bodyMarkup}
@@ -3795,14 +4275,14 @@ function buildSmeReviewRows() {
     case "chat-scenario":
       d.steps.forEach((st, i) => {
         const choicesHtml = st.options.map((o, oi) =>
-          `<div style="margin-bottom:6px;"><strong>Choice ${String.fromCharCode(65 + oi)}:</strong> ${escapeHtml(o.text)}</div>`
+          `<div style="margin-bottom:6px;"><strong>Choice ${String.fromCharCode(65 + oi)}:</strong> ${escapeAttr(o.text)}</div>`
         ).join("");
         const fbHtml = st.options.map((o, oi) =>
-          `<div style="margin-bottom:6px;"><strong>${String.fromCharCode(65 + oi)} [${o.correct ? 'OPTIMAL' : 'DISTRACTOR'}]:</strong> ${escapeHtml(o.feedback)}</div>`
+          `<div style="margin-bottom:6px;"><strong>${String.fromCharCode(65 + oi)} [${o.correct ? 'OPTIMAL' : 'DISTRACTOR'}]:</strong> ${escapeAttr(o.feedback)}</div>`
         ).join("");
         rows.push({
           id: `Turn ${i + 1}`,
-          prompt: `<strong>${escapeHtml(d.contactName)}:</strong><br/>"${escapeHtml(st.incoming)}"`,
+          prompt: `<strong>${escapeAttr(d.contactName)}:</strong><br/>"${escapeAttr(st.incoming)}"`,
           choices: choicesHtml,
           feedback: fbHtml
         });
@@ -3812,14 +4292,14 @@ function buildSmeReviewRows() {
     case "scenario-walkthrough":
       d.scenes.forEach((sc, i) => {
         const choicesHtml = sc.choices.map((c, ci) =>
-          `<div style="margin-bottom:6px;"><strong>Choice ${String.fromCharCode(65 + ci)}:</strong> ${escapeHtml(c.label)}</div>`
+          `<div style="margin-bottom:6px;"><strong>Choice ${String.fromCharCode(65 + ci)}:</strong> ${escapeAttr(c.label)}</div>`
         ).join("");
         const fbHtml = sc.choices.map((c, ci) =>
-          `<div style="margin-bottom:6px;"><strong>${String.fromCharCode(65 + ci)} [${c.isOptimal ? 'OPTIMAL' : 'SUBOPTIMAL'}]:</strong> ${escapeHtml(c.outcome)}</div>`
+          `<div style="margin-bottom:6px;"><strong>${String.fromCharCode(65 + ci)} [${c.isOptimal ? 'OPTIMAL' : 'SUBOPTIMAL'}]:</strong> ${escapeAttr(c.outcome)}</div>`
         ).join("");
         rows.push({
           id: `Scene ${i + 1}`,
-          prompt: `<strong>${escapeHtml(sc.heading)}</strong><br/>${escapeHtml(sc.narrative)}`,
+          prompt: `<strong>${escapeAttr(sc.heading)}</strong><br/>${escapeAttr(sc.narrative)}`,
           choices: choicesHtml,
           feedback: fbHtml
         });
@@ -3829,19 +4309,19 @@ function buildSmeReviewRows() {
     case "judgment-card":
       rows.push({
         id: "Decision Card",
-        prompt: `<em>[${escapeHtml(d.tag)}]</em><br/>${escapeHtml(d.situation)}<br/><br/><strong>Prompt:</strong> ${escapeHtml(d.question)}`,
-        choices: d.options.map((o, oi) => `<div style="margin-bottom:6px;"><strong>Option ${String.fromCharCode(65 + oi)}:</strong> ${escapeHtml(o.text)}</div>`).join(""),
-        feedback: d.options.map((o, oi) => `<div style="margin-bottom:6px;"><strong>${String.fromCharCode(65 + oi)} [${o.correct ? 'BEST CHOICE' : 'DISTRACTOR'}]:</strong> ${escapeHtml(o.rationale)}</div>`).join("")
+        prompt: `<em>[${escapeAttr(d.tag)}]</em><br/>${escapeAttr(d.situation)}<br/><br/><strong>Prompt:</strong> ${escapeAttr(d.question)}`,
+        choices: d.options.map((o, oi) => `<div style="margin-bottom:6px;"><strong>Option ${String.fromCharCode(65 + oi)}:</strong> ${escapeAttr(o.text)}</div>`).join(""),
+        feedback: d.options.map((o, oi) => `<div style="margin-bottom:6px;"><strong>${String.fromCharCode(65 + oi)} [${o.correct ? 'BEST CHOICE' : 'DISTRACTOR'}]:</strong> ${escapeAttr(o.rationale)}</div>`).join("")
       });
       break;
 
     case "process-flow":
       d.steps.forEach((st, i) => {
         rows.push({
-          id: `Stage ${i + 1} (${escapeHtml(st.label)})`,
-          prompt: `<strong>${escapeHtml(st.heading)}</strong>`,
-          choices: escapeHtml(st.body),
-          feedback: `<strong>Key Takeaway:</strong> ${escapeHtml(st.tip || "—")}`
+          id: `Stage ${i + 1} (${escapeAttr(st.label)})`,
+          prompt: `<strong>${escapeAttr(st.heading)}</strong>`,
+          choices: escapeAttr(st.body),
+          feedback: `<strong>Key Takeaway:</strong> ${escapeAttr(st.tip || "—")}`
         });
       });
       break;
@@ -3849,9 +4329,9 @@ function buildSmeReviewRows() {
     case "timeline":
       d.events.forEach((ev, i) => {
         rows.push({
-          id: `Milestone ${i + 1} (${escapeHtml(ev.date)})`,
-          prompt: `<strong>${escapeHtml(ev.title)}</strong>`,
-          choices: escapeHtml(ev.summary),
+          id: `Milestone ${i + 1} (${escapeAttr(ev.date)})`,
+          prompt: `<strong>${escapeAttr(ev.title)}</strong>`,
+          choices: escapeAttr(ev.summary),
           feedback: "Chronological progression checkpoint"
         });
       });
@@ -3860,16 +4340,16 @@ function buildSmeReviewRows() {
     case "concept-breakdown":
       rows.push({
         id: "Core Anchor",
-        prompt: `<strong>${escapeHtml(d.coreConcept)}</strong>`,
-        choices: escapeHtml(d.coreDesc),
+        prompt: `<strong>${escapeAttr(d.coreConcept)}</strong>`,
+        choices: escapeAttr(d.coreDesc),
         feedback: "Central hub framework"
       });
       d.branches.forEach((br, i) => {
         rows.push({
           id: `Pillar ${i + 1}`,
-          prompt: `<strong>${escapeHtml(br.name)}</strong>`,
-          choices: escapeHtml(br.detail),
-          feedback: `<strong>Example:</strong> ${escapeHtml(br.example || "—")}`
+          prompt: `<strong>${escapeAttr(br.name)}</strong>`,
+          choices: escapeAttr(br.detail),
+          feedback: `<strong>Example:</strong> ${escapeAttr(br.example || "—")}`
         });
       });
       break;
@@ -3877,14 +4357,14 @@ function buildSmeReviewRows() {
     case "before-after":
       rows.push({
         id: "Before State",
-        prompt: `<strong>${escapeHtml(d.beforeLabel)}: ${escapeHtml(d.beforeTitle)}</strong>`,
-        choices: d.beforePoints.map(p => `• ${escapeHtml(p)}`).join("<br/>"),
+        prompt: `<strong>${escapeAttr(d.beforeLabel)}: ${escapeAttr(d.beforeTitle)}</strong>`,
+        choices: d.beforePoints.map(p => `• ${escapeAttr(p)}`).join("<br/>"),
         feedback: "Anti-pattern / baseline state"
       });
       rows.push({
         id: "After State",
-        prompt: `<strong>${escapeHtml(d.afterLabel)}: ${escapeHtml(d.afterTitle)}</strong>`,
-        choices: d.afterPoints.map(p => `• ${escapeHtml(p)}`).join("<br/>"),
+        prompt: `<strong>${escapeAttr(d.afterLabel)}: ${escapeAttr(d.afterTitle)}</strong>`,
+        choices: d.afterPoints.map(p => `• ${escapeAttr(p)}`).join("<br/>"),
         feedback: "Target exemplar / compliant state"
       });
       break;
@@ -3893,8 +4373,8 @@ function buildSmeReviewRows() {
       d.slides.forEach((sl, i) => {
         rows.push({
           id: `Slide ${i + 1}`,
-          prompt: `<strong>${escapeHtml(sl.heading)}</strong> (${escapeHtml(sl.badge || "")})`,
-          choices: escapeHtml(sl.caption),
+          prompt: `<strong>${escapeAttr(sl.heading)}</strong> (${escapeAttr(sl.badge || "")})`,
+          choices: escapeAttr(sl.caption),
           feedback: "Visual walkthrough slide"
         });
       });
@@ -3904,8 +4384,8 @@ function buildSmeReviewRows() {
       d.prompts.forEach((pr, i) => {
         rows.push({
           id: `Prompt ${i + 1}`,
-          prompt: `<strong>${escapeHtml(pr.question)}</strong>`,
-          choices: `<em>Placeholder:</em> "${escapeHtml(pr.placeholder || "")}"`,
+          prompt: `<strong>${escapeAttr(pr.question)}</strong>`,
+          choices: `<em>Placeholder:</em> "${escapeAttr(pr.placeholder || "")}"`,
           feedback: "Open learner reflection (autosaved in browser)"
         });
       });
@@ -3915,9 +4395,9 @@ function buildSmeReviewRows() {
       d.cards.forEach((ca, i) => {
         rows.push({
           id: `Card ${i + 1}`,
-          prompt: `<strong>Front:</strong> ${escapeHtml(ca.front)}`,
-          choices: `Category: ${escapeHtml(ca.category || "General")}`,
-          feedback: `<strong>Back:</strong> ${escapeHtml(ca.back)}`
+          prompt: `<strong>Front:</strong> ${escapeAttr(ca.front)}`,
+          choices: `Category: ${escapeAttr(ca.category || "General")}`,
+          feedback: `<strong>Back:</strong> ${escapeAttr(ca.back)}`
         });
       });
       break;
@@ -3926,9 +4406,9 @@ function buildSmeReviewRows() {
       d.questions.forEach((q, i) => {
         rows.push({
           id: `Question ${i + 1}`,
-          prompt: escapeHtml(q.stem),
-          choices: q.options.map((o, oi) => `<div><strong>${String.fromCharCode(65 + oi)}:</strong> ${escapeHtml(o)}</div>`).join(""),
-          feedback: `<strong>Answer Key: Option ${String.fromCharCode(65 + q.answerIndex)}</strong><br/>${escapeHtml(q.rationale)}`
+          prompt: escapeAttr(q.stem),
+          choices: q.options.map((o, oi) => `<div><strong>${String.fromCharCode(65 + oi)}:</strong> ${escapeAttr(o)}</div>`).join(""),
+          feedback: `<strong>Answer Key: Option ${String.fromCharCode(65 + q.answerIndex)}</strong><br/>${escapeAttr(q.rationale)}`
         });
       });
       break;
@@ -3937,9 +4417,9 @@ function buildSmeReviewRows() {
       d.items.forEach((it, i) => {
         rows.push({
           id: `Sentence ${i + 1}`,
-          prompt: `${escapeHtml(it.before)} <strong>[________]</strong> ${escapeHtml(it.after)}`,
+          prompt: `${escapeAttr(it.before)} <strong>[________]</strong> ${escapeAttr(it.after)}`,
           choices: "Learner text input field",
-          feedback: `<strong>Exact Keyword:</strong> ${escapeHtml(it.answer)}`
+          feedback: `<strong>Exact Keyword:</strong> ${escapeAttr(it.answer)}`
         });
       });
       break;
@@ -3948,7 +4428,7 @@ function buildSmeReviewRows() {
       d.steps.forEach((st, i) => {
         rows.push({
           id: `Step ${i + 1}`,
-          prompt: escapeHtml(st),
+          prompt: escapeAttr(st),
           choices: `Correct Sequence Position: #${i + 1}`,
           feedback: "Must be ordered sequentially"
         });
@@ -3960,9 +4440,9 @@ function buildSmeReviewRows() {
         const bucketName = it.bucket === "A" ? d.catA : d.catB;
         rows.push({
           id: `Item ${i + 1}`,
-          prompt: escapeHtml(it.text),
-          choices: `Options: ${escapeHtml(d.catA)} vs. ${escapeHtml(d.catB)}`,
-          feedback: `<strong>Correct Bucket:</strong> ${escapeHtml(bucketName)}`
+          prompt: escapeAttr(it.text),
+          choices: `Options: ${escapeAttr(d.catA)} vs. ${escapeAttr(d.catB)}`,
+          feedback: `<strong>Correct Bucket:</strong> ${escapeAttr(bucketName)}`
         });
       });
       break;
@@ -3971,7 +4451,7 @@ function buildSmeReviewRows() {
       d.items.forEach((it, i) => {
         rows.push({
           id: `Check ${i + 1}`,
-          prompt: escapeHtml(it),
+          prompt: escapeAttr(it),
           choices: "Checkbox verification item",
           feedback: "Required for completion"
         });
@@ -3979,30 +4459,61 @@ function buildSmeReviewRows() {
       break;
 
     case "hotspot-diagram":
-      d.pins.forEach((p, i) => {
+      d.pins.forEach((pin, i) => {
         rows.push({
-          id: `Pin #${i + 1} (${p.x}%, ${p.y}%)`,
-          prompt: `<strong>${escapeHtml(p.title)}</strong>`,
-          choices: `Mode: ${d.mode === 'quiz' ? 'Identify / Quiz' : 'Guided Exploration'}`,
-          feedback: escapeHtml(p.detail)
+          id: `Pin #${i + 1} (${pin.x}%, ${pin.y}%)`,
+          prompt: `<strong>${escapeAttr(pin.title)}</strong>`,
+          choices: d.mode === "quiz" ? "Identify / Quiz target pin" : "Guided Exploration hotspot",
+          feedback: escapeAttr(pin.detail)
         });
       });
       break;
 
     case "media-checkpoint":
-      (d.checkpoints || []).forEach((cp, i) => {
+      d.checkpoints.forEach((cp, i) => {
         const choicesHtml = (cp.options || []).map((o, oi) =>
-          `<div style="margin-bottom:6px;"><strong>Option ${String.fromCharCode(65 + oi)}:</strong> ${escapeHtml(o.text)}</div>`
+          `<div style="margin-bottom:6px;"><strong>Choice ${String.fromCharCode(65 + oi)}:</strong> ${escapeAttr(o.text)}</div>`
         ).join("");
         const fbHtml = (cp.options || []).map((o, oi) =>
-          `<div style="margin-bottom:6px;"><strong>${String.fromCharCode(65 + oi)} [${o.correct ? 'CORRECT' : 'DISTRACTOR'}]:</strong> ${escapeHtml(o.feedback)}</div>`
+          `<div style="margin-bottom:6px;"><strong>${String.fromCharCode(65 + oi)} [${o.correct ? 'CORRECT' : 'DISTRACTOR'}]:</strong> ${escapeAttr(o.feedback)}</div>`
         ).join("");
         rows.push({
-          id: `Cue #${i + 1} (@ ${cp.timeSec}s)`,
-          prompt: `<strong>${escapeHtml(cp.label)}</strong><br/>${escapeHtml(cp.question)}`,
+          id: `Cue #${i + 1} (${cp.timeSec}s)`,
+          prompt: `<strong>${escapeAttr(cp.label)}</strong><br/>${escapeAttr(cp.question)}`,
           choices: choicesHtml,
           feedback: fbHtml
         });
+      });
+      break;
+
+    case "chart-spotlight":
+      d.points.forEach((pt, i) => {
+        rows.push({
+          id: `Data Point #${i + 1} (${escapeAttr(pt.label)})`,
+          prompt: `<strong>${escapeAttr(pt.heading)}</strong><br/>Metric Value: <strong>${escapeAttr(pt.value + (d.unitSuffix || ''))}</strong>${pt.isAnomaly ? ' <em>[ANOMALY SPOTLIGHT]</em>' : ''}`,
+          choices: `<strong>Root Cause:</strong> ${escapeAttr(pt.insight)}`,
+          feedback: `<strong>Recommended Action:</strong> ${escapeAttr(pt.action || "—")}`
+        });
+      });
+      break;
+
+    case "spin-wheel":
+      d.slices.forEach((sl, i) => {
+        if (d.wheelMode === "question") {
+          rows.push({
+            id: `Wedge #${i + 1} (${escapeAttr(sl.label)})`,
+            prompt: escapeAttr(sl.prompt),
+            choices: `<div><strong>A:</strong> ${escapeAttr(sl.optA || "")}</div><div><strong>B:</strong> ${escapeAttr(sl.optB || "")}</div>`,
+            feedback: `<strong>Answer Key: Option ${escapeAttr(sl.correctOpt || "A")}</strong><br/>${escapeAttr(sl.feedback || "")}`
+          });
+        } else {
+          rows.push({
+            id: `Wedge #${i + 1} (${escapeAttr(sl.label)})`,
+            prompt: escapeAttr(sl.prompt),
+            choices: "Prompt Reveal Wedge",
+            feedback: `<strong>Key Takeaway:</strong> ${escapeAttr(sl.takeaway || "—")}`
+          });
+        }
       });
       break;
   }
@@ -4032,7 +4543,7 @@ function buildSmeReviewDocumentHtml(isWord) {
 <html ${htmlAttrs}>
 <head>
   <meta charset="UTF-8" />
-  <title>SME Review Script - ${escapeHtml(title)}</title>
+  <title>SME Review Script - ${escapeAttr(title)}</title>
   <style>
     body { font-family: Calibri, Arial, sans-serif; color: #0f172a; line-height: 1.45; margin: 28px; }
     table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 10.5pt; }
@@ -4047,9 +4558,9 @@ function buildSmeReviewDocumentHtml(isWord) {
   <table class="meta-table">
     <tr>
       <td style="background:#f1f5f9;font-weight:bold;width:18%;">Activity Title</td>
-      <td style="width:32%;">${escapeHtml(title)}</td>
+      <td style="width:32%;">${escapeAttr(title)}</td>
       <td style="background:#f1f5f9;font-weight:bold;width:18%;">Interaction Type</td>
-      <td style="width:32%;">${escapeHtml(currentComp.title)}</td>
+      <td style="width:32%;">${escapeAttr(currentComp.title)}</td>
     </tr>
     <tr>
       <td style="background:#f1f5f9;font-weight:bold;">Bloom's Level</td>
@@ -4205,6 +4716,70 @@ function setViewerViewport(width) {
   }
 }
 
+function toggleViewerDragMode() {
+  viewerDragEnabled = !viewerDragEnabled;
+  const btn = document.getElementById("vtool-drag-toggle");
+  if (viewerDragEnabled) {
+    btn.className = "px-2.5 py-1 rounded-lg bg-indigo-600 text-white border border-indigo-700 text-[11px] font-bold shadow-sm transition flex items-center gap-1";
+    btn.innerHTML = `<span>✥ Drag Move: ON</span>`;
+    showToast("Drag Mode ON — click & drag any button or element to move it");
+  } else {
+    btn.className = "px-2.5 py-1 rounded-lg bg-white hover:bg-indigo-100 border border-slate-200 text-[11px] font-semibold text-slate-700 transition flex items-center gap-1";
+    btn.innerHTML = `<span>✥ Drag Move: Off</span>`;
+    showToast("Drag Mode Off — click text to type & edit copy");
+  }
+  renderViewerIframe();
+}
+
+function applySelectedElementShape(shape) {
+  const iframe = document.getElementById("viewer-iframe");
+  const el = window.__viewerSelectedEl;
+  if (!el) {
+    showToast("Click a button, badge, or card in the preview first.");
+    return;
+  }
+
+  if (shape === "rect") {
+    el.style.borderRadius = "4px";
+    el.style.aspectRatio = "";
+  } else if (shape === "rounded") {
+    el.style.borderRadius = "12px";
+    el.style.aspectRatio = "";
+  } else if (shape === "pill") {
+    el.style.borderRadius = "9999px";
+    el.style.aspectRatio = "";
+  } else if (shape === "circle") {
+    const rect = el.getBoundingClientRect();
+    const side = Math.max(48, Math.round(Math.max(rect.width, rect.height)));
+    el.style.display = "inline-flex";
+    el.style.alignItems = "center";
+    el.style.justifyContent = "center";
+    el.style.textAlign = "center";
+    el.style.width = `${side}px`;
+    el.style.height = `${side}px`;
+    el.style.padding = "10px";
+    el.style.borderRadius = "50%";
+  }
+
+  syncIframeBackToCode(iframe);
+  showToast(`Applied ${shape} shape to <${el.tagName.toLowerCase()}>`);
+}
+
+function resetSelectedElementPosition() {
+  const iframe = document.getElementById("viewer-iframe");
+  const el = window.__viewerSelectedEl;
+  if (!el) {
+    showToast("Click a moved button or element in the preview first.");
+    return;
+  }
+  el.style.position = "";
+  el.style.left = "";
+  el.style.top = "";
+  el.style.zIndex = "";
+  syncIframeBackToCode(iframe);
+  showToast("Reset element position");
+}
+
 function renderViewerIframe() {
   const iframe = document.getElementById("viewer-iframe");
   const rawHtml = document.getElementById("viewer-code-input").value;
@@ -4222,54 +4797,22 @@ function renderViewerIframe() {
   iframe.srcdoc = rawHtml;
 }
 
-function toggleViewerDragMode() {
-  viewerDragEnabled = !viewerDragEnabled;
-  const btn = document.getElementById("vtool-drag-toggle");
-  if (btn) {
-    if (viewerDragEnabled) {
-      btn.className = "px-2.5 py-1 rounded-lg bg-indigo-600 text-white border border-indigo-600 text-[11px] font-bold shadow-xs transition flex items-center gap-1";
-      btn.innerHTML = `<span>✥ Drag Move: ON</span>`;
-    } else {
-      btn.className = "px-2.5 py-1 rounded-lg bg-white hover:bg-indigo-100 border border-slate-200 text-[11px] font-semibold text-slate-700 transition flex items-center gap-1";
-      btn.innerHTML = `<span>✥ Drag Move: Off</span>`;
-    }
-  }
-  const iframe = document.getElementById("viewer-iframe");
-  try {
-    const doc = iframe.contentDocument || iframe.contentWindow.document;
-    if (doc && doc.body) {
-      doc.designMode = viewerDragEnabled ? "off" : "on";
-      doc.body.setAttribute("data-nocode-drag-mode", viewerDragEnabled ? "true" : "false");
-    }
-  } catch (e) {}
-  showToast(viewerDragEnabled ? "Drag Move ON — click and drag any button or element to reposition" : "Drag Move OFF — click any text or button to type");
-}
-// ... existing code ... -->
 function activateIframeVisualEditor(iframe) {
   try {
     const doc = iframe.contentDocument || iframe.contentWindow.document;
     if (!doc || !doc.body) return;
 
     doc.designMode = viewerDragEnabled ? "off" : "on";
-    doc.body.setAttribute("data-nocode-drag-mode", viewerDragEnabled ? "true" : "false");
 
     const editorStyle = doc.createElement("style");
     editorStyle.setAttribute("data-nocode-editor-helper", "true");
     editorStyle.textContent = `
-      body * { cursor: text !important; }
-      body[data-nocode-drag-mode="true"] * { cursor: grab !important; user-select: none !important; }
-      body[data-nocode-drag-mode="true"] *:active { cursor: grabbing !important; }
-      [data-nocode-selected="true"] { outline: 2px dashed #4f46e5 !important; outline-offset: 3px; }
+      body * { cursor: ${viewerDragEnabled ? "grab" : "text"} !important; }
+      [data-nocode-selected="true"] { outline: 2px dashed #4f46e5 !important; outline-offset: 2px; }
     `;
     doc.head.appendChild(editorStyle);
 
-    // Drag-to-move state inside the iframe
-    let dragTarget = null;
-    let startX = 0;
-    let startY = 0;
-    let origLeft = 0;
-    let origTop = 0;
-    let didMove = false;
+    let dragState = null;
 
     doc.addEventListener("mousedown", function(e) {
       const target = e.target;
@@ -4288,36 +4831,36 @@ function activateIframeVisualEditor(iframe) {
       if (viewerDragEnabled || e.altKey) {
         e.preventDefault();
         e.stopPropagation();
-        dragTarget = target;
-        didMove = false;
-        startX = e.clientX;
-        startY = e.clientY;
-
-        const computedPos = iframe.contentWindow.getComputedStyle(dragTarget).position;
-        if (computedPos === "static") {
-          dragTarget.style.position = "relative";
+        const computed = iframe.contentWindow.getComputedStyle(target);
+        if (computed.position === "static") {
+          target.style.position = "relative";
         }
-        origLeft = parseFloat(dragTarget.style.left) || 0;
-        origTop = parseFloat(dragTarget.style.top) || 0;
+        const startLeft = parseFloat(target.style.left) || 0;
+        const startTop = parseFloat(target.style.top) || 0;
+        target.style.zIndex = "50";
+        dragState = {
+          el: target,
+          startX: e.clientX,
+          startY: e.clientY,
+          origLeft: startLeft,
+          origTop: startTop
+        };
       }
     }, true);
 
     doc.addEventListener("mousemove", function(e) {
-      if (!dragTarget) return;
+      if (!dragState) return;
       e.preventDefault();
-      const dx = e.clientX - startX;
-      const dy = e.clientY - startY;
-      if (Math.abs(dx) > 1 || Math.abs(dy) > 1) didMove = true;
-      dragTarget.style.left = `${Math.round(origLeft + dx)}px`;
-      dragTarget.style.top = `${Math.round(origTop + dy)}px`;
+      const dx = e.clientX - dragState.startX;
+      const dy = e.clientY - dragState.startY;
+      dragState.el.style.left = `${Math.round(dragState.origLeft + dx)}px`;
+      dragState.el.style.top = `${Math.round(dragState.origTop + dy)}px`;
     }, true);
 
     doc.addEventListener("mouseup", function() {
-      if (dragTarget) {
-        if (didMove) {
-          syncIframeBackToCode(iframe);
-        }
-        dragTarget = null;
+      if (dragState) {
+        dragState = null;
+        syncIframeBackToCode(iframe);
       }
     }, true);
 
@@ -4334,7 +4877,6 @@ function activateIframeVisualEditor(iframe) {
 
     doc.addEventListener("input", queueSync);
     doc.addEventListener("keyup", queueSync);
-    doc.addEventListener("mouseup", queueSync);
   } catch (err) {
     console.warn("Visual editor note:", err);
   }
@@ -4405,65 +4947,6 @@ function adjustSelectedFontSize(deltaPx) {
   const nextPx = Math.max(10, Math.min(64, Math.round(currentPx + deltaPx)));
   el.style.fontSize = `${nextPx}px`;
   syncIframeBackToCode(iframe);
-}
-
-function applySelectedElementShape(shape) {
-  const iframe = document.getElementById("viewer-iframe");
-  const el = window.__viewerSelectedEl;
-  if (!el) {
-    showToast("Click a button, badge, or card in the preview first.");
-    return;
-  }
-  const win = iframe.contentWindow;
-  const rect = el.getBoundingClientRect();
-
-  // Reset circle-specific dimensions when switching away from circle
-  if (shape !== "circle") {
-    el.style.width = "";
-    el.style.height = "";
-    el.style.display = "";
-    el.style.alignItems = "";
-    el.style.justifyContent = "";
-    el.style.textAlign = "";
-  }
-
-  if (shape === "rect") {
-    el.style.borderRadius = "4px";
-    showToast("Applied sharp rectangle shape (4px)");
-  } else if (shape === "rounded") {
-    el.style.borderRadius = "12px";
-    showToast("Applied rounded rectangle shape (12px)");
-  } else if (shape === "pill") {
-    el.style.borderRadius = "9999px";
-    showToast("Applied pill button shape");
-  } else if (shape === "circle") {
-    const diameter = Math.max(48, Math.min(220, Math.round(Math.max(rect.width, rect.height))));
-    el.style.width = `${diameter}px`;
-    el.style.height = `${diameter}px`;
-    el.style.borderRadius = "50%";
-    el.style.display = "inline-flex";
-    el.style.alignItems = "center";
-    el.style.justifyContent = "center";
-    el.style.textAlign = "center";
-    el.style.padding = "10px";
-    showToast(`Applied circle shape (${diameter}×${diameter}px)`);
-  }
-
-  syncIframeBackToCode(iframe);
-}
-
-function resetSelectedElementPosition() {
-  const iframe = document.getElementById("viewer-iframe");
-  const el = window.__viewerSelectedEl;
-  if (!el) {
-    showToast("Click an element in the preview first.");
-    return;
-  }
-  el.style.position = "";
-  el.style.left = "";
-  el.style.top = "";
-  syncIframeBackToCode(iframe);
-  showToast("Reset element position");
 }
 
 // SMART BRAND COLOR REPLACER
@@ -4537,98 +5020,6 @@ function getPreparedViewerExportHtml() {
     }
   }
   return html;
-}
-
-function openScormLaunchInVisualEditor() {
-  if (!scormPlayerState.zip || !scormPlayerState.activeFullEntryPath) {
-    showToast("Load a SCORM .zip package first.");
-    return;
-  }
-  const entryFile = scormPlayerState.zip.file(scormPlayerState.activeFullEntryPath);
-  if (!entryFile) {
-    showToast("Could not locate launch HTML inside SCORM archive.");
-    return;
-  }
-  entryFile.async("string").then(htmlStr => {
-    scormPlayerState.isPatchingInEditor = true;
-    document.getElementById("viewer-scorm-patch-target").textContent = scormPlayerState.activeFullEntryPath;
-    document.getElementById("viewer-scorm-patch-pkg").textContent = scormPlayerState.packageFileName || "scorm-package.zip";
-    document.getElementById("viewer-scorm-patch-banner").classList.remove("hidden");
-
-    switchWorkspace("viewer");
-    document.getElementById("viewer-code-input").value = htmlStr;
-    onViewerCodeInput();
-    showToast(`Loaded "${scormPlayerState.activeFullEntryPath}" into Visual Editor`);
-  });
-}
-
-function exitScormPatchMode() {
-  scormPlayerState.isPatchingInEditor = false;
-  document.getElementById("viewer-scorm-patch-banner").classList.add("hidden");
-  showToast("Exited SCORM Patch Mode");
-}
-
-async function repackagePatchedScormZip() {
-  if (!scormPlayerState.zip || !scormPlayerState.activeFullEntryPath) {
-    showToast("No active SCORM package to re-package.");
-    return;
-  }
-  const updatedHtml = document.getElementById("viewer-code-input").value;
-  if (!updatedHtml.trim()) {
-    showToast("HTML editor is empty.");
-    return;
-  }
-
-  const outZip = new JSZip();
-  const entries = Object.keys(scormPlayerState.zip.files);
-
-  for (const path of entries) {
-    const fileObj = scormPlayerState.zip.files[path];
-    if (fileObj.dir || path.startsWith("__MACOSX/")) continue;
-    if (path === scormPlayerState.activeFullEntryPath) {
-      outZip.file(path, updatedHtml);
-    } else {
-      const bytes = await fileObj.async("uint8array");
-      outZip.file(path, bytes);
-    }
-  }
-
-  const blob = await outZip.generateAsync({ type: "blob" });
-  const baseName = (scormPlayerState.packageFileName || "scorm-package.zip").replace(/\.zip$/i, "");
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = `${baseName}-patched.zip`;
-  a.click();
-  showToast(`Downloaded ${baseName}-patched.zip`);
-}
-
-async function normalizeAndRezipScorm() {
-  if (!scormPlayerState.zip || !scormPlayerState.manifestDir) {
-    showToast("This package already has imsmanifest.xml at the root.");
-    return;
-  }
-  const prefix = scormPlayerState.manifestDir;
-  const fixedZip = new JSZip();
-  const entries = Object.keys(scormPlayerState.zip.files);
-  let movedCount = 0;
-
-  for (const path of entries) {
-    const fileObj = scormPlayerState.zip.files[path];
-    if (fileObj.dir || path.startsWith("__MACOSX/")) continue;
-    const normalizedPath = path.startsWith(prefix) ? path.slice(prefix.length) : path;
-    if (!normalizedPath) continue;
-    const bytes = await fileObj.async("uint8array");
-    fixedZip.file(normalizedPath, bytes);
-    movedCount++;
-  }
-
-  const blob = await fixedZip.generateAsync({ type: "blob" });
-  const baseName = (scormPlayerState.packageFileName || "scorm-package.zip").replace(/\.zip$/i, "");
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = `${baseName}-root-fixed.zip`;
-  a.click();
-  showToast(`Promoted ${movedCount} files to root & downloaded ${baseName}-root-fixed.zip`);
 }
 
 function copyViewerHtml() {
@@ -4733,7 +5124,507 @@ async function downloadViewerScorm() {
 }
 
 // ============================================================================
-// 10. SAVED BRAND KITS & PROJECT DRAFT VAULT (LOCALSTORAGE + .JSON)
+// 10. SCORM 1.2 & 2004 PACKAGE PREVIEWER & PATCHER (WORKSPACE 5)
+// ============================================================================
+let scormPlayerState = {
+  zip: null,
+  fileName: "",
+  rootPrefix: "",
+  manifestPath: "",
+  scos: [],
+  activeScoHref: "",
+  blobUrls: [],
+  cmi12: {},
+  cmi2004: {},
+  sessionStart: Date.now(),
+  timerInterval: null
+};
+
+let scormPatchSession = {
+  active: false,
+  pkgFileName: "",
+  targetPath: ""
+};
+
+function renderEmptyScormStage() {
+  const iframe = document.getElementById("scorm-player-iframe");
+  if (!iframe) return;
+  iframe.srcdoc = `<!DOCTYPE html><html><body style="font-family:sans-serif;color:#94a3b8;display:flex;align-items:center;justify-content:center;height:480px;margin:0;text-align:center;"><div><div style="font-size:34px;margin-bottom:8px;">📦</div><p style="font-size:15px;font-weight:700;color:#475569;margin:0 0 4px;">No SCORM Package Loaded</p><p style="font-size:13px;margin:0;">Drop a SCORM 1.2 or 2004 <strong>.zip</strong> above, or click <strong>Load Sample SCORM 1.2 Zip</strong>.</p></div></body></html>`;
+}
+
+function handleScormDragOver(e) {
+  e.preventDefault();
+  document.getElementById("scorm-dropzone").classList.add("border-indigo-500", "bg-indigo-50/40");
+}
+
+function handleScormDragLeave(e) {
+  e.preventDefault();
+  document.getElementById("scorm-dropzone").classList.remove("border-indigo-500", "bg-indigo-50/40");
+}
+
+function handleScormDrop(e) {
+  e.preventDefault();
+  document.getElementById("scorm-dropzone").classList.remove("border-indigo-500", "bg-indigo-50/40");
+  const file = e.dataTransfer?.files?.[0];
+  if (file) loadScormZipBlob(file, file.name);
+}
+
+function handleScormZipInput(e) {
+  const file = e.target.files?.[0];
+  if (file) loadScormZipBlob(file, file.name);
+  e.target.value = "";
+}
+
+async function loadSampleScormPackage() {
+  if (typeof JSZip === "undefined") {
+    showToast("ZIP library still loading—please try again in a second.");
+    return;
+  }
+  const prevComp = currentComp;
+  const prevData = currentData;
+  currentComp = COMPONENTS.find(c => c.id === "quiz-block") || COMPONENTS[0];
+  currentData = JSON.parse(JSON.stringify(currentComp.defaultData));
+
+  const scormApiJs = `window.SCORM_API = (function() {
+    var api = null;
+    function findAPI(win) {
+      var attempts = 0;
+      while ((!win.API) && (win.parent) && (win.parent != win) && (attempts < 10)) { attempts++; win = win.parent; }
+      return win.API || null;
+    }
+    function init() {
+      api = findAPI(window);
+      if (api) { api.LMSInitialize(""); api.LMSSetValue("cmi.core.lesson_status", "incomplete"); api.LMSCommit(""); }
+    }
+    function complete(score) {
+      if (!api) init();
+      if (api) {
+        api.LMSSetValue("cmi.core.score.min", "0");
+        api.LMSSetValue("cmi.core.score.max", "100");
+        api.LMSSetValue("cmi.core.score.raw", String(score));
+        api.LMSSetValue("cmi.core.lesson_status", "completed");
+        api.LMSCommit("");
+      }
+    }
+    window.addEventListener("load", init);
+    return { init: init, complete: complete };
+  })();`;
+
+  const imsManifestXml = `<?xml version="1.0" standalone="no" ?>
+<manifest identifier="SAMPLE_SCORM_12" version="1.0"
+          xmlns="http://www.imsproject.org/xsd/imscp_rootv1p1p2"
+          xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_rootv1p2">
+  <metadata><schema>ADL SCORM</schema><schemaversion>1.2</schemaversion></metadata>
+  <organizations default="ORG_1">
+    <organization identifier="ORG_1">
+      <title>${escapeAttr(currentData.title)}</title>
+      <item identifier="ITEM_1" identifierref="RES_1" isvisible="true">
+        <title>${escapeAttr(currentData.title)}</title>
+      </item>
+    </organization>
+  </organizations>
+  <resources>
+    <resource identifier="RES_1" type="webcontent" adlcp:scormtype="sco" href="index.html">
+      <file href="index.html"/><file href="scorm_api.js"/>
+    </resource>
+  </resources>
+</manifest>`;
+
+  const html = buildStandaloneHTML().replace("</head>", '  <script src="scorm_api.js"><\/script>\n</head>');
+  currentComp = prevComp;
+  currentData = prevData;
+
+  const zip = new JSZip();
+  zip.file("imsmanifest.xml", imsManifestXml);
+  zip.file("scorm_api.js", scormApiJs);
+  zip.file("index.html", html);
+  const blob = await zip.generateAsync({ type: "blob" });
+  loadScormZipBlob(blob, "sample-infosec-quiz-scorm12.zip");
+}
+
+function installSimulatedScormApis() {
+  const logCall = (ver, fn, args, ret) => {
+    const logEl = document.getElementById("scorm-api-log");
+    if (!logEl) return;
+    if (logEl.firstElementChild && logEl.firstElementChild.textContent.includes("Waiting for SCORM")) {
+      logEl.innerHTML = "";
+    }
+    const row = document.createElement("div");
+    row.className = "border-b border-slate-800/80 pb-1";
+    row.innerHTML = `<span class="text-indigo-400">[${ver}]</span> <span class="text-amber-300">${escapeHtml(fn)}</span>(${escapeHtml(args)}) → <span class="text-emerald-400">${escapeHtml(String(ret))}</span>`;
+    logEl.appendChild(row);
+    logEl.scrollTop = logEl.scrollHeight;
+  };
+
+  const refreshTelemetryUI = () => {
+    const st12 = scormPlayerState.cmi12["cmi.core.lesson_status"];
+    const st2004 = scormPlayerState.cmi2004["cmi.completion_status"] || scormPlayerState.cmi2004["cmi.success_status"];
+    const status = st12 || st2004 || "not attempted";
+
+    const sc12 = scormPlayerState.cmi12["cmi.core.score.raw"];
+    const sc2004 = scormPlayerState.cmi2004["cmi.score.raw"] || scormPlayerState.cmi2004["cmi.score.scaled"];
+    const score = sc12 !== undefined ? `${sc12} / 100` : (sc2004 !== undefined ? String(sc2004) : "—");
+
+    const loc = scormPlayerState.cmi12["cmi.core.lesson_location"] || scormPlayerState.cmi2004["cmi.location"] || "—";
+
+    const statusEl = document.getElementById("tel-status");
+    statusEl.textContent = status;
+    statusEl.className = `text-xs font-extrabold mt-0.5 ${/completed|passed/i.test(status) ? "text-emerald-400" : "text-amber-300"}`;
+    document.getElementById("tel-score").textContent = score;
+    document.getElementById("tel-location").textContent = loc;
+  };
+
+  // SCORM 1.2 API
+  window.API = {
+    LMSInitialize: (p) => { logCall("1.2", "LMSInitialize", `"${p}"`, "true"); return "true"; },
+    LMSFinish: (p) => { logCall("1.2", "LMSFinish", `"${p}"`, "true"); return "true"; },
+    LMSGetValue: (k) => {
+      const val = scormPlayerState.cmi12[k] ?? "";
+      logCall("1.2", "LMSGetValue", `"${k}"`, `"${val}"`);
+      return String(val);
+    },
+    LMSSetValue: (k, v) => {
+      scormPlayerState.cmi12[k] = v;
+      logCall("1.2", "LMSSetValue", `"${k}", "${v}"`, "true");
+      refreshTelemetryUI();
+      return "true";
+    },
+    LMSCommit: (p) => { logCall("1.2", "LMSCommit", `"${p}"`, "true"); return "true"; },
+    LMSGetLastError: () => "0",
+    LMSGetErrorString: () => "No error",
+    LMSGetDiagnostic: () => "No diagnostic"
+  };
+
+  // SCORM 2004 API
+  window.API_1484_11 = {
+    Initialize: (p) => { logCall("2004", "Initialize", `"${p}"`, "true"); return "true"; },
+    Terminate: (p) => { logCall("2004", "Terminate", `"${p}"`, "true"); return "true"; },
+    GetValue: (k) => {
+      const val = scormPlayerState.cmi2004[k] ?? "";
+      logCall("2004", "GetValue", `"${k}"`, `"${val}"`);
+      return String(val);
+    },
+    SetValue: (k, v) => {
+      scormPlayerState.cmi2004[k] = v;
+      logCall("2004", "SetValue", `"${k}", "${v}"`, "true");
+      refreshTelemetryUI();
+      return "true";
+    },
+    Commit: (p) => { logCall("2004", "Commit", `"${p}"`, "true"); return "true"; },
+    GetLastError: () => "0",
+    GetErrorString: () => "No error",
+    GetDiagnostic: () => "No diagnostic"
+  };
+}
+
+function clearScormLog() {
+  document.getElementById("scorm-api-log").innerHTML = `<div class="text-slate-500">Log cleared.</div>`;
+}
+
+function resetScormSession() {
+  scormPlayerState.cmi12 = { "cmi.core.lesson_status": "not attempted" };
+  scormPlayerState.cmi2004 = { "cmi.completion_status": "unknown" };
+  scormPlayerState.sessionStart = Date.now();
+  document.getElementById("tel-status").textContent = "not attempted";
+  document.getElementById("tel-status").className = "text-xs font-extrabold text-amber-300 mt-0.5";
+  document.getElementById("tel-score").textContent = "—";
+  document.getElementById("tel-location").textContent = "—";
+  clearScormLog();
+  relaunchedCurrentSco();
+  showToast("Reset learner SCORM session");
+}
+
+async function loadScormZipBlob(fileBlob, fileName) {
+  if (typeof JSZip === "undefined") {
+    showToast("JSZip not loaded yet.");
+    return;
+  }
+  try {
+    scormPlayerState.blobUrls.forEach(u => URL.revokeObjectURL(u));
+    scormPlayerState.blobUrls = [];
+
+    const zip = await JSZip.loadAsync(fileBlob);
+    const allFiles = Object.keys(zip.files).filter(k => !zip.files[k].dir);
+    const manifestEntry = allFiles.find(k => /(^|\/)imsmanifest\.xml$/i.test(k));
+
+    if (!manifestEntry) {
+      showToast("Error: No imsmanifest.xml found inside this .zip archive.");
+      return;
+    }
+
+    const rootPrefix = manifestEntry.replace(/imsmanifest\.xml$/i, "");
+    const manifestText = await zip.files[manifestEntry].async("text");
+    const xml = new DOMParser().parseFromString(manifestText, "application/xml");
+
+    const schemaVer = xml.querySelector("schemaversion")?.textContent?.trim() || "1.2";
+    const orgTitle = xml.querySelector("organization > title")?.textContent?.trim() || fileName;
+
+    const resourceMap = {};
+    xml.querySelectorAll("resource").forEach(res => {
+      const id = res.getAttribute("identifier");
+      const href = res.getAttribute("href");
+      if (id && href) resourceMap[id] = href.split("?")[0];
+    });
+
+    const scos = [];
+    xml.querySelectorAll("item").forEach((item, idx) => {
+      const idref = item.getAttribute("identifierref");
+      const title = item.querySelector(":scope > title")?.textContent?.trim() || `SCO ${idx + 1}`;
+      if (idref && resourceMap[idref]) {
+        scos.push({ title, href: resourceMap[idref] });
+      }
+    });
+
+    if (scos.length === 0) {
+      const firstRes = Object.values(resourceMap)[0] || allFiles.find(f => /\.html?$/i.test(f))?.replace(rootPrefix, "");
+      if (firstRes) scos.push({ title: orgTitle, href: firstRes });
+    }
+
+    scormPlayerState.zip = zip;
+    scormPlayerState.fileName = fileName;
+    scormPlayerState.rootPrefix = rootPrefix;
+    scormPlayerState.manifestPath = manifestEntry;
+    scormPlayerState.scos = scos;
+    scormPlayerState.cmi12 = { "cmi.core.lesson_status": "not attempted" };
+    scormPlayerState.cmi2004 = { "cmi.completion_status": "unknown" };
+    scormPlayerState.sessionStart = Date.now();
+
+    if (scormPlayerState.timerInterval) clearInterval(scormPlayerState.timerInterval);
+    scormPlayerState.timerInterval = setInterval(() => {
+      const sec = Math.floor((Date.now() - scormPlayerState.sessionStart) / 1000);
+      const hh = String(Math.floor(sec / 3600)).padStart(2, "0");
+      const mm = String(Math.floor((sec % 3600) / 60)).padStart(2, "0");
+      const ss = String(sec % 60).padStart(2, "0");
+      const el = document.getElementById("tel-time");
+      if (el) el.textContent = `${hh}:${mm}:${ss}`;
+    }, 1000);
+
+    document.getElementById("scorm-schema-badge").textContent = `SCORM ${schemaVer}`;
+    document.getElementById("scorm-pkg-title").textContent = orgTitle;
+    document.getElementById("scorm-pkg-files").textContent = `${allFiles.length} files`;
+
+    const warnEl = document.getElementById("scorm-manifest-warning");
+    const normBtn = document.getElementById("btn-normalize-scorm");
+    if (rootPrefix) {
+      warnEl.classList.remove("hidden");
+      warnEl.innerHTML = `<strong>⚠️ Nested Manifest Warning:</strong> <code>imsmanifest.xml</code> is inside <code>${escapeHtml(rootPrefix)}</code> instead of the ZIP root. Most LMSs will reject this unless normalized.`;
+      normBtn.classList.remove("hidden");
+    } else {
+      warnEl.classList.add("hidden");
+      normBtn.classList.add("hidden");
+    }
+
+    document.getElementById("scorm-patcher-actions").classList.remove("hidden");
+
+    const scoWrap = document.getElementById("scorm-sco-list-wrap");
+    const scoList = document.getElementById("scorm-sco-list");
+    if (scos.length > 1) {
+      scoWrap.classList.remove("hidden");
+      scoList.innerHTML = scos.map((s, idx) => `
+        <button type="button" onclick="launchScoHref('${escapeAttr(s.href)}', '${escapeAttr(s.title)}')" class="w-full text-left px-2.5 py-1.5 rounded-lg bg-slate-50 hover:bg-indigo-50 border border-slate-200 text-xs font-semibold text-slate-800 truncate">
+          ${idx + 1}. ${escapeHtml(s.title)}
+        </button>
+      `).join("");
+    } else {
+      scoWrap.classList.add("hidden");
+    }
+
+    installSimulatedScormApis();
+    clearScormLog();
+    if (scos[0]) {
+      await launchScoHref(scos[0].href, scos[0].title);
+    }
+    showToast(`Loaded "${fileName}"`);
+  } catch (err) {
+    console.error(err);
+    showToast("Could not read SCORM .zip file.");
+  }
+}
+
+function getMimeTypeForPath(path) {
+  const ext = path.split(".").pop().toLowerCase();
+  const map = {
+    html: "text/html",
+    htm: "text/html",
+    js: "application/javascript",
+    css: "text/css",
+    svg: "image/svg+xml",
+    png: "image/png",
+    jpg: "image/jpeg",
+    jpeg: "image/jpeg",
+    gif: "image/gif",
+    webp: "image/webp",
+    mp3: "audio/mpeg",
+    wav: "audio/wav",
+    mp4: "video/mp4",
+    webm: "video/webm",
+    json: "application/json",
+    xml: "application/xml",
+    woff: "font/woff",
+    woff2: "font/woff2"
+  };
+  return map[ext] || "application/octet-stream";
+}
+
+function resolveZipRelativePath(baseDir, relPath) {
+  const clean = relPath.split("#")[0].split("?")[0];
+  const stack = baseDir ? baseDir.split("/").filter(Boolean) : [];
+  clean.split("/").forEach(part => {
+    if (!part || part === ".") return;
+    if (part === "..") stack.pop();
+    else stack.push(part);
+  });
+  return stack.join("/");
+}
+
+async function launchScoHref(href, title) {
+  const zip = scormPlayerState.zip;
+  if (!zip) return;
+
+  scormPlayerState.activeScoHref = href;
+  document.getElementById("scorm-pkg-entry").textContent = href;
+  document.getElementById("scorm-active-sco-label").textContent = title || href;
+
+  const fullEntryPath = scormPlayerState.rootPrefix + href;
+  const entryFile = zip.files[fullEntryPath];
+  if (!entryFile) {
+    showToast(`Launch file "${fullEntryPath}" not found in archive.`);
+    return;
+  }
+
+  const baseDir = fullEntryPath.includes("/") ? fullEntryPath.slice(0, fullEntryPath.lastIndexOf("/") + 1) : "";
+  const urlMap = {};
+
+  const fileEntries = Object.keys(zip.files).filter(k => !zip.files[k].dir && k !== fullEntryPath);
+  for (const path of fileEntries) {
+    const blob = await zip.files[path].async("blob");
+    const typedBlob = new Blob([blob], { type: getMimeTypeForPath(path) });
+    const bUrl = URL.createObjectURL(typedBlob);
+    scormPlayerState.blobUrls.push(bUrl);
+    urlMap[path] = bUrl;
+  }
+
+  let html = await entryFile.async("text");
+  html = html.replace(/\b(src|href)\s*=\s*(["'])([^"']+)\2/gi, (match, attr, quote, rawVal) => {
+    if (/^(https?:|data:|blob:|mailto:|tel:|#)/i.test(rawVal)) return match;
+    const resolved = resolveZipRelativePath(baseDir, rawVal);
+    if (urlMap[resolved]) {
+      return `${attr}=${quote}${urlMap[resolved]}${quote}`;
+    }
+    return match;
+  });
+
+  const iframe = document.getElementById("scorm-player-iframe");
+  iframe.srcdoc = html;
+}
+
+function relaunchedCurrentSco() {
+  if (scormPlayerState.activeScoHref) {
+    launchScoHref(scormPlayerState.activeScoHref, document.getElementById("scorm-active-sco-label").textContent);
+  }
+}
+
+function setScormViewport(width) {
+  document.getElementById("scorm-preview-wrapper").style.maxWidth = width;
+  const dBtn = document.getElementById("svp-desktop");
+  const mBtn = document.getElementById("svp-mobile");
+  if (width === "100%") {
+    dBtn.className = "px-2.5 py-1 rounded-lg text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200";
+    mBtn.className = "px-2.5 py-1 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100";
+  } else {
+    mBtn.className = "px-2.5 py-1 rounded-lg text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200";
+    dBtn.className = "px-2.5 py-1 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100";
+  }
+}
+
+async function openScormLaunchInVisualEditor() {
+  if (!scormPlayerState.zip || !scormPlayerState.activeScoHref) {
+    showToast("Load a SCORM .zip package first.");
+    return;
+  }
+  const fullPath = scormPlayerState.rootPrefix + scormPlayerState.activeScoHref;
+  const entry = scormPlayerState.zip.files[fullPath];
+  if (!entry) return;
+
+  const rawHtml = await entry.async("text");
+  scormPatchSession = {
+    active: true,
+    pkgFileName: scormPlayerState.fileName,
+    targetPath: fullPath
+  };
+
+  document.getElementById("viewer-scorm-patch-banner").classList.remove("hidden");
+  document.getElementById("viewer-scorm-patch-target").textContent = scormPlayerState.activeScoHref;
+  document.getElementById("viewer-scorm-patch-pkg").textContent = scormPlayerState.fileName;
+
+  switchWorkspace("viewer");
+  document.getElementById("viewer-code-input").value = rawHtml;
+  onViewerCodeInput();
+  showToast(`Loaded "${scormPlayerState.activeScoHref}" into Visual Editor`);
+}
+
+function exitScormPatchMode() {
+  scormPatchSession.active = false;
+  document.getElementById("viewer-scorm-patch-banner").classList.add("hidden");
+  showToast("Exited SCORM Patch Mode");
+}
+
+async function repackagePatchedScormZip() {
+  if (!scormPatchSession.active || !scormPlayerState.zip) {
+    showToast("No SCORM package attached.");
+    return;
+  }
+  const updatedHtml = document.getElementById("viewer-code-input").value;
+  const newZip = new JSZip();
+  const prefix = scormPlayerState.rootPrefix;
+
+  const entries = Object.keys(scormPlayerState.zip.files).filter(k => !scormPlayerState.zip.files[k].dir);
+  for (const path of entries) {
+    const cleanOutPath = prefix && path.startsWith(prefix) ? path.slice(prefix.length) : path;
+    if (path === scormPatchSession.targetPath) {
+      newZip.file(cleanOutPath, updatedHtml);
+    } else {
+      const content = await scormPlayerState.zip.files[path].async("uint8array");
+      newZip.file(cleanOutPath, content);
+    }
+  }
+
+  const blob = await newZip.generateAsync({ type: "blob" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  const baseName = scormPatchSession.pkgFileName.replace(/\.zip$/i, "");
+  a.download = `${baseName}-patched.zip`;
+  a.click();
+  showToast(`Exported ${baseName}-patched.zip`);
+}
+
+async function normalizeAndRezipScorm() {
+  if (!scormPlayerState.zip || !scormPlayerState.rootPrefix) return;
+  const prefix = scormPlayerState.rootPrefix;
+  const newZip = new JSZip();
+
+  const entries = Object.keys(scormPlayerState.zip.files).filter(k => !scormPlayerState.zip.files[k].dir);
+  for (const path of entries) {
+    if (path.startsWith(prefix)) {
+      const cleanPath = path.slice(prefix.length);
+      if (cleanPath) {
+        const content = await scormPlayerState.zip.files[path].async("uint8array");
+        newZip.file(cleanPath, content);
+      }
+    }
+  }
+
+  const blob = await newZip.generateAsync({ type: "blob" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  const baseName = scormPlayerState.fileName.replace(/\.zip$/i, "");
+  a.download = `${baseName}-normalized.zip`;
+  a.click();
+  showToast(`Downloaded ${baseName}-normalized.zip with root manifest!`);
+}
+
+// ============================================================================
+// 11. SAVED BRAND KITS & PROJECT DRAFT VAULT (LOCALSTORAGE + .JSON)
 // ============================================================================
 const BRAND_KITS_STORAGE_KEY = "cognocraft_brand_kits_v1";
 const DRAFT_VAULT_STORAGE_KEY = "cognocraft_draft_vault_v1";
@@ -4950,583 +5841,28 @@ function importProjectJsonFile(event) {
   const reader = new FileReader();
   reader.onload = function(e) {
     try {
-      const rawText = String(e.target.result || "");
+      const content = String(e.target.result || "").trim();
       let parsed = null;
-
-      if (file.name.toLowerCase().endsWith(".html") || file.name.toLowerCase().endsWith(".htm") || rawText.trim().startsWith("<!DOCTYPE") || rawText.trim().startsWith("<html")) {
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(rawText, "text/html");
-        const embeddedScript = doc.getElementById("cognocraft-project-source");
-        if (!embeddedScript || !embeddedScript.textContent) {
-          showToast("No recoverable CognoCraft project metadata found in that HTML file.");
-          return;
-        }
-        parsed = JSON.parse(embeddedScript.textContent);
+      if (content.startsWith("{")) {
+        parsed = JSON.parse(content);
       } else {
-        parsed = JSON.parse(rawText);
+        const match = content.match(/<script[^>]*id=["']cognocraft-project-source["'][^>]*>([\s\S]*?)<\/script>/i);
+        if (match && match[1]) {
+          parsed = JSON.parse(match[1].trim());
+        }
       }
-
       if (!parsed || !parsed.componentId || !parsed.data) {
-        showToast("Invalid CognoCraft project file.");
+        showToast("No valid CognoCraft project data found in that file.");
         return;
       }
       openStudioModal(parsed.componentId, parsed);
-      showToast(`Restored "${parsed.data.title || parsed.componentId}" from ${file.name}!`);
+      showToast(`Restored project "${parsed.data.title || parsed.componentId}"!`);
     } catch (err) {
       showToast("Could not read project file.");
     }
   };
   reader.readAsText(file);
   event.target.value = "";
-}
-
-// ============================================================================
-// 11. CLIENT-SIDE SCORM 1.2 & 2004 PACKAGE PREVIEWER & LMS RUNTIME SIMULATOR
-// ============================================================================
-const scormPlayerState = {
-  zip: null,
-  packageFileName: "",
-  manifestDir: "",
-  scos: [],
-  activeScoHref: "",
-  activeFullEntryPath: "",
-  isPatchingInEditor: false,
-  blobUrls: [],
-  cmi12: {},
-  cmi2004: {},
-  initialized: false,
-  terminated: false
-};
-
-function renderEmptyScormStage() {
-  const iframe = document.getElementById("scorm-player-iframe");
-  if (!iframe) return;
-  iframe.srcdoc = `<!DOCTYPE html><html><body style="font-family:sans-serif;color:#94a3b8;display:flex;align-items:center;justify-content:center;height:480px;margin:0;text-align:center;padding:20px;">
-    <div>
-      <div style="font-size:32px;margin-bottom:8px;">📦</div>
-      <p style="font-size:15px;font-weight:700;color:#475569;margin:0 0 6px;">No SCORM Package Loaded</p>
-      <p style="font-size:13px;max-width:380px;margin:0 auto;line-height:1.5;">Drop a SCORM 1.2 or 2004 <strong>.zip</strong> package into the upload area above, or click <strong>Load Sample SCORM 1.2 Zip</strong> to test live LMS tracking.</p>
-    </div>
-  </body></html>`;
-}
-
-function handleScormDragOver(e) {
-  e.preventDefault();
-  e.stopPropagation();
-  const dz = document.getElementById("scorm-dropzone");
-  dz.classList.add("border-indigo-500", "bg-indigo-50/50");
-}
-
-function handleScormDragLeave(e) {
-  e.preventDefault();
-  e.stopPropagation();
-  const dz = document.getElementById("scorm-dropzone");
-  dz.classList.remove("border-indigo-500", "bg-indigo-50/50");
-}
-
-function handleScormDrop(e) {
-  e.preventDefault();
-  e.stopPropagation();
-  handleScormDragLeave(e);
-  const file = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
-  if (file) {
-    loadScormZipFile(file);
-  }
-}
-
-function handleScormZipInput(e) {
-  const file = e.target.files && e.target.files[0];
-  if (file) {
-    loadScormZipFile(file);
-  }
-  e.target.value = "";
-}
-
-async function loadSampleScormPackage() {
-  if (typeof JSZip === "undefined") {
-    showToast("ZIP library still loading—please try again in a moment.");
-    return;
-  }
-  const sampleZip = new JSZip();
-  const manifestXml = `<?xml version="1.0" standalone="no" ?>
-<manifest identifier="SAMPLE_SCORM12_MANIFEST" version="1.0"
-          xmlns="http://www.imsproject.org/xsd/imscp_rootv1p1p2"
-          xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_rootv1p2">
-  <metadata><schema>ADL SCORM</schema><schemaversion>1.2</schemaversion></metadata>
-  <organizations default="ORG_1">
-    <organization identifier="ORG_1">
-      <title>Phishing Awareness Micro-Module (Sample SCO)</title>
-      <item identifier="ITEM_1" identifierref="RES_1" isvisible="true">
-        <title>1. Phishing Red-Flag Check</title>
-      </item>
-    </organization>
-  </organizations>
-  <resources>
-    <resource identifier="RES_1" type="webcontent" adlcp:scormtype="sco" href="index.html">
-      <file href="index.html"/>
-    </resource>
-  </resources>
-</manifest>`;
-
-  const sampleIndexHtml = `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Phishing Awareness Micro-Module</title>
-  <style>
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 24px; color: #0f172a; background: #fff; }
-    .card { max-width: 640px; margin: 0 auto; border: 1px solid #e2e8f0; border-radius: 16px; padding: 24px; }
-    .tag { display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase; color: #4f46e5; background: #eef2ff; padding: 4px 10px; border-radius: 999px; }
-    h2 { margin: 10px 0 8px; font-size: 20px; }
-    p { font-size: 14px; color: #475569; line-height: 1.55; }
-    .opt { display: block; width: 100%; text-align: left; padding: 12px 14px; margin-top: 8px; border: 1px solid #cbd5e1; border-radius: 10px; background: #fff; font-size: 13.5px; cursor: pointer; }
-    .opt:hover { border-color: #4f46e5; background: #f8fafc; }
-    .res { margin-top: 14px; padding: 12px; border-radius: 10px; font-size: 13.5px; display: none; }
-  </style>
-</head>
-<body>
-  <div class="card">
-    <span class="tag">SCORM 1.2 Live Demo SCO</span>
-    <h2>Verify Before You Click</h2>
-    <p>You receive an email from <strong>it-support@micros0ft-verify.com</strong> claiming your password expires in 30 minutes. Which SCORM-tracked action do you take?</p>
-    <button class="opt" onclick="submitChoice(false, 40)">Click the link in the email and enter your current password to extend it.</button>
-    <button class="opt" onclick="submitChoice(true, 100)">Report the message using the Phishing Alert button without clicking any links.</button>
-    <div id="result" class="res"></div>
-  </div>
-  <script>
-    var api = window.parent.API || window.API;
-    if (api) {
-      api.LMSInitialize("");
-      api.LMSSetValue("cmi.core.lesson_location", "page_1");
-      api.LMSSetValue("cmi.core.lesson_status", "incomplete");
-      api.LMSCommit("");
-    }
-    function submitChoice(passed, score) {
-      var box = document.getElementById("result");
-      box.style.display = "block";
-      box.style.background = passed ? "#ecfdf5" : "#fef2f2";
-      box.style.border = passed ? "1px solid #a7f3d0" : "1px solid #fecaca";
-      box.style.color = passed ? "#065f46" : "#991b1b";
-      box.innerHTML = passed
-        ? "<strong>Passed (100%)!</strong> Notice how the LMS Telemetry panel on the left recorded <code>completed</code> and <code>score.raw = 100</code>."
-        : "<strong>Needs Review (40%).</strong> The LMS Telemetry panel recorded your score and status—try selecting the second option.";
-      if (api) {
-        api.LMSSetValue("cmi.core.score.min", "0");
-        api.LMSSetValue("cmi.core.score.max", "100");
-        api.LMSSetValue("cmi.core.score.raw", String(score));
-        api.LMSSetValue("cmi.core.lesson_status", passed ? "completed" : "incomplete");
-        api.LMSSetValue("cmi.suspend_data", "answered=" + passed);
-        api.LMSCommit("");
-      }
-    }
-  <\/script>
-</body>
-</html>`;
-
-  sampleZip.file("imsmanifest.xml", manifestXml);
-  sampleZip.file("index.html", sampleIndexHtml);
-  const blob = await sampleZip.generateAsync({ type: "blob" });
-  await loadScormZipFile(blob, "sample-phishing-scorm12.zip");
-}
-
-function revokeAllScormBlobs() {
-  scormPlayerState.blobUrls.forEach(u => {
-    try { URL.revokeObjectURL(u); } catch (e) {}
-  });
-  scormPlayerState.blobUrls = [];
-}
-
-async function loadScormZipFile(fileOrBlob, overrideName = null) {
-  if (typeof JSZip === "undefined") {
-    showToast("ZIP library still loading—please try again in a moment.");
-    return;
-  }
-  const fileName = overrideName || fileOrBlob.name || "package.zip";
-  try {
-    revokeAllScormBlobs();
-    const zip = await JSZip.loadAsync(fileOrBlob);
-    scormPlayerState.zip = zip;
-    scormPlayerState.packageFileName = fileName;
-
-    const allEntries = Object.keys(zip.files).filter(k => !zip.files[k].dir && !k.startsWith("__MACOSX/"));
-    document.getElementById("scorm-pkg-files").textContent = `${allEntries.length} files`;
-
-    // Locate imsmanifest.xml (prefer root, fallback to nested)
-    let manifestPath = allEntries.find(p => p.toLowerCase() === "imsmanifest.xml");
-    const warnEl = document.getElementById("scorm-manifest-warning");
-    const normBtn = document.getElementById("btn-normalize-scorm");
-    warnEl.classList.add("hidden");
-    if (normBtn) normBtn.classList.add("hidden");
-
-    if (!manifestPath) {
-      manifestPath = allEntries.find(p => p.toLowerCase().endsWith("/imsmanifest.xml"));
-      if (manifestPath) {
-        warnEl.classList.remove("hidden");
-        warnEl.innerHTML = `<strong>⚠️ Nested Manifest Warning:</strong> <code>${escapeHtml(manifestPath)}</code> is inside a subfolder instead of the root of the .zip. Most LMS platforms require <code>imsmanifest.xml</code> at the root level.`;
-        if (normBtn) normBtn.classList.remove("hidden");
-      }
-    }
-
-    let courseTitle = fileName.replace(/\.zip$/i, "");
-    let schemaVersion = "SCORM 1.2";
-    let scos = [];
-    const manifestDir = manifestPath && manifestPath.includes("/")
-      ? manifestPath.slice(0, manifestPath.lastIndexOf("/") + 1)
-      : "";
-    scormPlayerState.manifestDir = manifestDir;
-
-    if (manifestPath) {
-      const xmlText = await zip.file(manifestPath).async("string");
-      const parser = new DOMParser();
-      const xmlDoc = parser.parseFromString(xmlText, "application/xml");
-
-      const schemaVerNode = xmlDoc.getElementsByTagName("schemaversion")[0];
-      if (schemaVerNode && schemaVerNode.textContent) {
-        const sv = schemaVerNode.textContent.trim();
-        schemaVersion = sv.includes("2004") || sv.includes("1.3") ? `SCORM 2004 (${sv})` : `SCORM ${sv}`;
-      }
-
-      const orgTitleNode = xmlDoc.querySelector("organization > title") || xmlDoc.getElementsByTagName("title")[0];
-      if (orgTitleNode && orgTitleNode.textContent.trim()) {
-        courseTitle = orgTitleNode.textContent.trim();
-      }
-
-      // Map resource identifiers -> href
-      const resourceMap = {};
-      Array.from(xmlDoc.getElementsByTagName("resource")).forEach(res => {
-        const id = res.getAttribute("identifier");
-        const href = res.getAttribute("href");
-        if (id && href) resourceMap[id] = href.split("?")[0].split("#")[0];
-      });
-
-      // Extract SCO items
-      Array.from(xmlDoc.getElementsByTagName("item")).forEach((item, idx) => {
-        const ref = item.getAttribute("identifierref");
-        if (ref && resourceMap[ref]) {
-          const tNode = item.getElementsByTagName("title")[0];
-          const itemTitle = (tNode && tNode.textContent.trim()) || `SCO ${idx + 1}`;
-          scos.push({ title: itemTitle, href: resourceMap[ref] });
-        }
-      });
-
-      // Fallback if resources exist without item refs
-      if (scos.length === 0) {
-        Object.keys(resourceMap).forEach((id, idx) => {
-          scos.push({ title: `Resource ${idx + 1}`, href: resourceMap[id] });
-        });
-      }
-    } else {
-      // Fallback: look for index.html if no manifest present
-      const fallbackHtml = allEntries.find(p => p.toLowerCase().endsWith("index.html")) || allEntries.find(p => p.toLowerCase().endsWith(".html"));
-      if (fallbackHtml) {
-        schemaVersion = "HTML / Non-Manifest";
-        scos.push({ title: fallbackHtml, href: fallbackHtml });
-        warnEl.classList.remove("hidden");
-        warnEl.innerHTML = `<strong>⚠️ Missing imsmanifest.xml:</strong> No SCORM manifest was found in this archive. Launching <code>${escapeHtml(fallbackHtml)}</code> directly.`;
-      } else {
-        showToast("No imsmanifest.xml or HTML launch file found inside .zip.");
-        return;
-      }
-    }
-
-    scormPlayerState.scos = scos;
-    document.getElementById("scorm-schema-badge").textContent = schemaVersion;
-    document.getElementById("scorm-pkg-title").textContent = courseTitle;
-    const patcherActions = document.getElementById("scorm-patcher-actions");
-    if (patcherActions) patcherActions.classList.remove("hidden");
-
-    // Render SCO selector if multiple SCOs exist
-    const scoWrap = document.getElementById("scorm-sco-list-wrap");
-    const scoList = document.getElementById("scorm-sco-list");
-    if (scos.length > 1) {
-      scoWrap.classList.remove("hidden");
-      scoList.innerHTML = scos.map((s, idx) => `
-        <button type="button" onclick="launchScormSco(${idx})" class="w-full text-left px-2.5 py-1.5 rounded-lg bg-slate-50 hover:bg-indigo-50 border border-slate-200 text-xs font-medium text-slate-800 truncate transition">
-          ${idx + 1}. ${escapeHtml(s.title)}
-        </button>
-      `).join("");
-    } else {
-      scoWrap.classList.add("hidden");
-    }
-
-    resetScormSession(false);
-    await launchScormSco(0);
-    showToast(`Loaded "${courseTitle}" (${schemaVersion})`);
-  } catch (err) {
-    console.error("SCORM load error:", err);
-    showToast("Failed to read .zip package. Please check the archive file.");
-  }
-}
-
-function getMimeTypeForPath(path) {
-  const ext = path.split(".").pop().toLowerCase();
-  const map = {
-    html: "text/html",
-    htm: "text/html",
-    js: "application/javascript",
-    mjs: "application/javascript",
-    css: "text/css",
-    json: "application/json",
-    xml: "application/xml",
-    svg: "image/svg+xml",
-    png: "image/png",
-    jpg: "image/jpeg",
-    jpeg: "image/jpeg",
-    gif: "image/gif",
-    webp: "image/webp",
-    mp3: "audio/mpeg",
-    wav: "audio/wav",
-    ogg: "audio/ogg",
-    mp4: "video/mp4",
-    webm: "video/webm",
-    woff: "font/woff",
-    woff2: "font/woff2",
-    ttf: "font/ttf"
-  };
-  return map[ext] || "application/octet-stream";
-}
-
-function resolveZipRelativePath(baseDir, relPath) {
-  const cleanRel = relPath.split("?")[0].split("#")[0];
-  const parts = (baseDir + cleanRel).split("/");
-  const stack = [];
-  for (const part of parts) {
-    if (!part || part === ".") continue;
-    if (part === "..") stack.pop();
-    else stack.push(part);
-  }
-  return stack.join("/");
-}
-
-async function launchScormSco(scoIndex) {
-  const sco = scormPlayerState.scos[scoIndex];
-  if (!sco || !scormPlayerState.zip) return;
-
-  scormPlayerState.activeScoHref = sco.href;
-  document.getElementById("scorm-pkg-entry").textContent = sco.href;
-  document.getElementById("scorm-active-sco-label").textContent = sco.title;
-
-  installSimulatedScormApis();
-
-  const fullEntryPath = resolveZipRelativePath(scormPlayerState.manifestDir, sco.href);
-  scormPlayerState.activeFullEntryPath = fullEntryPath;
-  const entryFile = scormPlayerState.zip.file(fullEntryPath);
-  if (!entryFile) {
-    showToast(`Launch file "${fullEntryPath}" not found in archive.`);
-    return;
-  }
-
-  let htmlContent = await entryFile.async("string");
-  const entryDir = fullEntryPath.includes("/")
-    ? fullEntryPath.slice(0, fullEntryPath.lastIndexOf("/") + 1)
-    : "";
-
-  // Convert internal assets (JS, CSS, media) to Blob URLs for multi-file SCORM packages
-  const assetUrlMap = {};
-  const zipEntries = Object.keys(scormPlayerState.zip.files).filter(k => !scormPlayerState.zip.files[k].dir);
-
-  for (const path of zipEntries) {
-    if (path === fullEntryPath) continue;
-    const mime = getMimeTypeForPath(path);
-    const bytes = await scormPlayerState.zip.file(path).async("uint8array");
-    const blob = new Blob([bytes], { type: mime });
-    const url = URL.createObjectURL(blob);
-    scormPlayerState.blobUrls.push(url);
-    assetUrlMap[path] = url;
-  }
-
-  // Rewrite relative src="..." and href="..." attributes in the launch HTML
-  htmlContent = htmlContent.replace(/(src|href)=(["'])([^"']+)\2/gi, (match, attr, quote, val) => {
-    if (/^(https?:|data:|blob:|mailto:|tel:|#|javascript:)/i.test(val.trim())) {
-      return match;
-    }
-    const resolved = resolveZipRelativePath(entryDir, val.trim());
-    if (assetUrlMap[resolved]) {
-      return `${attr}=${quote}${assetUrlMap[resolved]}${quote}`;
-    }
-    return match;
-  });
-
-  const iframe = document.getElementById("scorm-player-iframe");
-  iframe.srcdoc = htmlContent;
-  appendScormApiLog(`Launched SCO: "${sco.title}" (${fullEntryPath})`, "info");
-}
-
-function relaunchedCurrentSco() {
-  if (!scormPlayerState.zip || scormPlayerState.scos.length === 0) {
-    showToast("Load a SCORM .zip package first.");
-    return;
-  }
-  resetScormSession(false);
-  launchScormSco(0);
-  showToast("Relaunched SCO session");
-}
-
-function setScormViewport(width) {
-  document.getElementById("scorm-preview-wrapper").style.maxWidth = width;
-  const dBtn = document.getElementById("svp-desktop");
-  const mBtn = document.getElementById("svp-mobile");
-  if (width === "100%") {
-    dBtn.className = "px-2.5 py-1 rounded-lg text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200";
-    mBtn.className = "px-2.5 py-1 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100";
-  } else {
-    mBtn.className = "px-2.5 py-1 rounded-lg text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200";
-    dBtn.className = "px-2.5 py-1 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100";
-  }
-}
-
-function resetScormSession(relaunch = true) {
-  scormPlayerState.cmi12 = {
-    "cmi.core.student_id": "learner_001",
-    "cmi.core.student_name": "Demo Learner",
-    "cmi.core.lesson_status": "not attempted",
-    "cmi.core.lesson_location": "",
-    "cmi.core.score.raw": "",
-    "cmi.core.score.min": "0",
-    "cmi.core.score.max": "100",
-    "cmi.core.session_time": "00:00:00",
-    "cmi.suspend_data": ""
-  };
-  scormPlayerState.cmi2004 = {
-    "cmi.learner_id": "learner_001",
-    "cmi.learner_name": "Demo Learner",
-    "cmi.completion_status": "not attempted",
-    "cmi.success_status": "unknown",
-    "cmi.location": "",
-    "cmi.score.raw": "",
-    "cmi.score.scaled": "",
-    "cmi.session_time": "PT0H0M0S",
-    "cmi.suspend_data": ""
-  };
-  scormPlayerState.initialized = false;
-  scormPlayerState.terminated = false;
-  updateScormTelemetryUI();
-  clearScormLog();
-  if (relaunch && scormPlayerState.zip) {
-    launchScormSco(0);
-  }
-}
-
-function updateScormTelemetryUI() {
-  const c12 = scormPlayerState.cmi12;
-  const c24 = scormPlayerState.cmi2004;
-
-  const status = c12["cmi.core.lesson_status"] !== "not attempted"
-    ? c12["cmi.core.lesson_status"]
-    : (c24["cmi.success_status"] !== "unknown" ? `${c24["cmi.completion_status"]} / ${c24["cmi.success_status"]}` : c24["cmi.completion_status"]);
-
-  const statusEl = document.getElementById("tel-status");
-  statusEl.textContent = status;
-  if (/completed|passed/i.test(status)) {
-    statusEl.className = "text-xs font-extrabold text-emerald-400 mt-0.5";
-  } else if (/failed/i.test(status)) {
-    statusEl.className = "text-xs font-extrabold text-rose-400 mt-0.5";
-  } else {
-    statusEl.className = "text-xs font-extrabold text-amber-300 mt-0.5";
-  }
-
-  const rawScore = c12["cmi.core.score.raw"] || c24["cmi.score.raw"];
-  const scaledScore = c24["cmi.score.scaled"];
-  document.getElementById("tel-score").textContent = rawScore
-    ? `${rawScore}%`
-    : (scaledScore ? `${Math.round(Number(scaledScore) * 100)}%` : "—");
-
-  const loc = c12["cmi.core.lesson_location"] || c24["cmi.location"] || "—";
-  document.getElementById("tel-location").textContent = loc;
-
-  const time = c12["cmi.core.session_time"] !== "00:00:00"
-    ? c12["cmi.core.session_time"]
-    : (c24["cmi.session_time"] !== "PT0H0M0S" ? c24["cmi.session_time"] : "00:00:00");
-  document.getElementById("tel-time").textContent = time;
-}
-
-function appendScormApiLog(message, level = "call") {
-  const logEl = document.getElementById("scorm-api-log");
-  if (!logEl) return;
-  if (logEl.children.length === 1 && logEl.children[0].textContent.includes("Waiting for SCORM")) {
-    logEl.innerHTML = "";
-  }
-  const ts = new Date().toLocaleTimeString("en-US", { hour12: false, hour: "2-digit", minute: "2-digit", second: "2-digit" });
-  const colorClass = level === "set" ? "text-sky-300" : level === "info" ? "text-indigo-300" : "text-emerald-300";
-  const row = document.createElement("div");
-  row.className = colorClass;
-  row.textContent = `[${ts}] ${message}`;
-  logEl.appendChild(row);
-  logEl.scrollTop = logEl.scrollHeight;
-}
-
-function clearScormLog() {
-  const logEl = document.getElementById("scorm-api-log");
-  if (logEl) logEl.innerHTML = `<div class="text-slate-500">Log cleared. Ready for API events...</div>`;
-}
-
-function installSimulatedScormApis() {
-  // SCORM 1.2 Runtime API (window.API)
-  window.API = {
-    LMSInitialize: function(param) {
-      scormPlayerState.initialized = true;
-      appendScormApiLog(`1.2 LMSInitialize("${param || ""}") -> "true"`);
-      return "true";
-    },
-    LMSFinish: function(param) {
-      scormPlayerState.terminated = true;
-      appendScormApiLog(`1.2 LMSFinish("${param || ""}") -> "true"`);
-      return "true";
-    },
-    LMSGetValue: function(key) {
-      const val = scormPlayerState.cmi12[key] ?? "";
-      appendScormApiLog(`1.2 LMSGetValue("${key}") -> "${val}"`);
-      return String(val);
-    },
-    LMSSetValue: function(key, val) {
-      scormPlayerState.cmi12[key] = String(val);
-      appendScormApiLog(`1.2 LMSSetValue("${key}", "${val}")`, "set");
-      updateScormTelemetryUI();
-      return "true";
-    },
-    LMSCommit: function(param) {
-      appendScormApiLog(`1.2 LMSCommit("${param || ""}") -> "true"`);
-      updateScormTelemetryUI();
-      return "true";
-    },
-    LMSGetLastError: function() { return "0"; },
-    LMSGetErrorString: function() { return "No error"; },
-    LMSGetDiagnostic: function() { return ""; }
-  };
-
-  // SCORM 2004 Runtime API (window.API_1484_11)
-  window.API_1484_11 = {
-    Initialize: function(param) {
-      scormPlayerState.initialized = true;
-      appendScormApiLog(`2004 Initialize("${param || ""}") -> "true"`);
-      return "true";
-    },
-    Terminate: function(param) {
-      scormPlayerState.terminated = true;
-      appendScormApiLog(`2004 Terminate("${param || ""}") -> "true"`);
-      return "true";
-    },
-    GetValue: function(key) {
-      const val = scormPlayerState.cmi2004[key] ?? "";
-      appendScormApiLog(`2004 GetValue("${key}") -> "${val}"`);
-      return String(val);
-    },
-    SetValue: function(key, val) {
-      scormPlayerState.cmi2004[key] = String(val);
-      appendScormApiLog(`2004 SetValue("${key}", "${val}")`, "set");
-      updateScormTelemetryUI();
-      return "true";
-    },
-    Commit: function(param) {
-      appendScormApiLog(`2004 Commit("${param || ""}") -> "true"`);
-      updateScormTelemetryUI();
-      return "true";
-    },
-    GetLastError: function() { return "0"; },
-    GetErrorString: function() { return "No error"; },
-    GetDiagnostic: function() { return ""; }
-  };
 }
 
 // ============================================================================
@@ -5552,7 +5888,6 @@ window.onload = function() {
   initRecommender();
   renderBlueprint();
   renderDraftVault();
-  installSimulatedScormApis();
 };
 </script>
 </body>
